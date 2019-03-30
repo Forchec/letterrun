@@ -42,6 +42,7 @@ var config = {
 var player;
 var stars;
 var bombs;
+var enemys;
 var platforms;
 var cursors;
 var score = 0;
@@ -56,6 +57,7 @@ function preload ()
     this.load.image('ground', '../assets/platform.png');
     this.load.image('star', '../assets/star.png');
     this.load.image('bomb', '../assets/bomb.png');
+    this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
     this.load.spritesheet('dude', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 }
 
@@ -123,6 +125,9 @@ function create ()
 
     bombs = this.physics.add.group();
 
+    // enemy = this.physics.add.group();
+    // var walk = enemy.animations.add('walk')
+    // enemy.animations.play('walk',30,true)
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
