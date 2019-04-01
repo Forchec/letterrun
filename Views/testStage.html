@@ -81,9 +81,16 @@ function create ()
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
 
+    //enemys
+    enemy = this.physics.add.sprite(120,450,'enemy');
+    //enemyMovement(enemy);
+
+
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+
+    //enemy.setCollideWorldBounds(true);
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -105,6 +112,13 @@ function create ()
         frameRate: 10,
         repeat: -1
     });
+
+    this.anims.create({
+      key: 'enemyMove',
+      frams: this.anims.generateFrameNumbers('enemy',{start:1, end:6}),
+      frameRate: 20,
+      repeat: -1
+    })
 
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
@@ -135,15 +149,21 @@ function create ()
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
     this.physics.add.collider(bombs, platforms);
+    this.physics.add.collider(enemy, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
+    enemy.setVelocityX(160);
+    enemy.anims.play('enemyMove', true);
+
 }
 
 function update ()
 {
+
+
     if (gameOver)
     {
         return;
@@ -212,6 +232,12 @@ function hitBomb (player, bomb)
 
     gameOver = true;
 }
+
+// function enemyMovement(enemy){
+//   enemy.animations.add ();
+//   enemy.body.velocity.x = -10;
+//
+// }
 
 </script>
 
