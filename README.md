@@ -1,4 +1,4 @@
-**WORKFLOW
+## WORKFLOW
 
 Start with the master branch 
 
@@ -12,6 +12,6 @@ Resolve feedback – Have someone else review your code before merging
 
 Merge your pull request
 
-**COMMIT MESSAGE FORMAT
+## COMMIT MESSAGE FORMAT
 
 Commit Message should be informative for what is changed/removed/added. Example: “Added character select screen functionality” or “Changed settings page instructions” 
