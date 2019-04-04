@@ -16,18 +16,46 @@
     }
     button {border-radius: 12px;}
 
+    .item1 { grid-area: header; }
+    .item2 { grid-area: left; }
+    .item3 { grid-area: right; }
+    .item4 { grid-area: key; }
+    .item5 { grid-area: but; }
+
+    .grid-container {
+      display: grid;
+      grid-template-areas:
+      'header header header header header header'
+      'left left left left right right'
+      'left left left left right right'
+      'left left left left right right'
+      'key key key key but but';
+      grid-gap: 10px;
+      padding: 10px;
+    }
+
+    .grid-container > div {
+      background-color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      padding: 20px 0;
+      font-size: 30px;
+    }
+
   </style>
+
 </head>
 <body>
-  <h1> Settings </h1>
-  <p>
-    How to play:
-    <br>Collect all the letters and reach the door while avoiding all the monsters.
-    <br>If you contact the monster you will loser a letter.
-    <br>If you run out of letter you will die.
-  </p>
-  <a href="#" class="button"><button>Sound/Volume</button></a>
-  <a href="menu.html" class="button"><button>Go Back</button></a>
-
+  <div class="grid-container">
+    <div class="item1">Settings/Instruction</div>
+    <div class="item2">
+      How to play:
+      Collect all the letters and reach the door while avoiding all the monsters.
+      If you contact the monster you will loser a letter.
+      If you run out of letter you will die.
+    </div>
+    <div class="item3"><a href="#" class="button"><button>Sound/Volume</button></a></div>
+    <div class="item4">Key instructions go here</div>
+    <div class="item5"><a href="menu.html" class="button"><button>Go Back</button></a></div>
+  </div>
 </body>
 </html>
