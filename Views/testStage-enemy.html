@@ -19,7 +19,6 @@
 
 <script type="text/javascript">
 
-alert("Test Stage is called")
 
 var config = {
     type: Phaser.AUTO,
@@ -42,7 +41,8 @@ var config = {
 var player;
 var stars;
 var bombs;
-var enemys;
+var enemies;
+var enemy;
 var platforms;
 var cursors;
 var score = 0;
@@ -81,9 +81,13 @@ function create ()
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
 
-    //enemys
-    enemy = this.physics.add.sprite(120,450,'enemy');
-    //enemyMovement(enemy);
+    //enemies staticGroup
+
+    // enemy.anchor.setTo(0.5,0.2);
+
+    // enemy.animations.play('run',10,true);
+    // enemy = this.physics.add.sprite(120,450,'enemy');
+    // enemyMovement(enemy);
 
 
     //  Player physics properties. Give the little guy a slight bounce.
@@ -113,12 +117,33 @@ function create ()
         repeat: -1
     });
 
-    // this.anims.create({
-    //   key: 'enemyMove',
-    //   frams: this.anims.generateFrameNumbers('enemy',{start:1, end:6}),
-    //   frameRate: 20,
-    //   repeat: -1
-    // })
+    this.anims.create({
+      key: 'enemyMove',
+      frames: this.anims.generateFrameNumbers('enemy',{start:1, end:6}),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    //enemy = this.physics.add.sprite(600,500,'enemy');
+    // enemies = game.add.group();
+    // for (var i =0; i < 4; i++){
+    //   enemy = this.physics.add.sprite(600,500-i*100,'enemy')
+    //   enemy.anims.play('enemyMove',true);
+    //   //enemies.add(enemy)
+    // }
+    enemies = this.physics.add.group({
+      key:'enemy',
+      repeat: 3,
+      setXY: {x:700, y:0, setX: -150, stepY: 150}
+    })
+    enemies.children.iterate(function (child) {
+
+        //  Give each star a slightly different bounce
+        child.anims.play('enemyMove',true);
+        child.setVelocityX(-50);
+
+    });
+
 
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
@@ -139,9 +164,7 @@ function create ()
 
     bombs = this.physics.add.group();
 
-    // enemy = this.physics.add.group();
-    // var walk = enemy.animations.add('walk')
-    // enemy.animations.play('walk',30,true)
+
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
@@ -149,21 +172,21 @@ function create ()
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
     this.physics.add.collider(bombs, platforms);
-    this.physics.add.collider(enemy, platforms);
+    this.physics.add.collider(enemies, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
-    // enemy.setVelocityX(160);
-    // enemy.anims.play('enemyMove', true);
+
 
 }
 
 function update ()
 {
 
-
+  // enemy.setVelocityX(160);
+  // enemy.anims.play('enemyMove', true);
     if (gameOver)
     {
         return;
@@ -233,12 +256,10 @@ function hitBomb (player, bomb)
     gameOver = true;
 }
 
-// function enemyMovement(enemy){
-//   enemy.animations.add ();
-//   enemy.body.velocity.x = -10;
+// function generateEnemy(){
+//   var enemy new enemy();
 //
 // }
-
 </script>
 
 </body>
