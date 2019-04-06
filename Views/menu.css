@@ -1,6 +1,6 @@
 button {
-  width:150px;
-  height:75px;
+  width: 150px;
+  height: 75px;
 }
 
 html {
@@ -37,7 +37,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.grid-container > button {
+.grid-container>button {
   text-align: center;
   font-size: 30px;
 }
