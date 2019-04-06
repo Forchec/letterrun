@@ -1,6 +1,6 @@
 button {
-  width:175px;
-  height:225px;
+  width: 175px;
+  height: 225px;
 }
 
 html {
@@ -76,7 +76,7 @@ body {
 .grid-container {
   display: grid;
   grid-template-areas: 'top-left top-main top-right'
-                       'bottom-left bottom-main bottom-right';
+    'bottom-left bottom-main bottom-right';
   grid-gap: 50px;
   padding: 50px;
   position: absolute;
@@ -85,7 +85,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.grid-container > div {
+.grid-container>div {
   text-align: center;
   font-size: 30px;
 }
