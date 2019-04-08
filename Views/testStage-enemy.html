@@ -48,6 +48,7 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
+var collisionHappened;
 
 var game = new Phaser.Game(config);
 
@@ -82,12 +83,6 @@ function create ()
     player = this.physics.add.sprite(100, 450, 'dude');
 
     //enemies staticGroup
-
-    // enemy.anchor.setTo(0.5,0.2);
-
-    // enemy.animations.play('run',10,true);
-    // enemy = this.physics.add.sprite(120,450,'enemy');
-    // enemyMovement(enemy);
 
 
     //  Player physics properties. Give the little guy a slight bounce.
@@ -134,15 +129,21 @@ function create ()
     enemies = this.physics.add.group({
       key:'enemy',
       repeat: 3,
-      setXY: {x:700, y:0, setX: -150, stepY: 150}
+      setXY: {x:800, y:0, stepX: -150, stepY: 150}
     })
     enemies.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
+        //  make enemy move
         child.anims.play('enemyMove',true);
-        child.setVelocityX(-50);
+        //Set speed randomly
+        child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
+        child.body.allowGravity =false;
+        child.setCollideWorldBounds(true);
+        child.body.onWorldBounds =true;
+        child.addListener("onOutOfBounds",()=>{console.log("hello")});
+
 
     });
+
 
 
     //  Input Events
@@ -178,8 +179,8 @@ function create ()
     this.physics.add.overlap(player, stars, collectStar, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
-
-
+  //  this.physics.add.overlap(player, enemies, enemyCollision, null, this);
+    //this.physics.world.setCollideWorldBounds(true);
 }
 
 function update ()
@@ -187,6 +188,7 @@ function update ()
 
   // enemy.setVelocityX(160);
   // enemy.anims.play('enemyMove', true);
+  // enemy.body.world.on('worldbounds')
     if (gameOver)
     {
         return;
@@ -215,6 +217,20 @@ function update ()
     {
         player.setVelocityY(-330);
     }
+
+    if (this.physics.collide(platforms, enemies)){
+      collisionHappened =true
+      alert("true")
+    }
+    // else{
+    //   if (collisionHappened){
+    //     collisionHappened =false;
+    //   }
+    // }
+    // if (collisionHappened == false){
+    //   //endOfPlatform();
+    //   alert("end of platform");
+    // }
 }
 
 function collectStar (player, star)
@@ -256,10 +272,12 @@ function hitBomb (player, bomb)
     gameOver = true;
 }
 
-// function generateEnemy(){
-//   var enemy new enemy();
-//
-// }
+function enemyCollision(player, enemy){
+  alert("eneterd");
+//  enemy.disableBody(true, true);
+  //throwLetter();
+}
+
 </script>
 
 </body>
