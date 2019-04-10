@@ -19,7 +19,7 @@
 
 <script type="text/javascript">
 
-alert("Test Stage is called")
+//alert("Test Stage is called")
 
 var config = {
     type: Phaser.AUTO,
@@ -83,8 +83,10 @@ function preload ()
     this.load.image('sky', '../assets/sky.png');
     this.load.image('ground', '../assets/platform.png');
     this.load.image('bomb', '../assets/bomb.png');
-    this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
+    //this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
     this.load.spritesheet('dude', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+
 }
 
 function create ()
@@ -122,8 +124,34 @@ this.physics.add.collider(door, platforms);
     player = this.physics.add.sprite(100, 450, 'dude');
 
     //enemys
-    enemy = this.physics.add.sprite(200, 450,'enemy');
-    //enemyMovement(enemy);
+    this.anims.create({
+      key: 'enemyMove',
+      frames: this.anims.generateFrameNumbers('testEnemy',{start:0, end:4}),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    enemies = this.physics.add.group({
+      key:'testEnemy',
+      repeat: 1,
+      setXY: {x:750, y:170, stepX: -150, stepY: 150}
+    })
+    enemies.children.iterate(function (child) {
+        //  make enemy move
+        child.anims.play('enemyMove',true);
+        //Set speed randomly
+        child.setTint(0x5e92e5);
+        child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
+        child.body.allowGravity =false;
+        //console.log(child.body)
+        child.body.setSize(13,13,2,2);
+        child.body.immovable = true;
+        child.setCollideWorldBounds(true);
+    //    child.body.onWorldBounds =true;
+      //  child.addListener("onOutOfBounds",()=>{console.log("hello")});
+    });
+
+
 
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.2);
@@ -206,7 +234,8 @@ this.physics.add.collider(door, platforms);
     this.physics.add.collider(player, platforms);
 
     this.physics.add.collider(bombs, platforms);
-    this.physics.add.collider(enemy, platforms);
+    this.physics.add.collider(enemies, platforms);
+
 
     //  Checks to see if the player overlaps with any of the letters, if he does call the collectLetter function
     this.physics.add.overlap(player, letters, collectLetter, null, this);
@@ -214,6 +243,8 @@ this.physics.add.collider(door, platforms);
     //this.physics.add.collider(player, enemy, hitEnemy, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
+    this.physics.add.collider(player, enemies, enemyCollision, null, this);
+
     // enemy.setVelocityX(160);
     // enemy.anims.play('enemyMove', true);
 
@@ -366,11 +397,11 @@ function hitDoor (player, door)
 
 }
 
-// function enemyMovement(enemy){
-//   enemy.animations.add ();
-//   enemy.body.velocity.x = -10;
-//
-// }
+function enemyCollision(player, enemy){
+   alert("eneterd");
+//  enemy.disableBody(true, true);
+  //throwLetter();
+}
 
 </script>
 
