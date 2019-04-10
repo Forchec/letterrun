@@ -211,7 +211,7 @@ this.physics.add.collider(door, platforms);
     //  Checks to see if the player overlaps with any of the letters, if he does call the collectLetter function
     this.physics.add.overlap(player, letters, collectLetter, null, this);
 
-    this.physics.add.collider(player, enemy, hitEnemy, null, this);
+    //this.physics.add.collider(player, enemy, hitEnemy, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
     // enemy.setVelocityX(160);
@@ -305,39 +305,37 @@ function hitBomb (player, bomb)
     gameOver = true;
 }
 
-function hitEnemy (player, enemy){
-  if (letterBoard.isEmpty()){
-    this.physics.pause();
-
-    player.setTint(0xff0000);
-
-    player.anims.play('turn');
-
-    gameOver = true;
-  }
-  else{ // Doesn't work
-    var rand = chooseRandomLetter(WORD);
-    var lenn = letterBoard.length;
-    for (i = 0; i < lenn; i++){
-      if (rand === letterBoard[i]){
-        letterBoard.splice(i, 1);
-        i+=1000000;
-      }
-
-    }
-
-    var index = 0;
-    while (rand !== WORD.charAt(index)){
-      index++;
-    }
-    x_for_board = 25 + (50 * index);
-    rand = rand + rand + rand;
-    tmp = this.add.sprite(x_for_board, 25, rand);
-    tmp.setDisplaySize(40, 40);
-  }
-
-
-}
+// function hitEnemy (player, enemy){
+//   if (letterBoard.isEmpty()){
+//     this.physics.pause();
+//
+//     player.setTint(0xff0000);
+//
+//     player.anims.play('turn');
+//
+//     gameOver = true;
+//   }
+//   else{ // Doesn't work
+//     var rand = chooseRandomLetter(WORD);
+//     var lenn = letterBoard.length;
+//     for (i = 0; i < lenn; i++){
+//       if (rand === letterBoard[i]){
+//         letterBoard.splice(i, 1);
+//         i+=1000000;
+//       }
+//
+//     }
+//
+//     var index = 0;
+//     while (rand !== WORD.charAt(index)){
+//       index++;
+//     }
+//     x_for_board = 25 + (50 * index);
+//     rand = rand + rand + rand;
+//     tmp = this.add.sprite(x_for_board, 25, rand);
+//     tmp.setDisplaySize(40, 40);
+//   }
+// }
 
 function hitDoor (player, door)
 {
