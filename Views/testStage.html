@@ -150,12 +150,12 @@ this.physics.add.collider(door, platforms);
         repeat: -1
     });
 
-    this.anims.create({
-      key: 'enemyMove',
-      frams: this.anims.generateFrameNumbers('enemy',{start:1, end:6}),
-      frameRate: 20,
-      repeat: -1
-    })
+    // this.anims.create({
+    //   key: 'enemyMove',
+    //   frams: this.anims.generateFrameNumbers('enemy',{start:1, end:6}),
+    //   frameRate: 20,
+    //   repeat: -1
+    // })
 
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
@@ -213,6 +213,9 @@ this.physics.add.collider(door, platforms);
 
     this.physics.add.collider(player, enemy, hitEnemy, null, this);
 
+    this.physics.add.collider(player, bombs, hitBomb, null, this);
+    // enemy.setVelocityX(160);
+    // enemy.anims.play('enemyMove', true);
 
 
     this.physics.add.overlap(player, door, hitDoor, null, this);
