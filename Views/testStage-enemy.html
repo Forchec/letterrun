@@ -121,13 +121,6 @@ function create ()
       repeat: -1
     })
 
-  //  enemy = this.physics.add.sprite(600,500,'enemy');
-    // enemies = game.add.group();
-    // for (var i =0; i < 4; i++){
-    //   enemy = this.physics.add.sprite(600,500-i*100,'enemy')
-    //   enemy.anims.play('enemyMove',true);
-    //   //enemies.add(enemy)
-    // }
     enemies = this.physics.add.group({
       key:'testEnemy',
       repeat: 1,
@@ -146,8 +139,6 @@ function create ()
         child.setCollideWorldBounds(true);
     //    child.body.onWorldBounds =true;
       //  child.addListener("onOutOfBounds",()=>{console.log("hello")});
-
-
     });
 
 
