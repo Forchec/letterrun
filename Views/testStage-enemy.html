@@ -58,8 +58,10 @@ function preload ()
     this.load.image('ground', '../assets/platform.png');
     this.load.image('star', '../assets/star.png');
     this.load.image('bomb', '../assets/bomb.png');
-    this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
+    this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 32, frameHeight: 48});
     this.load.spritesheet('dude', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+
 }
 
 function create ()
@@ -114,12 +116,12 @@ function create ()
 
     this.anims.create({
       key: 'enemyMove',
-      frames: this.anims.generateFrameNumbers('enemy',{start:1, end:6}),
+      frames: this.anims.generateFrameNumbers('testEnemy',{start:0, end:4}),
       frameRate: 10,
       repeat: -1
     })
 
-    //enemy = this.physics.add.sprite(600,500,'enemy');
+  //  enemy = this.physics.add.sprite(600,500,'enemy');
     // enemies = game.add.group();
     // for (var i =0; i < 4; i++){
     //   enemy = this.physics.add.sprite(600,500-i*100,'enemy')
@@ -127,19 +129,23 @@ function create ()
     //   //enemies.add(enemy)
     // }
     enemies = this.physics.add.group({
-      key:'enemy',
-      repeat: 3,
-      setXY: {x:800, y:0, stepX: -150, stepY: 150}
+      key:'testEnemy',
+      repeat: 1,
+      setXY: {x:750, y:170, stepX: -150, stepY: 150}
     })
     enemies.children.iterate(function (child) {
         //  make enemy move
         child.anims.play('enemyMove',true);
         //Set speed randomly
+        child.setTint(0x5e92e5);
         child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
-        child.body.allowGravity =false;
+        child.body.allowGravity =true;
+        //console.log(child.body)
+        child.body.setSize(13,13,2,2);
+        child.body.immovable = true;
         child.setCollideWorldBounds(true);
-        child.body.onWorldBounds =true;
-        child.addListener("onOutOfBounds",()=>{console.log("hello")});
+    //    child.body.onWorldBounds =true;
+      //  child.addListener("onOutOfBounds",()=>{console.log("hello")});
 
 
     });
@@ -166,6 +172,8 @@ function create ()
     bombs = this.physics.add.group();
 
 
+
+
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
@@ -176,19 +184,20 @@ function create ()
     this.physics.add.collider(enemies, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    this.physics.add.overlap(player, stars, collectStar, null, this);
+//    this.physics.add.overlap(player, stars, collectStar, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
+    this.physics.add.collider(player, enemies, enemyCollision, null, this);
   //  this.physics.add.overlap(player, enemies, enemyCollision, null, this);
-    //this.physics.world.setCollideWorldBounds(true);
+
 }
 
 function update ()
 {
-
-  // enemy.setVelocityX(160);
-  // enemy.anims.play('enemyMove', true);
-  // enemy.body.world.on('worldbounds')
+    // this.physics.collide(enemies, platforms, function(enemy,platform){
+    //   console.log(enemy);
+    //   console.log(platform);
+    // })
     if (gameOver)
     {
         return;
@@ -218,10 +227,10 @@ function update ()
         player.setVelocityY(-330);
     }
 
-    if (this.physics.collide(platforms, enemies)){
-      collisionHappened =true
-      alert("true")
-    }
+    // if (this.physics.collide(platforms, enemies)){
+    //   collisionHappened =true
+    //   alert("true")
+    // }
     // else{
     //   if (collisionHappened){
     //     collisionHappened =false;
@@ -273,7 +282,7 @@ function hitBomb (player, bomb)
 }
 
 function enemyCollision(player, enemy){
-  alert("eneterd");
+   alert("eneterd");
 //  enemy.disableBody(true, true);
   //throwLetter();
 }
