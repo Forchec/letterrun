@@ -120,16 +120,6 @@ this.physics.add.collider(door, platforms);
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
 
-    enemies = this.physics.add.group();
-    platforms.children.iterate(function (child) {
-                              //  make enemy move
-                              console.log(child.x);
-                              console.log(child.width);
-
-                              enemies.create(child.x+200, child.y-16,'testEnemy');
-                              console.log(child.y+16)
-    });
-
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
 
@@ -141,7 +131,11 @@ this.physics.add.collider(door, platforms);
       repeat: -1
     })
 
-
+    enemies = this.physics.add.group({
+      key:'testEnemy',
+      repeat: 1,
+      setXY: {x:750, y:170, stepX: -150, stepY: 150}
+    })
     enemies.children.iterate(function (child) {
         //  make enemy move
         child.anims.play('enemyMove',true);
@@ -195,8 +189,13 @@ this.physics.add.collider(door, platforms);
     cursors = this.input.keyboard.createCursorKeys();
 
 //////imimimimportante finish by this week///////////////// - random letter random pos
-  var x = 12;
-  var y = 500;
+  for (i = 0; i < WORD_LEN + 10; i++){
+    // array for x and y
+  }
+  var x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+  var y = Math.floor(Math.random() * 400);
+  console.log(x);
+  console.log(y);
   // Display neccessary letters (letters to make the word)
   for (i = 0; i < WORD_LEN; i++){
     tmp = WORD.charAt(i);
@@ -208,15 +207,16 @@ this.physics.add.collider(door, platforms);
       letters.setDisplaySize(40, 40);
     }
     this.physics.add.collider(letters, platforms);
+    this.physics.add.collider(letters, letters);
     this.physics.add.overlap(player, letters, collectLetter, null, this);
     //this.physics.add.overlap(player, enemy, letterAway, null, this);
     letters.myName = tmp;
-    x += 50;
-    y -= 100;
+    x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+    y = Math.floor(Math.random() * 400);
   }
 
   // Display random letters
-    for (i = 0; i < 12; i++){
+    for (i = 0; i < 8; i++){
       tmp = chooseRandomLetter(alpha);
 
       // var xx = Math.floor(Math.random());
@@ -229,10 +229,11 @@ this.physics.add.collider(door, platforms);
         letters.setDisplaySize(40, 40);
       }
       this.physics.add.collider(letters, platforms);
+this.physics.add.collider(letters, letters);
       this.physics.add.overlap(player, letters, collectLetter, null, this);
       letters.myName = tmp;
-      x += 50;
-      y -= 100;
+      x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+      y = Math.floor(Math.random() * 400);
     }
 /////////////////////////////////////////////////////////
 
@@ -243,6 +244,7 @@ this.physics.add.collider(door, platforms);
 
     this.physics.add.collider(bombs, platforms);
     this.physics.add.collider(enemies, platforms);
+
 
 
     //  Checks to see if the player overlaps with any of the letters, if he does call the collectLetter function
@@ -262,11 +264,6 @@ this.physics.add.collider(door, platforms);
 
 function update ()
 {
-  this.physics.collide(enemies, platforms, function(enemy,platform){
-    console.log(enemy.body.velocity.x);
-    console.log(platform);
-    //if (enemy.body.velocity.x >0 )
-  })
     if (gameOver)
     {
         return;
@@ -329,13 +326,13 @@ function collectLetter(player, letter)
     }
   }
 
-  if (letters.countActive(true) === 0)
-  {
-      letters.children.iterate(function (child) {
-      child.enableBody(true, child.x, 0, true, true);
-  });
-      var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-  }
+  // if (letters.countActive(true) === 0)
+  // {
+  //     letters.children.iterate(function (child) {
+  //     child.enableBody(true, child.x, 0, true, true);
+  // });
+  //     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+  // }
 }
 
 function hitBomb (player, bomb)
@@ -412,7 +409,7 @@ function hitDoor (player, door)
 
 function enemyCollision(player, enemy){
    alert("eneterd");
-   enemy.disableBody(true, true);
+//  enemy.disableBody(true, true);
   //throwLetter();
 }
 
