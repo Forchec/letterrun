@@ -61,6 +61,7 @@ var letter = '';
 var i = 0;
 var door;
 var visitChecker = []
+var allLetters;
 for (var i = 0; i < WORD_LEN; i++){
   visitChecker.push("");
 }
@@ -132,18 +133,33 @@ this.physics.add.collider(door, platforms);
     walls.create(1,100,'worldWall');
     walls.create(797,100,'worldWall');
 
+
+    // var letterArray = [70,140,210,280,350]
+    // allLetters = this.physics.add.group();
     platforms.children.iterate(function (child) {
 
         if (first != 0){
+
+
+
             walls.create(child.x-200,child.y-20,'wall');
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'testEnemy');
 
         }
+        // allLetters.create(child.x-70, child.y-60,'a');
+        // allLetters.create(child.x+70, child.y-60,'b');
+        // allLetters.create(child.x-140, child.y-60,'c');
+        // allLetters.create(child.x+140, child.y-60,'d');
           first ++;
     });
     enemies.create(780, 510,'testEnemy');
     first = 0;
+
+    // allLetters.children.iterate(function (child) {
+    //     //  make enemy move
+    //     child.setDisplaySize(50,50);
+    // });
 
     walls.children.iterate(function (child) {
         //  make enemy move
@@ -174,6 +190,7 @@ this.physics.add.collider(door, platforms);
     //   repeat: 1,
     //   setXY: {x:750, y:170, stepX: -150, stepY: 150}
     // })
+
     enemies.children.iterate(function (child) {
         //  make enemy move
         child.anims.play('enemyMove',true);
@@ -219,52 +236,52 @@ this.physics.add.collider(door, platforms);
     cursors = this.input.keyboard.createCursorKeys();
 
 //////imimimimportante finish by this week///////////////// - random letter random pos
-  for (i = 0; i < WORD_LEN + 10; i++){
-    // array for x and y
-  }
-  var x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-  var y = Math.floor(Math.random() * 400);
-  console.log(x);
-  console.log(y);
-  // Display neccessary letters (letters to make the word)
-  for (i = 0; i < WORD_LEN; i++){
-    tmp = WORD.charAt(i);
-    letters = this.physics.add.sprite(x, y, tmp);
-    if (tmp == 'w'){
-      letters.setDisplaySize(50, 50);
-    }
-    else{
-      letters.setDisplaySize(40, 40);
-    }
-    this.physics.add.collider(letters, platforms);
-    this.physics.add.collider(letters, letters);
-    this.physics.add.overlap(player, letters, collectLetter, null, this);
-    //this.physics.add.overlap(player, enemy, letterAway, null, this);
-    letters.myName = tmp;
-    x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-    y = Math.floor(Math.random() * 400);
-  }
+  // for (i = 0; i < WORD_LEN + 10; i++){
+  //   // array for x and y
+  // }
+  // var x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+  // var y = Math.floor(Math.random() * 400);
+  // console.log(x);
+  // console.log(y);
+  // // Display neccessary letters (letters to make the word)
+  // for (i = 0; i < WORD_LEN; i++){
+  //   tmp = WORD.charAt(i);
+  //   letters = this.physics.add.sprite(x, y, tmp);
+  //   if (tmp == 'w'){
+  //     letters.setDisplaySize(50, 50);
+  //   }
+  //   else{
+  //     letters.setDisplaySize(40, 40);
+  //   }
+  //   this.physics.add.collider(letters, platforms);
+  //   this.physics.add.collider(letters, letters);
+  //   this.physics.add.overlap(player, letters, collectLetter, null, this);
+  //   //this.physics.add.overlap(player, enemy, letterAway, null, this);
+  //   letters.myName = tmp;
+  //   x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+  //   y = Math.floor(Math.random() * 400);
+  // }
 
   // Display random letters
-    for (i = 0; i < 8; i++){
-      tmp = chooseRandomLetter(alpha);
-
-      // var xx = Math.floor(Math.random());
-      // var yy = Math.floor(Math.random());
-      letters = this.physics.add.sprite(x, y, tmp);
-      if (tmp == 'w'){
-        letters.setDisplaySize(50, 50);
-      }
-      else{
-        letters.setDisplaySize(40, 40);
-      }
-      this.physics.add.collider(letters, platforms);
-this.physics.add.collider(letters, letters);
-      this.physics.add.overlap(player, letters, collectLetter, null, this);
-      letters.myName = tmp;
-      x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-      y = Math.floor(Math.random() * 400);
-    }
+//     for (i = 0; i < 8; i++){
+//       tmp = chooseRandomLetter(alpha);
+//
+//       // var xx = Math.floor(Math.random());
+//       // var yy = Math.floor(Math.random());
+//       letters = this.physics.add.sprite(x, y, tmp);
+//       if (tmp == 'w'){
+//         letters.setDisplaySize(50, 50);
+//       }
+//       else{
+//         letters.setDisplaySize(40, 40);
+//       }
+//       this.physics.add.collider(letters, platforms);
+// this.physics.add.collider(letters, letters);
+//       this.physics.add.overlap(player, letters, collectLetter, null, this);
+//       letters.myName = tmp;
+//       x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+//       y = Math.floor(Math.random() * 400);
+//     }
 /////////////////////////////////////////////////////////
 
     bombs = this.physics.add.group();
@@ -274,6 +291,7 @@ this.physics.add.collider(letters, letters);
 
     this.physics.add.collider(bombs, platforms);
     this.physics.add.collider(enemies, platforms);
+    this.physics.add.collider(allLetters, platforms);
 
 
 
