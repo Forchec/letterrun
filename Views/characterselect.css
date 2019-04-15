@@ -28,7 +28,7 @@ body {
 
 .character-one:hover {
   transition-duration: 0.4s;
-  background-color: yellow;
+  background-color: #fffacd;
 }
 
 .character-two {
@@ -39,7 +39,7 @@ body {
 
 .character-two:hover {
   transition-duration: 0.4s;
-  background-color: yellow;
+  background-color: #fffacd;
 }
 
 .character-three {
@@ -50,7 +50,7 @@ body {
 
 .character-three:hover {
   transition-duration: 0.4s;
-  background-color: yellow;
+  background-color: #fffacd;
 }
 
 .text-one {
@@ -65,11 +65,14 @@ body {
   grid-area: bottom-right;
 }
 
-.back {
+.back-link {
   position: absolute;
   top: 15px;
   right: 15px;
-  width: 50px;
+}
+
+.back {
+  width: 75px;
   height: 25px;
 }
 

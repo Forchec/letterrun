@@ -7,11 +7,22 @@
 
 <body>
   <div class="heading">Choose Your Character!</div>
-  <button class="back">Back</button>
+  <a href="menu.html" class="back-link">
+    <button class="back">Go Back</button>
+  </a>
   <div class="grid-container">
-    <button class="character-one"></button>
-    <button class="character-two"></button>
-    <button class="character-three"></button>
+    <form action="stages.html" method="get">
+      <input type="hidden" name="character" value="one" />
+      <button type="submit" class="character-one"></button>
+    </form>
+    <form action="stages.html" method="get">
+      <input type="hidden" name="character" value="one" />
+      <button type="submit" class="character-two"></button>
+    </form>
+    <form action="stages.html" method="get">
+      <input type="hidden" name="character" value="one" />
+      <button type="submit" class="character-three"></button>
+    </form>
     <div class="text-one">Red Blob</div>
     <div class="text-two">Blue Blob</div>
     <div class="text-three">Grey Blob</div>

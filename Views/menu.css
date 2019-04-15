@@ -1,6 +1,10 @@
 button {
   width: 150px;
   height: 75px;
+  font-size: 30px;
+  width: 150px;
+  height: 75px;
+  text-align: center;
 }
 
 html {
@@ -14,11 +18,13 @@ body {
   position: relative;
 }
 
-.play-button {
+.play-button {}
+
+.play-link {
   grid-area: left;
 }
 
-.settings-button {
+.settings-link {
   grid-area: main;
 }
 
