@@ -1,0 +1,43 @@
+button {
+  width: 150px;
+  height: 75px;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.play-button {
+  grid-area: left;
+}
+
+.settings-button {
+  grid-area: main;
+}
+
+.exit-button {
+  grid-area: right;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 'left main right';
+  grid-gap: 50px;
+  padding: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.grid-container>button {
+  text-align: center;
+  font-size: 30px;
+}
