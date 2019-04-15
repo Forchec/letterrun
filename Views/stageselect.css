@@ -1,0 +1,73 @@
+button {
+  width: 150px;
+  height: 75px;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.heading {
+  padding-top: 25px;
+  text-align: center;
+  font-size: 30px;
+}
+
+.back {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 50px;
+  height: 25px;
+}
+
+.stage-one-button {}
+
+.stage-two-button {}
+
+.stage-three-button {}
+
+.stage-one-checkbox {}
+
+.stage-two-checkbox {}
+
+.stage-three-checkbox {}
+
+.stage-one {
+  grid-area: left;
+}
+
+.stage-two {
+  grid-area: main;
+}
+
+.stage-three {
+  grid-area: right;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 'left main right';
+  grid-gap: 50px;
+  padding: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.grid-container>div>button {
+  text-align: center;
+  font-size: 22px;
+}
+
+.grid-container>div>div {
+  padding: 15px;
+}
