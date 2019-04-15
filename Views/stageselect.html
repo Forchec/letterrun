@@ -7,25 +7,33 @@
 
 <body>
   <div class="heading">Select Stage</div>
-  <button class="back">Back</button>
+  <a href="characterselect.html" class="back-link">
+    <button class="back">Back</button>
+  </a>
   <div class="grid-container">
     <div class="stage-one">
-      <button class="stage-one-button">Stage 1</button>
-      <div class="stage-one-checkbox">
-        <input type="checkbox" name="stage-one-checkbox" value="Locked"> Unlocked<br>
-      </div>
+      <form action="stage1.html" method="get">
+        <button type="submit" class="stage-one-button">Stage 1</button>
+        <div class="stage-one-checkbox">
+          <input type="checkbox" name="stage-one-checkbox" value="Locked" disabled> Unlocked<br>
+        </div>
+      </form>
     </div>
     <div class="stage-two">
-      <button class="stage-two-button">Stage 2</button>
-      <div class="stage-two-checkbox">
-        <input type="checkbox" name="stage-two-checkbox" value="Locked"> Unlocked<br>
-      </div>
+      <form action="stage1.html" method="get">
+        <button type="submit" class="stage-two-button">Stage 2</button>
+        <div class="stage-two-checkbox">
+          <input type="checkbox" name="stage-two-checkbox" value="Locked" disabled> Unlocked<br>
+        </div>
+      </form>
     </div>
     <div class="stage-three">
-      <button class="stage-three-button">Stage 3</button>
-      <div class="stage-one-checkbox">
-        <input type="checkbox" name="stage-three-checkbox" value="Locked"> Unlocked<br>
-      </div>
+      <form action="stage1.html" method="get">
+        <button type="submit" class="stage-three-button">Stage 3</button>
+        <div class="stage-three-checkbox">
+          <input type="checkbox" name="stage-three-checkbox" value="Locked" disabled> Unlocked<br>
+        </div>
+      </form>
     </div>
   </div>
 </body>

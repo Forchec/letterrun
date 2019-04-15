@@ -20,12 +20,16 @@ body {
   font-size: 30px;
 }
 
-.back {
+.back-link {
   position: absolute;
   top: 15px;
   right: 15px;
+}
+
+.back {
   width: 50px;
   height: 25px;
+  border-radius: 12px;
 }
 
 .stage-one-button {}
@@ -63,7 +67,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.grid-container>div>button {
+.grid-container>div>form>button {
   text-align: center;
   font-size: 22px;
 }
