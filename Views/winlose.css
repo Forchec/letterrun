@@ -1,0 +1,53 @@
+body {
+  font-family: Arial;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.button {
+  width: 150px;
+  height: 75px;
+  font-size: 20px;
+  text-align: center;
+  box-shadow: 0px 10px 14px -7px #276873;
+  border-radius: 8px;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  color: #F1FAEE;
+  font-family: Arial;
+  font-weight: bold;
+  padding: 13px 32px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #3d768a;
+  float: right;
+}
+
+.button:hover {
+  background-color: #F1FAEE;
+}
+
+.modal {
+  /*display: none;*/
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); /*change opacity*/
+}
+
+.modal-content {
+  background-color: #A8DADC;
+  margin: 20% auto; /*display popup in the middle*/
+  padding: 50px;
+  width: 50%;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+}
+
+.modal-body {
+  padding: 10px 20px;
+  background: #fff;
+}
