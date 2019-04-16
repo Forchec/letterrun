@@ -1,6 +1,7 @@
 button {
   width: 150px;
   height: 75px;
+  cursor: pointer;
 }
 
 html {
@@ -12,6 +13,10 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
+  background-color: #A8DADC;
+  color: #F1FAEE;
+  font-family: Arial;
+  font-weight: bold;
 }
 
 .heading {
@@ -30,19 +35,50 @@ body {
   width: 50px;
   height: 25px;
   border-radius: 12px;
+  font-family: Arial;
+  font-weight: bold;
+  border: none;
+  color: #F1FAEE;
+  background-color: #1D3557;
 }
 
-.stage-one-button {}
+.back:hover {
+  background-color: #F1FAEE;
+  color: #1D3557;
+}
 
-.stage-two-button {}
+.stage-button {
+  width: 150px;
+  height: 75px;
+  font-size: 20px;
+  text-align: center;
+  box-shadow: 0px 10px 14px -7px #276873;
+  border-radius: 8px;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  color: #F1FAEE;
+  font-family: Arial;
+  font-weight: bold;
+  padding: 13px 32px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #3d768a;
+}
 
-.stage-three-button {}
+.stage-unlocked-button {
+  background-color: #E63946;
+}
 
-.stage-one-checkbox {}
+.stage-unlocked-button:hover {
+  background-color: #F1FAEE;
+  color: #E63946;
+}
 
-.stage-two-checkbox {}
+.stage-checkbox {
+  padding: 10px;
+}
 
-.stage-three-checkbox {}
+.stage-locked-button {}
 
 .stage-one {
   grid-area: left;

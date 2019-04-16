@@ -5,23 +5,45 @@
   <link rel="stylesheet" type="text/css" href="settings.css">
 </head>
 
+
+<script>
+  function updateTextInput(val) {
+    document.getElementById('textInput').value = val;
+  }
+</script>
+
 <body>
   <a href="menu.html" class="back-link">
     <button class="back">Back</button>
   </a>
   <div class="grid-container">
-    <div class="item1">Settings</div>
+    <div class="item1"><b>Instructions / Settings</b></div>
     <div class="item2">
-      How to play:
-      Collect all the letters and reach the door while avoiding all the monsters.
-      If you contact the monster you will loser a letter.
-      If you run out of letter you will die.
+      <b>How to play</b>
+      <br>
+      Use the arrow keys to move!
+      <br>
+      <br>
+      <b>Objective</b>
+      <br>
+      Collect all the letters and reach the door in the fastest time possible.
+      <br>
+      <br>
+      <b>Avoid Monsters</b>
+      <br>
+      If you make contact with a monster you will lose a letter.
+      If you run out of letters you will die!
     </div>
     <div class="item3">
-      <input type="range" min="1" max="100" value="50" class="slider" id="sliderRange">
-      Change Volume
+      <text class="volumesettings">
+        <b>Volume Controls</b>
+      </text>
+      <br>
+      <div class="slidecontainer">
+        <input type="text" disabled class="value" id="textInput" value="50">
+        <input type="range" min="0" max="100" value="50" class="slider" id="myRange" onchange="updateTextInput(this.value);">
+      </div>
     </div>
-    <div class="item4">Key instructions go here with arrow key assets</div>
   </div>
 </body>
 
