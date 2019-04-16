@@ -1,10 +1,28 @@
 button {
   width: 150px;
   height: 75px;
-  font-size: 30px;
-  width: 150px;
-  height: 75px;
+  font-size: 20px;
   text-align: center;
+  box-shadow: 0px 10px 14px -7px #276873;
+  border-radius: 8px;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  color: #F1FAEE;
+  font-family: Arial;
+  font-weight: bold;
+  padding: 13px 32px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #3d768a;
+}
+
+button:hover {
+  background-color: #F1FAEE;
+}
+
+button:active {
+  position: relative;
+  top: 1px;
 }
 
 html {
@@ -12,13 +30,28 @@ html {
 }
 
 body {
+  background-color: #A8DADC;
   min-height: 100%;
   margin: 0;
   padding: 0;
   position: relative;
 }
 
-.play-button {}
+.play-button {
+  background-color: #E63946;
+}
+
+.play-button:hover {
+  color: #E63946;
+}
+
+.settings-button {
+  background-color: #457B9D;
+}
+
+.settings-button:hover {
+  color: #457B9D;
+}
 
 .play-link {
   grid-area: left;
@@ -30,6 +63,11 @@ body {
 
 .exit-button {
   grid-area: right;
+  background-color: #1D3557;
+}
+
+.exit-button:hover {
+  color: #1D3557;
 }
 
 .grid-container {
@@ -41,9 +79,4 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.grid-container>button {
-  text-align: center;
-  font-size: 30px;
 }

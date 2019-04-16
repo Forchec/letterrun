@@ -1,6 +1,8 @@
 button {
   width: 175px;
   height: 225px;
+  cursor: pointer;
+  border: none;
 }
 
 html {
@@ -9,9 +11,13 @@ html {
 
 body {
   min-height: 100%;
+  font-family: Arial;
+  font-weight: bold;
   margin: 0;
   padding: 0;
   position: relative;
+  background-color: #A8DADC;
+  color: #F1FAEE;
 }
 
 .heading {
@@ -28,7 +34,7 @@ body {
 
 .character-one:hover {
   transition-duration: 0.4s;
-  background-color: #fffacd;
+  background-color: #F1FAEE;
 }
 
 .character-two {
@@ -39,7 +45,7 @@ body {
 
 .character-two:hover {
   transition-duration: 0.4s;
-  background-color: #fffacd;
+  background-color: #F1FAEE;
 }
 
 .character-three {
@@ -50,7 +56,7 @@ body {
 
 .character-three:hover {
   transition-duration: 0.4s;
-  background-color: #fffacd;
+  background-color: #F1FAEE;
 }
 
 .text-one {
@@ -75,6 +81,16 @@ body {
   width: 50px;
   height: 25px;
   border-radius: 12px;
+  font-family: Arial;
+  font-weight: bold;
+  border: none;
+  color: #F1FAEE;
+  background-color: #1D3557;
+}
+
+.back:hover {
+  background-color: #F1FAEE;
+  color: #1D3557;
 }
 
 .grid-container {
