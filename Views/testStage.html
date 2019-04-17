@@ -42,14 +42,13 @@ var config = {
 var player;
 // var stars;
 var letters;
-var bombs;
 var enemys;
 var platforms;
 var cursors;
 var gameOver = false;
 
 
-var WORD = "letterrun"; // check with repeated letter
+var WORD = "penguin"; // check with repeated letter
 var WORD_LEN = WORD.length;
 
 var letterBoard = [];
@@ -64,6 +63,10 @@ var visitChecker = []
 for (var i = 0; i < WORD_LEN; i++){
   visitChecker.push("");
 }
+var x = Math.floor(Math.random() * 800);
+var y = Math.floor(Math.random() * 400);
+var xList = [];
+var yList = [];
 
 
 var game = new Phaser.Game(config);
@@ -82,7 +85,6 @@ function preload ()
     this.load.image('door', '../assets/door.png');
     this.load.image('sky', '../assets/sky.png');
     this.load.image('ground', '../assets/platform.png');
-    this.load.image('bomb', '../assets/bomb.png');
     this.load.image('wall', '../assets/invisibleWall.png');
     this.load.image('worldWall', '../assets/worldWall.png');
     //this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
@@ -126,6 +128,7 @@ this.physics.add.collider(door, platforms);
 
     enemies = this.physics.add.group();
 
+
     var first = 0;
     walls.create(1,500,'worldWall');
     walls.create(797,500,'worldWall');
@@ -138,8 +141,9 @@ this.physics.add.collider(door, platforms);
             walls.create(child.x-200,child.y-20,'wall');
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'testEnemy');
-
         }
+
+
           first ++;
     });
     enemies.create(780, 510,'testEnemy');
@@ -218,18 +222,27 @@ this.physics.add.collider(door, platforms);
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
 
-//////imimimimportante finish by this week///////////////// - random letter random pos
-  for (i = 0; i < WORD_LEN + 10; i++){
-    // array for x and y
+
+  // Get a list of x values so that there is no overlap
+  for (i = 0; i < WORD_LEN + 8; i++){
+     while (checkOverlap() === 1){
+        x = Math.floor(Math.random() * 800);
+      }
+    xList.push(x);
+    yList.push(y);
+    x = Math.floor(Math.random() * 800);
+    y = Math.floor(Math.random() * 400);
   }
-  var x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-  var y = Math.floor(Math.random() * 400);
-  console.log(x);
-  console.log(y);
-  // Display neccessary letters (letters to make the word)
-  for (i = 0; i < WORD_LEN; i++){
-    tmp = WORD.charAt(i);
-    letters = this.physics.add.sprite(x, y, tmp);
+
+  // Display collectable letters
+  for (i = 0; i < WORD_LEN + 8; i++){
+    if (i < WORD_LEN){
+      tmp = WORD.charAt(i);
+    }
+    else {
+      tmp = chooseRandomLetter(alpha);
+    }
+    letters = this.physics.add.sprite(xList[i], yList[i], tmp);
     if (tmp == 'w'){
       letters.setDisplaySize(50, 50);
     }
@@ -237,42 +250,18 @@ this.physics.add.collider(door, platforms);
       letters.setDisplaySize(40, 40);
     }
     this.physics.add.collider(letters, platforms);
-    this.physics.add.collider(letters, letters);
+
     this.physics.add.overlap(player, letters, collectLetter, null, this);
     //this.physics.add.overlap(player, enemy, letterAway, null, this);
     letters.myName = tmp;
-    x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-    y = Math.floor(Math.random() * 400);
+
   }
 
-  // Display random letters
-    for (i = 0; i < 8; i++){
-      tmp = chooseRandomLetter(alpha);
 
-      // var xx = Math.floor(Math.random());
-      // var yy = Math.floor(Math.random());
-      letters = this.physics.add.sprite(x, y, tmp);
-      if (tmp == 'w'){
-        letters.setDisplaySize(50, 50);
-      }
-      else{
-        letters.setDisplaySize(40, 40);
-      }
-      this.physics.add.collider(letters, platforms);
-this.physics.add.collider(letters, letters);
-      this.physics.add.overlap(player, letters, collectLetter, null, this);
-      letters.myName = tmp;
-      x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-      y = Math.floor(Math.random() * 400);
-    }
-/////////////////////////////////////////////////////////
-
-    bombs = this.physics.add.group();
 
     //  Collide the player with the platforms
     this.physics.add.collider(player, platforms);
 
-    this.physics.add.collider(bombs, platforms);
     this.physics.add.collider(enemies, platforms);
 
 
@@ -281,8 +270,8 @@ this.physics.add.collider(letters, letters);
     this.physics.add.overlap(player, letters, collectLetter, null, this);
 
     //this.physics.add.collider(player, enemy, hitEnemy, null, this);
+    this.physics.add.collider(player, enemies, hitEnemy, null, this);
 
-    this.physics.add.collider(player, bombs, hitBomb, null, this);
     this.physics.add.collider(player, enemies, enemyCollision, null, this);
 
     // enemy.setVelocityX(160);
@@ -340,33 +329,35 @@ function collectLetter(player, letter)
   for (i = 0; i < WORD_LEN; i++){
     if (letter.myName === WORD.charAt(i)){
       if (visitChecker[i] != "visited"){
-      x_for_board = 25;
-      cur = WORD.charAt(i) + WORD.charAt(i);
-      x_for_board = x_for_board + (50 * i);
-      tmp = this.add.sprite(x_for_board, 25, cur);
-      tmp.setDisplaySize(40, 40);
-      visitChecker[i] = "visited";
-      break;
-    }
-    else{
-      continue;
-    }
-
-      letterBoard.push(letter.myName);
+        x_for_board = 25;
+        cur = WORD.charAt(i) + WORD.charAt(i);
+        x_for_board = x_for_board + (50 * i);
+        tmp = this.add.sprite(x_for_board, 25, cur);
+        tmp.setDisplaySize(40, 40);
+        visitChecker[i] = "visited";
+        letterBoard.push(letter.myName);
+        break;
+      }
+      else{
+        continue;
+      }
     }
   }
-
-  // if (letters.countActive(true) === 0)
-  // {
-  //     letters.children.iterate(function (child) {
-  //     child.enableBody(true, child.x, 0, true, true);
-  // });
-  //     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-  // }
 }
 
-function hitBomb (player, bomb)
-{
+function checkOverlap(){
+  var len = xList.length;
+  for (i = 0; i < len; i++){
+    if (x < xList[i] + 40 && x > xList[i] - 40){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+function hitEnemy (player, enemy){
+  console.log(letterBoard);
+  if (letterBoard === undefined || letterBoard.length == 0){
     this.physics.pause();
 
     player.setTint(0xff0000);
@@ -374,39 +365,32 @@ function hitBomb (player, bomb)
     player.anims.play('turn');
 
     gameOver = true;
-}
+  }
+  else{ // Take away a random letter
+    // taking away a letter is working, but one collision makes
+    // the character to loose all letter and lose game..
+    // PLUS, it should also display the collectable letters :)
+    var len = letterBoard.length;
+    var index = Math.floor(Math.random() * len);
+    var char = letterBoard[index];
+    for (i = 0; i < WORD_LEN; i++){
+      if (char === WORD.charAt(i)){
 
-// function hitEnemy (player, enemy){
-//   if (letterBoard.isEmpty()){
-//     this.physics.pause();
-//
-//     player.setTint(0xff0000);
-//
-//     player.anims.play('turn');
-//
-//     gameOver = true;
-//   }
-//   else{ // Doesn't work
-//     var rand = chooseRandomLetter(WORD);
-//     var lenn = letterBoard.length;
-//     for (i = 0; i < lenn; i++){
-//       if (rand === letterBoard[i]){
-//         letterBoard.splice(i, 1);
-//         i+=1000000;
-//       }
-//
-//     }
-//
-//     var index = 0;
-//     while (rand !== WORD.charAt(index)){
-//       index++;
-//     }
-//     x_for_board = 25 + (50 * index);
-//     rand = rand + rand + rand;
-//     tmp = this.add.sprite(x_for_board, 25, rand);
-//     tmp.setDisplaySize(40, 40);
-//   }
-// }
+        var x_ = 25;
+
+        var cur = char + char + char;
+        x_ = x_ + (50 * i);
+        tmp = this.add.sprite(x_, 25, cur);
+        tmp.setDisplaySize(40, 40);
+        letterBoard.splice(index, 1);
+        visitChecker[i] = "";
+        console.log(letterBoard);
+      }
+
+    }
+
+    }
+  }
 
 function hitDoor (player, door)
 {
@@ -421,19 +405,6 @@ function hitDoor (player, door)
     player.anims.play('turn');
     gameOver = true;
   }
-
-  // var len = letterBoard.length;
-  // for (i = 0; i < len; i++){
-  //   for (var j = 0; j < WORD_LEN; j++){
-  //     if (letterBoard[i] === word.charAt(j)){
-        // this.physics.pause();
-        //
-        // player.anims.play('turn');
-  //
-  //       gameOver = true;
-  //     }
-  //   }
-  // }
 
 }
 
