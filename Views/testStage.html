@@ -60,6 +60,7 @@ var letter = '';
 var i = 0;
 var door;
 var visitChecker = []
+var allLetters;
 for (var i = 0; i < WORD_LEN; i++){
   visitChecker.push("");
 }
@@ -135,9 +136,15 @@ this.physics.add.collider(door, platforms);
     walls.create(1,100,'worldWall');
     walls.create(797,100,'worldWall');
 
+
+    // var letterArray = [70,140,210,280,350]
+    // allLetters = this.physics.add.group();
     platforms.children.iterate(function (child) {
 
         if (first != 0){
+
+
+
             walls.create(child.x-200,child.y-20,'wall');
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'testEnemy');
@@ -148,6 +155,11 @@ this.physics.add.collider(door, platforms);
     });
     enemies.create(780, 510,'testEnemy');
     first = 0;
+
+    // allLetters.children.iterate(function (child) {
+    //     //  make enemy move
+    //     child.setDisplaySize(50,50);
+    // });
 
     walls.children.iterate(function (child) {
         //  make enemy move
@@ -178,6 +190,7 @@ this.physics.add.collider(door, platforms);
     //   repeat: 1,
     //   setXY: {x:750, y:170, stepX: -150, stepY: 150}
     // })
+
     enemies.children.iterate(function (child) {
         //  make enemy move
         child.anims.play('enemyMove',true);
@@ -263,6 +276,7 @@ this.physics.add.collider(door, platforms);
     this.physics.add.collider(player, platforms);
 
     this.physics.add.collider(enemies, platforms);
+    this.physics.add.collider(allLetters, platforms);
 
 
 
