@@ -19,6 +19,7 @@ body {
   font-weight: bolder;
   background-color: #E63946;
   border: none;
+  cursor: pointer;
   color: #F1FAEE;
 }
 
