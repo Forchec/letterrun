@@ -23,7 +23,8 @@ body {
 .heading {
   padding-top: 25px;
   text-align: center;
-  font-size: 30px;
+  font-weight: bolder;
+  font-size: 48px;
 }
 
 .character-one {
@@ -79,18 +80,19 @@ body {
 
 .back {
   width: 50px;
-  height: 25px;
+  font-size: 32px;
+  height: 50px;
   border-radius: 12px;
   font-family: Arial;
-  font-weight: bold;
+  font-weight: bolder;
+  background-color: #E63946;
   border: none;
   color: #F1FAEE;
-  background-color: #1D3557;
 }
 
 .back:hover {
   background-color: #F1FAEE;
-  color: #1D3557;
+  color: #E63946;
 }
 
 .grid-container {
@@ -107,5 +109,5 @@ body {
 
 .grid-container>div {
   text-align: center;
-  font-size: 30px;
+  font-size: 32px;
 }
