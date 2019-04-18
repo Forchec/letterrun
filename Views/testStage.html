@@ -87,7 +87,7 @@ function preload ()
     this.load.image('wall', '../assets/invisibleWall.png');
     this.load.image('worldWall', '../assets/worldWall.png');
     //this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
-    this.load.spritesheet('dude', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('dude', '../newAssets/character/Run/1x.png', { frameWidth: 32, frameHeight: 48 });
     this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 
 }
@@ -148,6 +148,7 @@ this.physics.add.collider(door, platforms);
 
         }
         // allLetters.create(child.x-70, child.y-60,'a');
+        //if (child.x-70>0)
         // allLetters.create(child.x+70, child.y-60,'b');
         // allLetters.create(child.x-140, child.y-60,'c');
         // allLetters.create(child.x+140, child.y-60,'d');
@@ -198,9 +199,10 @@ this.physics.add.collider(door, platforms);
         child.setTint(0x5e92e5);
         child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
         child.body.allowGravity =false;
+      //  child.body
         //console.log(child.body)
         child.body.setSize(13,13,2,2);
-      //  child.body.immovable = true;
+        child.body.immovable = true;
     });
 
 
@@ -208,6 +210,7 @@ this.physics.add.collider(door, platforms);
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+    //player.body.immovable =true;
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -236,52 +239,52 @@ this.physics.add.collider(door, platforms);
     cursors = this.input.keyboard.createCursorKeys();
 
 //////imimimimportante finish by this week///////////////// - random letter random pos
-  // for (i = 0; i < WORD_LEN + 10; i++){
-  //   // array for x and y
-  // }
-  // var x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-  // var y = Math.floor(Math.random() * 400);
-  // console.log(x);
-  // console.log(y);
-  // // Display neccessary letters (letters to make the word)
-  // for (i = 0; i < WORD_LEN; i++){
-  //   tmp = WORD.charAt(i);
-  //   letters = this.physics.add.sprite(x, y, tmp);
-  //   if (tmp == 'w'){
-  //     letters.setDisplaySize(50, 50);
-  //   }
-  //   else{
-  //     letters.setDisplaySize(40, 40);
-  //   }
-  //   this.physics.add.collider(letters, platforms);
-  //   this.physics.add.collider(letters, letters);
-  //   this.physics.add.overlap(player, letters, collectLetter, null, this);
-  //   //this.physics.add.overlap(player, enemy, letterAway, null, this);
-  //   letters.myName = tmp;
-  //   x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-  //   y = Math.floor(Math.random() * 400);
-  // }
+  for (i = 0; i < WORD_LEN + 10; i++){
+    // array for x and y
+  }
+  var x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+  var y = Math.floor(Math.random() * 400);
+  console.log(x);
+  console.log(y);
+  // Display neccessary letters (letters to make the word)
+  for (i = 0; i < WORD_LEN; i++){
+    tmp = WORD.charAt(i);
+    letters = this.physics.add.sprite(x, y, tmp);
+    if (tmp == 'w'){
+      letters.setDisplaySize(50, 50);
+    }
+    else{
+      letters.setDisplaySize(40, 40);
+    }
+    this.physics.add.collider(letters, platforms);
+    this.physics.add.collider(letters, letters);
+    this.physics.add.overlap(player, letters, collectLetter, null, this);
+    //this.physics.add.overlap(player, enemy, letterAway, null, this);
+    letters.myName = tmp;
+    x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+    y = Math.floor(Math.random() * 400);
+  }
 
   // Display random letters
-//     for (i = 0; i < 8; i++){
-//       tmp = chooseRandomLetter(alpha);
-//
-//       // var xx = Math.floor(Math.random());
-//       // var yy = Math.floor(Math.random());
-//       letters = this.physics.add.sprite(x, y, tmp);
-//       if (tmp == 'w'){
-//         letters.setDisplaySize(50, 50);
-//       }
-//       else{
-//         letters.setDisplaySize(40, 40);
-//       }
-//       this.physics.add.collider(letters, platforms);
-// this.physics.add.collider(letters, letters);
-//       this.physics.add.overlap(player, letters, collectLetter, null, this);
-//       letters.myName = tmp;
-//       x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-//       y = Math.floor(Math.random() * 400);
-//     }
+    for (i = 0; i < 8; i++){
+      tmp = chooseRandomLetter(alpha);
+
+      // var xx = Math.floor(Math.random());
+      // var yy = Math.floor(Math.random());
+      letters = this.physics.add.sprite(x, y, tmp);
+      if (tmp == 'w'){
+        letters.setDisplaySize(50, 50);
+      }
+      else{
+        letters.setDisplaySize(40, 40);
+      }
+      this.physics.add.collider(letters, platforms);
+this.physics.add.collider(letters, letters);
+      this.physics.add.overlap(player, letters, collectLetter, null, this);
+      letters.myName = tmp;
+      x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+      y = Math.floor(Math.random() * 400);
+    }
 /////////////////////////////////////////////////////////
 
     bombs = this.physics.add.group();
@@ -291,7 +294,7 @@ this.physics.add.collider(door, platforms);
 
     this.physics.add.collider(bombs, platforms);
     this.physics.add.collider(enemies, platforms);
-    this.physics.add.collider(allLetters, platforms);
+    //this.physics.add.collider(allLetters, platforms);
 
 
 
@@ -456,9 +459,8 @@ function hitDoor (player, door)
 }
 
 function enemyCollision(player, enemy){
-  // alert("eneterd");
-//  enemy.disableBody(true, true);
-  //throwLetter();
+  this.physics.pause();
+
 }
 
 function hitWall(enemy, wall){
