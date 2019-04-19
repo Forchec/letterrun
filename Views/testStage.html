@@ -93,7 +93,7 @@ function preload ()
     this.load.image('wall', '../assets/invisibleWall.png');
     this.load.image('worldWall', '../assets/worldWall.png');
     //this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
-    this.load.spritesheet('dude', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('dude', '../newAssets/character/Run/1x.png', { frameWidth: 32, frameHeight: 48 });
     this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 
 }
@@ -149,6 +149,7 @@ function create ()
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'testEnemy');
         }
+
           first ++;
     });
 
@@ -193,9 +194,10 @@ function create ()
         child.setTint(0x5e92e5);
         child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
         child.body.allowGravity =false;
+      //  child.body
         //console.log(child.body)
         child.body.setSize(13,13,2,2);
-      //  child.body.immovable = true;
+        child.body.immovable = true;
     });
 
 
@@ -203,6 +205,7 @@ function create ()
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+    //player.body.immovable =true;
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -268,12 +271,12 @@ function create ()
     this.physics.add.collider(enemies, platforms);
 
     //  Checks to see if the player overlaps with any of the letters, if he does call the collectLetter function
-    this.physics.add.overlap(player, letters, collectLetter, null, this);
+    //this.physics.add.overlap(player, letter, collectLetter, null, this);
 
     //  Checks to see if the player overlaps with any of the enemies, if he does call the hitEnemy function
     this.physics.add.overlap(player, enemies, hitEnemy, null, this);
 
-    this.physics.add.collider(player, enemies, enemyCollision, null, this);
+    //this.physics.add.collider(player, enemies, enemyCollision, null, this);
 
     this.physics.add.overlap(enemies, walls, hitWall, null, this);
 
@@ -446,9 +449,8 @@ function hitDoor (player, door)
 }
 
 function enemyCollision(player, enemy){
-  // alert("eneterd");
-//  enemy.disableBody(true, true);
-  //throwLetter();
+  //this.physics.pause();
+
 }
 
 function hitWall(enemy, wall){
