@@ -149,14 +149,11 @@ function create ()
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'testEnemy');
         }
-<<<<<<< HEAD
         // allLetters.create(child.x-70, child.y-60,'a');
         //if (child.x-70>0)
         // allLetters.create(child.x+70, child.y-60,'b');
         // allLetters.create(child.x-140, child.y-60,'c');
         // allLetters.create(child.x+140, child.y-60,'d');
-=======
->>>>>>> bec1e6661d59d9c62207e57385d91dba69d2b07b
 
           first ++;
     });
@@ -239,7 +236,10 @@ function create ()
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
 
-<<<<<<< HEAD
+  // Get a list of random x values so that there is no overlap
+  for (i = 0; i < letterCount; i++){
+    while (checkOverlap() === 1){
+        x = Math.floor(Math.random() * (770 - 30 + 1) + 30); // set the range from 30 to 770
 
 //////imimimimportante finish by this week///////////////// - random letter random pos
   for (i = 0; i < WORD_LEN + 10; i++){
@@ -258,12 +258,6 @@ function create ()
   for (i = 0; i < WORD_LEN + 8; i++){
      while (checkOverlap() === 1){
         x = Math.floor(Math.random() * 800);
-=======
-  // Get a list of random x values so that there is no overlap
-  for (i = 0; i < letterCount; i++){
-    while (checkOverlap() === 1){
-        x = Math.floor(Math.random() * (770 - 30 + 1) + 30); // set the range from 30 to 770
->>>>>>> bec1e6661d59d9c62207e57385d91dba69d2b07b
       }
     xList.push(x);
     yList.push(y);
@@ -279,54 +273,6 @@ function create ()
     else {
       tmp = chooseRandomLetter(alpha);
     }
-<<<<<<< HEAD
-    letters = this.physics.add.sprite(xList[i], yList[i], tmp);
-
-    if (tmp == 'w'){
-      letters.setDisplaySize(50, 50);
-    }
-    else{
-      letters.setDisplaySize(40, 40);
-    }
-    this.physics.add.collider(letters, platforms);
-
-    this.physics.add.collider(letters, letters);
-    this.physics.add.overlap(player, letters, collectLetter, null, this);
-    //this.physics.add.overlap(player, enemy, letterAway, null, this);
-    letters.myName = tmp;
-    x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-    y = Math.floor(Math.random() * 400);
-  }
-
-  // Display random letters
-    for (i = 0; i < 8; i++){
-      tmp = chooseRandomLetter(alpha);
-
-      // var xx = Math.floor(Math.random());
-      // var yy = Math.floor(Math.random());
-      letters = this.physics.add.sprite(x, y, tmp);
-      if (tmp == 'w'){
-        letters.setDisplaySize(50, 50);
-      }
-      else{
-        letters.setDisplaySize(40, 40);
-      }
-      this.physics.add.collider(letters, platforms);
-this.physics.add.collider(letters, letters);
-      this.physics.add.overlap(player, letters, collectLetter, null, this);
-      letters.myName = tmp;
-      x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-      y = Math.floor(Math.random() * 400);
-    }
-/////////////////////////////////////////////////////////
-
-    bombs = this.physics.add.group();
-
-
-    this.physics.add.overlap(player, letters, collectLetter, null, this);
-    //this.physics.add.overlap(player, enemy, letterAway, null, this);
-    letters.myName = tmp;
-=======
     letter = this.physics.add.sprite(xList[i], yList[i], tmp);
 
     if (tmp == 'w'){ // make w size equal to others
@@ -335,18 +281,12 @@ this.physics.add.collider(letters, letters);
     else{
       letter.setDisplaySize(40, 40);
     }
->>>>>>> bec1e6661d59d9c62207e57385d91dba69d2b07b
 
     this.physics.add.collider(letter, platforms);
     this.physics.add.overlap(player, letter, collectLetter, null, this);
     letter.myName = tmp;
   }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> bec1e6661d59d9c62207e57385d91dba69d2b07b
     //  Collide the player with the platforms
     this.physics.add.collider(player, platforms);
 

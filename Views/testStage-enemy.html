@@ -54,7 +54,7 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('sky', '../assets/sky.png');
+    this.load.image('sky', '../newAssets/background/Background.png');
     this.load.image('ground', '../assets/platform.png');
     // this.load.image('star', '../assets/star.png');
     this.load.image('bomb', '../assets/bomb.png');
@@ -62,7 +62,7 @@ function preload ()
     for (var i=0; i <18; i++){
       this.load.image('hero'+i,'../newAssets/character/Run/'+ (i+1)+'r.png');
     }
-    this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 32, frameHeight: 48});
+    this.load.image('enemy', '../newAssets/character/enemy.png');
   //  this.load.spritesheet('dude', '../newAssets/character/Run/1r.png', { frameWidth: 74, frameHeight: 84});
     this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 
@@ -87,7 +87,7 @@ function create ()
 
     // The player and its settings
     player = this.physics.add.sprite(80, 450, 'hero0');
-    player.setDisplaySize(32,44);
+    player.setDisplaySize(36,44);
 
     //enemies staticGroup
 
@@ -125,24 +125,24 @@ function create ()
 
     this.anims.create({
       key: 'enemyMove',
-      frames: this.anims.generateFrameNumbers('testEnemy',{start:0, end:4}),
+      frames: [{key: 'enemy'}],
       frameRate: 10,
       repeat: -1
     })
 
     enemies = this.physics.add.group({
-      key:'testEnemy',
+      key:'enemy',
       repeat: 1,
       setXY: {x:750, y:170, stepX: -150, stepY: 150}
     })
     enemies.children.iterate(function (child) {
         //  make enemy move
-        child.anims.play('enemyMove',true);
+      //  child.anims.play('enemyMove',true);
         //Set speed randomly
-        child.setTint(0x5e92e5);
+        //child.setTint(0x5e92e5);
         child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
         child.body.allowGravity =false;
-        //console.log(child.body)
+        child.setDisplaySize(50,50)
         child.body.setSize(13,13,2,2);
         child.body.immovable = true;
         child.setCollideWorldBounds(true);
@@ -166,13 +166,13 @@ function create ()
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
-    this.physics.add.collider(bombs, platforms);
+  //  this.physics.add.collider(bombs, platforms);
     this.physics.add.collider(enemies, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
 //    this.physics.add.overlap(player, stars, collectStar, null, this);
 
-    this.physics.add.collider(player, bombs, hitBomb, null, this);
+  //  this.physics.add.collider(player, bombs, hitBomb, null, this);
     this.physics.add.collider(player, enemies, enemyCollision, null, this);
   //  this.physics.add.overlap(player, enemies, enemyCollision, null, this);
 
@@ -210,7 +210,7 @@ function update ()
 
     if (cursors.up.isDown && player.body.touching.down)
     {
-        player.setVelocityY(-280);
+        player.setVelocityY(-310);
     }
 
     // if (this.physics.collide(platforms, enemies)){
