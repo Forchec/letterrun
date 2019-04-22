@@ -21,9 +21,11 @@ body {
 
 .heading {
   padding-top: 25px;
-  text-align: center;
   font-size: 48px;
+  font-family: Impact;
   font-weight: bolder;
+  text-align: center;
+  font-style: oblique;
 }
 
 .back-link {

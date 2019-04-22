@@ -22,8 +22,10 @@ body {
 
 .heading {
   padding-top: 25px;
-  text-align: center;
+  font-family: Impact;
   font-weight: bolder;
+  text-align: center;
+  font-style: oblique;
   font-size: 48px;
 }
 
