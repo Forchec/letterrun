@@ -42,53 +42,50 @@ var player;
 var stars;
 var bombs;
 var enemies;
-var enemy;
 var platforms;
 var cursors;
 var score = 0;
 var gameOver = false;
-var scoreText;
-var collisionHappened;
+/////newline
+var timeText;
+var startTime;
+var timeAccrued;
 
 var game = new Phaser.Game(config);
 
 function preload ()
 {
     this.load.image('sky', '../newAssets/background/Background.png');
-    //this.load.image('ground', '../assets/platform.png');
     this.load.image('ground', '../newAssets/background/Grass.png');
     this.load.audio('song', '../newAssets/bensound-endlessmotion.mp3');
-    this.load.image('bomb', '../assets/bomb.png');
 
     for (var i=0; i <18; i++){
       this.load.image('hero'+i,'../newAssets/character/Run/'+ (i+1)+'r.png');
     }
     this.load.image('enemy', '../newAssets/character/enemy.png');
-  //  this.load.spritesheet('dude', '../newAssets/character/Run/1r.png', { frameWidth: 74, frameHeight: 84});
-    this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     this.load.image('wall', '../assets/invisibleWall.png');
     this.load.image('worldWall', '../assets/worldWall.png');
 }
 
 function create ()
 {
-  //  var music = this.sound.add('song');
-    //music.loop=true;
+
     this.sound.play('song');
-    //  A simple background for our game
     this.add.image(400, 300, 'sky').setDisplaySize(800,600);
+
+    //NEW CHANGES
+    timeText = this.add.text(670,16,'Time: ',{fontSize: '26px', fill: '#000'});
+    startTime = new Date().getTime();
+    console.log(startTime)
+    // this.timeElapsed = 0;
+    // this.timeLable = this.add.text();
+
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
     walls =this.physics.add.staticGroup();
 
-    //  Here we create the ground.
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-     //platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-
     platforms.create(400, 560, 'ground').setDisplaySize(800,60).refreshBody();
-
-    //  Now let's create some ledges
     platforms.create(600, 400, 'ground').setDisplaySize(300,60).refreshBody();
     platforms.create(50, 250, 'ground').setDisplaySize(300,60).refreshBody();
     platforms.create(750, 220, 'ground').setDisplaySize(400,60).refreshBody();
@@ -96,11 +93,7 @@ function create ()
     // The player and its settings
     player = this.physics.add.sprite(80, 450, 'hero0');
     player.setDisplaySize(36,44);
-
     enemies = this.physics.add.group();
-
-
-
 
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.2);
@@ -110,7 +103,6 @@ function create ()
     for (var i=0; i<18; i++){
         heroFrames.push({ key: 'hero'+i});
     }
-
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -126,8 +118,6 @@ function create ()
         frameRate: 10
     });
 
-
-
     this.anims.create({
       key: 'enemyMove',
       frames: [{key: 'enemy'}],
@@ -142,38 +132,23 @@ function create ()
     walls.create(797,100,'worldWall');
 
     platforms.children.iterate(function (child) {
+
         if (first != 0){
 
             walls.create(child.x-200,child.y-20,'wall');
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'enemy');
         }
-        // allLetters.create(child.x-70, child.y-60,'a');
-        //if (child.x-70>0)
-        // allLetters.create(child.x+70, child.y-60,'b');
-        // allLetters.create(child.x-140, child.y-60,'c');
-        // allLetters.create(child.x+140, child.y-60,'d');
-
+        
           first ++;
     });
 
     walls.children.iterate(function (child) {
-        //  make enemy move
       //  child.alpha = 0;
         child.body.immovable = true;
     });
 
-
-    // enemies = this.physics.add.group({
-    //   key:'enemy',
-    //   repeat: 1,
-    //   setXY: {x:750, y:170, stepX: -150, stepY: 150}
-    // })
     enemies.children.iterate(function (child) {
-        //  make enemy move
-      //  child.anims.play('enemyMove',true);
-        //Set speed randomly
-        //child.setTint(0x5e92e5);
         child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
         child.body.allowGravity =false;
         child.setDisplaySize(50,50)
@@ -182,39 +157,31 @@ function create ()
         child.setCollideWorldBounds(true);
     });
 
-
-
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
 
     //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
 
 
-    bombs = this.physics.add.group();
 
 
 
 
-    //  The score
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-
-    //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(enemies, platforms);
-  this.physics.add.overlap(enemies, walls, hitWall, null, this);
-
-  //  this.physics.add.collider(player, bombs, hitBomb, null, this);
-    this.physics.add.collider(player, enemies, enemyCollision, null, this);
-  //  this.physics.add.overlap(player, enemies, enemyCollision, null, this);
+    this.physics.add.overlap(enemies, walls, hitWall, null, this);
+    this.physics.add.collider(player, enemies, hitEnemy, null, this);
 
 }
 
 function update ()
 {
-    // this.physics.collide(enemies, platforms, function(enemy,platform){
-    //   console.log(enemy);
-    //   console.log(platform);
-    // })
+    timeAccrued = new Date().getTime() - startTime;
+    timeAccrued = Math.round(timeAccrued / 1000);
+    timeText.setText('Time: ' + timeAccrued)
+
+
+
     if (gameOver)
     {
         return;
@@ -235,88 +202,27 @@ function update ()
     else
     {
         player.setVelocityX(0);
-
         player.anims.play('stop');
     }
-
     if (cursors.up.isDown && player.body.touching.down)
     {
         player.setVelocityY(-330);
     }
 
-    // if (this.physics.collide(platforms, enemies)){
-    //   collisionHappened =true
-    //   alert("true")
-    // }
-    // else{
-    //   if (collisionHappened){
-    //     collisionHappened =false;
-    //   }
-    // }
-    // if (collisionHappened == false){
-    //   //endOfPlatform();
-    //   alert("end of platform");
-    // }
 }
 
-function collectStar (player, star)
-{
-    star.disableBody(true, true);
 
-    //  Add and update the score
-    score += 10;
-    scoreText.setText('Score: ' + score);
-
-    if (stars.countActive(true) === 0)
-    {
-        //  A new batch of stars to collect
-        stars.children.iterate(function (child) {
-
-            child.enableBody(true, child.x, 0, true, true);
-
-        });
-
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-        var bomb = bombs.create(x, 16, 'bomb');
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        bomb.allowGravity = false;
-
-    }
-}
-
-function hitBomb (player, bomb)
-{
-    this.physics.pause();
-
-    player.setTint(0xff0000);
-
-    player.anims.play('turn');
-
-    gameOver = true;
-}
-
-function enemyCollision(player, enemy){
+function hitEnemy(player, enemy){
    alert("eneterd");
-//  enemy.disableBody(true, true);
-  //throwLetter();
+
 }
+
 function hitWall(enemy, wall){
     console.log("hitWall");
     var speed = enemy.body.velocity.x
     speed = -1 *speed;
     enemy.body.setVelocityX(speed);
-    //enemy is moving leftwards
-    if ( speed >0){
-        enemy.anims.play("enemyTurn",true)
-    }
-    else{
-        enemy.anims.play("enemyMove",true)
-    }
-
-    //console.log(enemy.body.velocity.x)
+    enemy.anims.play("enemyMove",true)
 }
 
 </script>
