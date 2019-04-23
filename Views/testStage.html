@@ -385,8 +385,12 @@ function hitEnemy (player, enemy){
       enemy.anims.play('enemyMove', true);
     }
     else if (enemy.body.touching.up){
-      // Dont know what to do when the player jumps on the enemy
-      //enemy.disableBody(true, true); // probably killing enemy??
+      enemy.body.velocity.y = 0;
+      enemy.anims.play('enemyMove', true);
+    }
+    else if (enemy.body.touching.down){
+      enemy.body.velocity.y = 0;
+      enemy.anims.play('enemyTurn', true);
     }
 
     var len = letterBoard.length;
