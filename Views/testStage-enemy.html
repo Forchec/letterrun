@@ -54,12 +54,17 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('sky', '../assets/sky.png');
-    this.load.image('ground', '../assets/platform.png');
-    this.load.image('star', '../assets/star.png');
+    this.load.image('sky', '../newAssets/background/Background.png');
+    //this.load.image('ground', '../assets/platform.png');
+    this.load.image('ground', '../newAssets/background/Grass.png');
+    // this.load.image('star', '../assets/star.png');
     this.load.image('bomb', '../assets/bomb.png');
-    this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 32, frameHeight: 48});
-    this.load.spritesheet('dude', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+
+    for (var i=0; i <18; i++){
+      this.load.image('hero'+i,'../newAssets/character/Run/'+ (i+1)+'r.png');
+    }
+    this.load.image('enemy', '../newAssets/character/enemy.png');
+  //  this.load.spritesheet('dude', '../newAssets/character/Run/1r.png', { frameWidth: 74, frameHeight: 84});
     this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 
 }
@@ -67,22 +72,25 @@ function preload ()
 function create ()
 {
     //  A simple background for our game
-    this.add.image(400, 300, 'sky');
+    this.add.image(400, 300, 'sky').setDisplaySize(800,600);
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
 
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+     //platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+
+    platforms.create(400, 560, 'ground').setDisplaySize(800,60).refreshBody();
 
     //  Now let's create some ledges
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
+    platforms.create(600, 400, 'ground').setDisplaySize(300,60).refreshBody();
+    platforms.create(50, 250, 'ground').setDisplaySize(200,60).refreshBody();
+    platforms.create(750, 220, 'ground').setDisplaySize(400,60).refreshBody();
 
     // The player and its settings
-    player = this.physics.add.sprite(100, 450, 'dude');
+    player = this.physics.add.sprite(80, 450, 'hero0');
+    player.setDisplaySize(36,44);
 
     //enemies staticGroup
 
@@ -91,54 +99,56 @@ function create ()
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
+    var heroFrames = [];
+    for (var i=0; i<18; i++){
+        heroFrames.push({ key: 'hero'+i});
+    }
     //enemy.setCollideWorldBounds(true);
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
-        key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
-        frameRate: 10,
+        key: 'run',
+        frames: heroFrames,
+        frameRate: 30,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'turn',
-        frames: [ { key: 'dude', frame: 4 } ],
-        frameRate: 20
+        key: 'stop',
+        frames: [ { key: 'hero0' } ],
+        frameRate: 10
     });
 
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
-        frameRate: 10,
-        repeat: -1
-    });
+    // this.anims.create({
+    //     key: 'right',
+    //     frames: heroFrames,
+    //     frameRate: 20,
+    //     repeat: -1
+    // });
 
     this.anims.create({
       key: 'enemyMove',
-      frames: this.anims.generateFrameNumbers('testEnemy',{start:0, end:4}),
+      frames: [{key: 'enemy'}],
       frameRate: 10,
       repeat: -1
     })
 
     enemies = this.physics.add.group({
-      key:'testEnemy',
+      key:'enemy',
       repeat: 1,
       setXY: {x:750, y:170, stepX: -150, stepY: 150}
     })
     enemies.children.iterate(function (child) {
         //  make enemy move
-        child.anims.play('enemyMove',true);
+      //  child.anims.play('enemyMove',true);
         //Set speed randomly
-        child.setTint(0x5e92e5);
+        //child.setTint(0x5e92e5);
         child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
         child.body.allowGravity =false;
-        //console.log(child.body)
+        child.setDisplaySize(50,50)
         child.body.setSize(13,13,2,2);
         child.body.immovable = true;
         child.setCollideWorldBounds(true);
-    //    child.body.onWorldBounds =true;
-      //  child.addListener("onOutOfBounds",()=>{console.log("hello")});
     });
 
 
@@ -147,18 +157,7 @@ function create ()
     cursors = this.input.keyboard.createCursorKeys();
 
     //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    stars = this.physics.add.group({
-        key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
-    });
 
-    stars.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
-    });
 
     bombs = this.physics.add.group();
 
@@ -170,14 +169,13 @@ function create ()
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
-    this.physics.add.collider(stars, platforms);
-    this.physics.add.collider(bombs, platforms);
+  //  this.physics.add.collider(bombs, platforms);
     this.physics.add.collider(enemies, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
 //    this.physics.add.overlap(player, stars, collectStar, null, this);
 
-    this.physics.add.collider(player, bombs, hitBomb, null, this);
+  //  this.physics.add.collider(player, bombs, hitBomb, null, this);
     this.physics.add.collider(player, enemies, enemyCollision, null, this);
   //  this.physics.add.overlap(player, enemies, enemyCollision, null, this);
 
@@ -197,20 +195,20 @@ function update ()
     if (cursors.left.isDown)
     {
         player.setVelocityX(-160);
-
-        player.anims.play('left', true);
+        player.flipX = true;
+        player.anims.play('run', true);
     }
     else if (cursors.right.isDown)
     {
         player.setVelocityX(160);
-
-        player.anims.play('right', true);
+        player.flipX = false;
+        player.anims.play('run', true);
     }
     else
     {
         player.setVelocityX(0);
 
-        player.anims.play('turn');
+        player.anims.play('stop');
     }
 
     if (cursors.up.isDown && player.body.touching.down)

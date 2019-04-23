@@ -93,7 +93,7 @@ function preload ()
     this.load.image('wall', '../assets/invisibleWall.png');
     this.load.image('worldWall', '../assets/worldWall.png');
     //this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
-    this.load.spritesheet('dude', '../newAssets/character/Run/1x.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('dude', '../newAssets/character/Run/1x.png', { frameWidth: 2, frameHeight: 4 });
     this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 
 }
@@ -149,6 +149,11 @@ function create ()
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'testEnemy');
         }
+        // allLetters.create(child.x-70, child.y-60,'a');
+        //if (child.x-70>0)
+        // allLetters.create(child.x+70, child.y-60,'b');
+        // allLetters.create(child.x-140, child.y-60,'c');
+        // allLetters.create(child.x+140, child.y-60,'d');
 
           first ++;
     });
@@ -210,14 +215,14 @@ function create ()
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+        frames: this.anims.generateFrameNumbers('dude'.flipX, { start: 0, end: 11 }),
         frameRate: 10,
         repeat: -1
     });
 
     this.anims.create({
         key: 'turn',
-        frames: [ { key: 'dude', frame: 4 } ],
+        frames: [ { key: 'dude'.flipX, frame: 10 } ],
         frameRate: 20
     });
 
@@ -235,6 +240,24 @@ function create ()
   for (i = 0; i < letterCount; i++){
     while (checkOverlap() === 1){
         x = Math.floor(Math.random() * (770 - 30 + 1) + 30); // set the range from 30 to 770
+
+//////imimimimportante finish by this week///////////////// - random letter random pos
+  for (i = 0; i < WORD_LEN + 10; i++){
+    // array for x and y
+  }
+  var x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
+  var y = Math.floor(Math.random() * 400);
+  console.log(x);
+  console.log(y);
+  // Display neccessary letters (letters to make the word)
+  for (i = 0; i < WORD_LEN; i++){
+    tmp = WORD.charAt(i);
+    letters = this.physics.add.sprite(x, y, tmp);
+
+  // Get a list of x values so that there is no overlap
+  for (i = 0; i < WORD_LEN + 8; i++){
+     while (checkOverlap() === 1){
+        x = Math.floor(Math.random() * 800);
       }
     xList.push(x);
     yList.push(y);
