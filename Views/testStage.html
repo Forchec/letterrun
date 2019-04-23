@@ -18,9 +18,7 @@
 <body>
 
 <script type="text/javascript">
-
 //alert("Test Stage is called")
-
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -38,7 +36,6 @@ var config = {
         update: update
     }
 };
-
 var player;
 var enemys;
 var door;
@@ -46,36 +43,28 @@ var letters;
 var platforms;
 var cursors;
 var gameOver = false;
-
 var WORD = "penguin"; // change word for each stage
 var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
 var WORD_LEN = WORD.length;
 var letterCount = WORD_LEN + 8; // the int is the count of random letters
 var letterBoard = []; // array of letters that the player collected
-
 var letter = ''; // only used once??
-
 var tmp;
 var i = 0;
 var x_for_board; // x-axis for board display
 var x = Math.floor(Math.random() * (770 - 30 + 1) + 30); // x pos for collectable letter
 var y = Math.floor(Math.random() * 400); // y pos for collectable letter
-
 var xList = []; // array of x-axis
 var yList = []; // array of y-axis
-
 var visitChecker = [] // check if a letter in the word is collected
 for (var i = 0; i < WORD_LEN; i++){
   visitChecker.push("");
 }
-
 var xChecker = [];
 for (var i = 0; i < letterCount; i++){
   xChecker.push(0);
 }
-
 var game = new Phaser.Game(config);
-
 function preload ()
 {
     var current = '';
@@ -93,16 +82,13 @@ function preload ()
     this.load.image('wall', '../assets/invisibleWall.png');
     this.load.image('worldWall', '../assets/worldWall.png');
     //this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
-    this.load.spritesheet('dude', '../newAssets/character/Run/1x.png', { frameWidth: 2, frameHeight: 4 });
+    this.load.spritesheet('dude', '../newAssets/character/Run/1x.png', { frameWidth: 32, frameHeight: 48 });
     this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
-
 }
-
 function create ()
 {
     //  A simple background for our game
     this.add.image(400, 300, 'sky');
-
     // Display initial board (grayed-out version)
     for(i = 0; i < WORD_LEN; i++){
       x_for_board = 25 + (50 * i);
@@ -110,67 +96,42 @@ function create ()
       tmp = this.add.sprite(x_for_board, 25, letter);
       tmp.setDisplaySize(40, 40);
     }
-
     // Display the door in a specific location - Change each stage
     door = this.physics.add.sprite(700, 140, 'door');
-
     door.setDisplaySize(80, 126);
-
-
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
     walls =this.physics.add.staticGroup();
-
     this.physics.add.collider(door, platforms);
-
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-
-
     //  Now let's create some ledges
     platforms.create(600, 400, 'ground');
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
-
-
     enemies = this.physics.add.group();
-
-
     var first = 0;
     walls.create(1,500,'worldWall');
     walls.create(797,500,'worldWall');
     walls.create(1,100,'worldWall');
     walls.create(797,100,'worldWall');
-
     platforms.children.iterate(function (child) {
         if (first != 0){
-
             walls.create(child.x-200,child.y-20,'wall');
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'testEnemy');
         }
-        // allLetters.create(child.x-70, child.y-60,'a');
-        //if (child.x-70>0)
-        // allLetters.create(child.x+70, child.y-60,'b');
-        // allLetters.create(child.x-140, child.y-60,'c');
-        // allLetters.create(child.x+140, child.y-60,'d');
-
           first ++;
     });
-
     enemies.create(780, 510,'testEnemy');
-
     first = 0;
-
     walls.children.iterate(function (child) {
         //  make enemy move
         child.alpha = 0;
         child.body.immovable = true;
     });
-
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
-
     //enemys
     this.anims.create({
       key: 'enemyMove',
@@ -178,7 +139,6 @@ function create ()
       frameRate: 10,
       repeat: -1
     })
-
     this.anims.create({
       key: 'enemyTurn',
       frames: this.anims.generateFrameNumbers('testEnemy',{start:5, end:8}),
@@ -204,67 +164,40 @@ function create ()
         child.body.setSize(13,13,2,2);
         child.body.immovable = true;
     });
-
-
-
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     //player.body.immovable =true;
-
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('dude'.flipX, { start: 0, end: 11 }),
+        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
         frameRate: 10,
         repeat: -1
     });
-
     this.anims.create({
         key: 'turn',
-        frames: [ { key: 'dude'.flipX, frame: 10 } ],
+        frames: [ { key: 'dude', frame: 4 } ],
         frameRate: 20
     });
-
     this.anims.create({
         key: 'right',
         frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
         frameRate: 10,
         repeat: -1
     });
-
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
-
   // Get a list of random x values so that there is no overlap
   for (i = 0; i < letterCount; i++){
     while (checkOverlap() === 1){
         x = Math.floor(Math.random() * (770 - 30 + 1) + 30); // set the range from 30 to 770
-
-//////imimimimportante finish by this week///////////////// - random letter random pos
-  for (i = 0; i < WORD_LEN + 10; i++){
-    // array for x and y
-  }
-  var x = Math.floor(Math.random() * 700) + Math.floor(Math.random() * 50);
-  var y = Math.floor(Math.random() * 400);
-  console.log(x);
-  console.log(y);
-  // Display neccessary letters (letters to make the word)
-  for (i = 0; i < WORD_LEN; i++){
-    tmp = WORD.charAt(i);
-    letters = this.physics.add.sprite(x, y, tmp);
-
-  // Get a list of x values so that there is no overlap
-  for (i = 0; i < WORD_LEN + 8; i++){
-     while (checkOverlap() === 1){
-        x = Math.floor(Math.random() * 800);
       }
     xList.push(x);
     yList.push(y);
     x = Math.floor(Math.random() * (770 - 30 + 1) + 30);
     y = Math.floor(Math.random() * 400);
   }
-
   // Place collectable letters
   for (i = 0; i < letterCount; i++){
     if (i < WORD_LEN){
@@ -274,71 +207,55 @@ function create ()
       tmp = chooseRandomLetter(alpha);
     }
     letter = this.physics.add.sprite(xList[i], yList[i], tmp);
-
     if (tmp == 'w'){ // make w size equal to others
       letter.setDisplaySize(50, 50);
     }
     else{
       letter.setDisplaySize(40, 40);
     }
-
     this.physics.add.collider(letter, platforms);
     this.physics.add.overlap(player, letter, collectLetter, null, this);
     letter.myName = tmp;
   }
-
     //  Collide the player with the platforms
     this.physics.add.collider(player, platforms);
-
     //  Collide the enemy with the platforms
     this.physics.add.collider(enemies, platforms);
-
     //  Checks to see if the player overlaps with any of the letters, if he does call the collectLetter function
     //this.physics.add.overlap(player, letter, collectLetter, null, this);
-
     //  Checks to see if the player overlaps with any of the enemies, if he does call the hitEnemy function
     this.physics.add.overlap(player, enemies, hitEnemy, null, this);
-
     //this.physics.add.collider(player, enemies, enemyCollision, null, this);
-
     this.physics.add.overlap(enemies, walls, hitWall, null, this);
-
     //  Checks to see if the player overlaps with door, if he does call the hitDoor function
     this.physics.add.overlap(player, door, hitDoor, null, this);
 }
-
 function update ()
 {
     if (gameOver)
     {
         return;
     }
-
     if (cursors.left.isDown)
     {
         player.setVelocityX(-160);
-
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown)
     {
         player.setVelocityX(160);
-
         player.anims.play('right', true);
     }
     else
     {
         player.setVelocityX(0);
-
         player.anims.play('turn');
     }
-
     if (cursors.up.isDown && player.body.touching.down)
     {
         player.setVelocityY(-330);
     }
 }
-
 // Chooses a random letter from the given string
 function chooseRandomLetter(str){
   var index = Math.floor(Math.random() * str.length);
@@ -346,7 +263,6 @@ function chooseRandomLetter(str){
   ret += str.charAt(index);
   return ret;
 }
-
 // Updates letter board as the player collects the letter
 function collectLetter(player, letter)
 {
@@ -373,7 +289,6 @@ function collectLetter(player, letter)
     }
   }
 }
-
 // Checks if there is a overlapping x value in xList
 function checkOverlap(){
   var len = xList.length;
@@ -384,7 +299,6 @@ function checkOverlap(){
   }
   return 0;
 }
-
 // Checks the letter board to either kill or take away a letter
 function hitEnemy (player, enemy){
   // Kills the player when no letter is collected
@@ -403,7 +317,6 @@ function hitEnemy (player, enemy){
       enemy.anims.play('enemyTurn', true);
     }
     else if (enemy.body.touching.right){
-
       enemy.body.velocity.x = -256;
       enemy.anims.play('enemyMove', true);
     }
@@ -415,7 +328,6 @@ function hitEnemy (player, enemy){
       enemy.body.velocity.y = 0;
       enemy.anims.play('enemyTurn', true);
     }
-
     var len = letterBoard.length;
     var index = Math.floor(Math.random() * len);
     var char = letterBoard[index];
@@ -430,7 +342,6 @@ function hitEnemy (player, enemy){
           tmp.setDisplaySize(40, 40);
           letterBoard.splice(index, 1);
           visitChecker[i] = "";
-
           // Place the letter that's taken away to be colleted again
           // (NOT random -- same position as before -- NEEDS A FIX)
           letters = this.physics.add.sprite(xList[i], yList[i], char);
@@ -441,24 +352,18 @@ function hitEnemy (player, enemy){
             letters.setDisplaySize(40, 40);
           }
           this.physics.add.collider(letters, platforms);
-
           this.physics.add.overlap(player, letters, collectLetter, null, this);
-
           letters.myName = char;
           break;
         }
         else{
           continue;
         }
-
         console.log(letterBoard);
       }
-
     }
-
     }
   }
-
 // Checks if all letters have been collected to make the game over or not
 function hitDoor (player, door)
 {
@@ -474,12 +379,9 @@ function hitDoor (player, door)
     gameOver = true;
   }
 }
-
 function enemyCollision(player, enemy){
   //this.physics.pause();
-
 }
-
 function hitWall(enemy, wall){
     console.log("hitWall");
     var speed = enemy.body.velocity.x
@@ -492,10 +394,8 @@ function hitWall(enemy, wall){
     else{
         enemy.anims.play("enemyMove",true)
     }
-
     //console.log(enemy.body.velocity.x)
 }
-
 </script>
 
 </body>
