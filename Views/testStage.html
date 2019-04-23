@@ -77,13 +77,19 @@ function preload ()
       this.load.image(current, '../assets/' + current + '.png');
     }
     this.load.image('door', '../assets/door.png');
-    this.load.image('sky', '../assets/sky.png');
-    this.load.image('ground', '../assets/platform.png');
+      this.load.image('sky', '../newAssets/background/Background.png');
+      this.load.image('enemy', '../newAssets/character/enemy.png');
+    this.load.image('ground', '../newAssets/background/Grass.png');
+    this.load.audio('song', '../newAssets/bensound-endlessmotion.mp3');
     this.load.image('wall', '../assets/invisibleWall.png');
     this.load.image('worldWall', '../assets/worldWall.png');
     //this.load.spritesheet('enemy', '../assets/enemy.png',{frameWidth: 64, frameHeight: 64});
+<<<<<<< HEAD
     this.load.spritesheet('dude', '../newAssets/character/Run/1x.png', { frameWidth: 32, frameHeight: 48 });
     this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+=======
+
+>>>>>>> 227923688d1509b4a942c5f46475d39baeab3ad6
 }
 function create ()
 {
@@ -99,22 +105,50 @@ function create ()
     // Display the door in a specific location - Change each stage
     door = this.physics.add.sprite(700, 140, 'door');
     door.setDisplaySize(80, 126);
+<<<<<<< HEAD
+=======
+
+    // The player and its settings
+    player = this.physics.add.sprite(80, 450, 'hero0');
+
+>>>>>>> 227923688d1509b4a942c5f46475d39baeab3ad6
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
     walls =this.physics.add.staticGroup();
     this.physics.add.collider(door, platforms);
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+<<<<<<< HEAD
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
     //  Now let's create some ledges
     platforms.create(600, 400, 'ground');
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
+=======
+    // platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+    //
+    //
+    // //  Now let's create some ledges
+    // platforms.create(600, 400, 'ground');
+    // platforms.create(50, 250, 'ground');
+    // platforms.create(750, 220, 'ground');
+
+
+        platforms.create(400, 560, 'ground').setDisplaySize(800,60).refreshBody();
+
+        //  Now let's create some ledges
+        platforms.create(600, 400, 'ground').setDisplaySize(300,60).refreshBody();
+        platforms.create(50, 250, 'ground').setDisplaySize(300,60).refreshBody();
+        platforms.create(750, 220, 'ground').setDisplaySize(400,60).refreshBody();
+
+
+>>>>>>> 227923688d1509b4a942c5f46475d39baeab3ad6
     enemies = this.physics.add.group();
     var first = 0;
     walls.create(1,500,'worldWall');
     walls.create(797,500,'worldWall');
     walls.create(1,100,'worldWall');
     walls.create(797,100,'worldWall');
+<<<<<<< HEAD
     platforms.children.iterate(function (child) {
         if (first != 0){
             walls.create(child.x-200,child.y-20,'wall');
@@ -125,11 +159,35 @@ function create ()
     });
     enemies.create(780, 510,'testEnemy');
     first = 0;
+=======
+
+    // platforms.children.iterate(function (child) {
+    //     if (first != 0){
+    //
+    //         walls.create(child.x-200,child.y-20,'wall');
+    //         walls.create(child.x+200,child.y-20,'wall');
+    //         enemies.create(child.x, child.y-40,'testEnemy');
+    //     }
+    //     // allLetters.create(child.x-70, child.y-60,'a');
+    //     //if (child.x-70>0)
+    //     // allLetters.create(child.x+70, child.y-60,'b');
+    //     // allLetters.create(child.x-140, child.y-60,'c');
+    //     // allLetters.create(child.x+140, child.y-60,'d');
+    //
+    //       first ++;
+    // });
+
+    //enemies.create(780, 510,'testEnemy');
+
+    //first = 0;
+
+>>>>>>> 227923688d1509b4a942c5f46475d39baeab3ad6
     walls.children.iterate(function (child) {
         //  make enemy move
         child.alpha = 0;
         child.body.immovable = true;
     });
+<<<<<<< HEAD
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
     //enemys
@@ -164,18 +222,64 @@ function create ()
         child.body.setSize(13,13,2,2);
         child.body.immovable = true;
     });
+=======
+
+
+
+
+        this.anims.create({
+          key: 'enemyMove',
+          frames: [{key: 'enemy'}],
+          frameRate: 10,
+          repeat: -1
+        })
+
+        enemies = this.physics.add.group({
+          key:'enemy',
+          repeat: 1,
+          setXY: {x:750, y:170, stepX: -150, stepY: 150}
+        })
+        enemies.children.iterate(function (child) {
+            //  make enemy move
+          //  child.anims.play('enemyMove',true);
+            //Set speed randomly
+            //child.setTint(0x5e92e5);
+            child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
+            child.body.allowGravity =false;
+            child.setDisplaySize(50,50)
+            child.body.setSize(13,13,2,2);
+            child.body.immovable = true;
+            child.setCollideWorldBounds(true);
+        });
+
+
+
+>>>>>>> 227923688d1509b4a942c5f46475d39baeab3ad6
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     //player.body.immovable =true;
+<<<<<<< HEAD
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
         frameRate: 10,
+=======
+    var heroFrames = [];
+    for (var i=0; i<18; i++){
+        heroFrames.push({ key: 'hero'+i});
+    }
+    //  Our player animations, turning, walking left and walking right.
+    this.anims.create({
+        key: 'run',
+        frames: heroFrames,
+        frameRate: 30,
+>>>>>>> 227923688d1509b4a942c5f46475d39baeab3ad6
         repeat: -1
     });
     this.anims.create({
+<<<<<<< HEAD
         key: 'turn',
         frames: [ { key: 'dude', frame: 4 } ],
         frameRate: 20
@@ -185,6 +289,11 @@ function create ()
         frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
         frameRate: 10,
         repeat: -1
+=======
+        key: 'stop',
+        frames: [ { key: 'hero0' } ],
+        frameRate: 10
+>>>>>>> 227923688d1509b4a942c5f46475d39baeab3ad6
     });
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
@@ -232,6 +341,7 @@ function create ()
 }
 function update ()
 {
+<<<<<<< HEAD
     if (gameOver)
     {
         return;
@@ -255,6 +365,36 @@ function update ()
     {
         player.setVelocityY(-330);
     }
+=======
+  if (gameOver)
+  {
+      return;
+  }
+
+  if (cursors.left.isDown)
+  {
+      player.setVelocityX(-160);
+      player.flipX = true;
+      player.anims.play('run', true);
+  }
+  else if (cursors.right.isDown)
+  {
+      player.setVelocityX(160);
+      player.flipX = false;
+      player.anims.play('run', true);
+  }
+  else
+  {
+      player.setVelocityX(0);
+
+      player.anims.play('stop');
+  }
+
+  if (cursors.up.isDown && player.body.touching.down)
+  {
+      player.setVelocityY(-330);
+  }
+>>>>>>> 227923688d1509b4a942c5f46475d39baeab3ad6
 }
 // Chooses a random letter from the given string
 function chooseRandomLetter(str){
