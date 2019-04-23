@@ -57,7 +57,7 @@ function preload ()
     this.load.image('sky', '../newAssets/background/Background.png');
     //this.load.image('ground', '../assets/platform.png');
     this.load.image('ground', '../newAssets/background/Grass.png');
-    // this.load.image('star', '../assets/star.png');
+    this.load.audio('song', '../newAssets/bensound-endlessmotion.mp3');
     this.load.image('bomb', '../assets/bomb.png');
 
     for (var i=0; i <18; i++){
@@ -66,16 +66,21 @@ function preload ()
     this.load.image('enemy', '../newAssets/character/enemy.png');
   //  this.load.spritesheet('dude', '../newAssets/character/Run/1r.png', { frameWidth: 74, frameHeight: 84});
     this.load.spritesheet('testEnemy', '../assets/dude.png', { frameWidth: 32, frameHeight: 48 });
-
+    this.load.image('wall', '../assets/invisibleWall.png');
+    this.load.image('worldWall', '../assets/worldWall.png');
 }
 
 function create ()
 {
+  //  var music = this.sound.add('song');
+    //music.loop=true;
+    this.sound.play('song');
     //  A simple background for our game
     this.add.image(400, 300, 'sky').setDisplaySize(800,600);
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
+    walls =this.physics.add.staticGroup();
 
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
@@ -85,14 +90,16 @@ function create ()
 
     //  Now let's create some ledges
     platforms.create(600, 400, 'ground').setDisplaySize(300,60).refreshBody();
-    platforms.create(50, 250, 'ground').setDisplaySize(200,60).refreshBody();
+    platforms.create(50, 250, 'ground').setDisplaySize(300,60).refreshBody();
     platforms.create(750, 220, 'ground').setDisplaySize(400,60).refreshBody();
 
     // The player and its settings
     player = this.physics.add.sprite(80, 450, 'hero0');
     player.setDisplaySize(36,44);
 
-    //enemies staticGroup
+    enemies = this.physics.add.group();
+
+
 
 
     //  Player physics properties. Give the little guy a slight bounce.
@@ -103,7 +110,7 @@ function create ()
     for (var i=0; i<18; i++){
         heroFrames.push({ key: 'hero'+i});
     }
-    //enemy.setCollideWorldBounds(true);
+
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -119,12 +126,7 @@ function create ()
         frameRate: 10
     });
 
-    // this.anims.create({
-    //     key: 'right',
-    //     frames: heroFrames,
-    //     frameRate: 20,
-    //     repeat: -1
-    // });
+
 
     this.anims.create({
       key: 'enemyMove',
@@ -133,11 +135,40 @@ function create ()
       repeat: -1
     })
 
-    enemies = this.physics.add.group({
-      key:'enemy',
-      repeat: 1,
-      setXY: {x:750, y:170, stepX: -150, stepY: 150}
-    })
+    var first = 0;
+    walls.create(1,500,'worldWall');
+    walls.create(797,500,'worldWall');
+    walls.create(1,100,'worldWall');
+    walls.create(797,100,'worldWall');
+
+    platforms.children.iterate(function (child) {
+        if (first != 0){
+
+            walls.create(child.x-200,child.y-20,'wall');
+            walls.create(child.x+200,child.y-20,'wall');
+            enemies.create(child.x, child.y-40,'enemy');
+        }
+        // allLetters.create(child.x-70, child.y-60,'a');
+        //if (child.x-70>0)
+        // allLetters.create(child.x+70, child.y-60,'b');
+        // allLetters.create(child.x-140, child.y-60,'c');
+        // allLetters.create(child.x+140, child.y-60,'d');
+
+          first ++;
+    });
+
+    walls.children.iterate(function (child) {
+        //  make enemy move
+      //  child.alpha = 0;
+        child.body.immovable = true;
+    });
+
+
+    // enemies = this.physics.add.group({
+    //   key:'enemy',
+    //   repeat: 1,
+    //   setXY: {x:750, y:170, stepX: -150, stepY: 150}
+    // })
     enemies.children.iterate(function (child) {
         //  make enemy move
       //  child.anims.play('enemyMove',true);
@@ -169,11 +200,8 @@ function create ()
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
-  //  this.physics.add.collider(bombs, platforms);
     this.physics.add.collider(enemies, platforms);
-
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-//    this.physics.add.overlap(player, stars, collectStar, null, this);
+  this.physics.add.overlap(enemies, walls, hitWall, null, this);
 
   //  this.physics.add.collider(player, bombs, hitBomb, null, this);
     this.physics.add.collider(player, enemies, enemyCollision, null, this);
@@ -274,6 +302,21 @@ function enemyCollision(player, enemy){
    alert("eneterd");
 //  enemy.disableBody(true, true);
   //throwLetter();
+}
+function hitWall(enemy, wall){
+    console.log("hitWall");
+    var speed = enemy.body.velocity.x
+    speed = -1 *speed;
+    enemy.body.setVelocityX(speed);
+    //enemy is moving leftwards
+    if ( speed >0){
+        enemy.anims.play("enemyTurn",true)
+    }
+    else{
+        enemy.anims.play("enemyMove",true)
+    }
+
+    //console.log(enemy.body.velocity.x)
 }
 
 </script>
