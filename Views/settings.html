@@ -7,8 +7,12 @@
 
 
 <script>
+  const system = require('system-control')();
   function updateTextInput(val) {
     document.getElementById('textInput').value = val;
+    system.audio.setSystemVolume(val).then(function() {
+    });
+
   }
 </script>
 
