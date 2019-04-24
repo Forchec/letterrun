@@ -87,7 +87,7 @@ function create ()
 
     platforms.create(400, 560, 'ground').setDisplaySize(800,60).refreshBody();
     platforms.create(600, 400, 'ground').setDisplaySize(300,60).refreshBody();
-    platforms.create(50, 250, 'ground').setDisplaySize(300,60).refreshBody();
+    platforms.create(100, 250, 'ground').setDisplaySize(200,60).refreshBody();
     platforms.create(750, 220, 'ground').setDisplaySize(400,60).refreshBody();
 
     // The player and its settings
@@ -126,21 +126,18 @@ function create ()
     })
 
     var first = 0;
-    walls.create(1,500,'worldWall');
-    walls.create(797,500,'worldWall');
-    walls.create(1,100,'worldWall');
-    walls.create(797,100,'worldWall');
+
 
     platforms.children.iterate(function (child) {
+        //
+          var width = child.displayWidth
 
-        if (first != 0){
-
-            walls.create(child.x-200,child.y-20,'wall');
-            walls.create(child.x+200,child.y-20,'wall');
-            enemies.create(child.x, child.y-40,'enemy');
-        }
-        
-          first ++;
+            walls.create(child.x-(width/2),child.y-20,'wall');
+            walls.create(child.x+(width/2),child.y-20,'wall');
+            enemies.create(child.x, child.y-50,'enemy');
+        // }
+          //
+          // first ++;
     });
 
     walls.children.iterate(function (child) {
@@ -152,9 +149,9 @@ function create ()
         child.setVelocityX(Math.floor(Math.random()*( -20 + 1)) + -50);
         child.body.allowGravity =false;
         child.setDisplaySize(50,50)
-        child.body.setSize(13,13,2,2);
+        child.body.setSize(40,40);
         child.body.immovable = true;
-        child.setCollideWorldBounds(true);
+        //child.setCollideWorldBounds(true);
     });
 
     //  Input Events
