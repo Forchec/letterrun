@@ -1,20 +1,16 @@
 {
-  "name": "electron-quick-start",
+  "name": "Letter_Run",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A platfomer game",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/Forchec/swproject/",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Electron"
   ],
-  "author": "GitHub",
+  "author": "Forchec",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^3.0.7"
