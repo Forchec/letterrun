@@ -3,13 +3,16 @@
 
 <head>
   <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="endscreen.css">
   <title>Making your first Phaser 3 Game - Part 10</title>
   <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
   <!-- <script>
       $(function(){ $("head").load("/../Fixed/header.html") });
     </script> -->
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
-
+  <!-- The Modals MUST INCLUDE THIS IN YOUR STAGE  -->
+  <script src="win.js"></script>
+  <script src="lose.js"></script>
   <style type="text/css">
     body {
       margin: 0;
@@ -20,6 +23,39 @@
 <body>
 
   <script type="text/javascript">
+    // Get the modals
+    var win_modal = document.getElementById('WinGame');
+    var lose_modal = document.getElementById('LoseGame');
+
+    // Get other buttons
+    var replay_btn1 = document.getElementById("replay_button_1");
+    var replay_btn2 = document.getElementById("replay_button_2");
+    var menu_btn1 = document.getElementById("menu_button_1");
+    var menu_btn2 = document.getElementById("menu_button_2");
+    var next_btn = document.getElementById("next_button");
+
+
+    replay_btn1.onclick = function() {
+      window.location.href = "stage1.html";
+    }
+
+    replay_btn2.onclick = function() {
+      window.location.href = "stage1.html";
+    }
+
+    menu_btn1.onclick = function() {
+      window.location.href = "menu.html";
+    }
+
+    menu_btn2.onclick = function() {
+      window.location.href = "menu.html";
+    }
+
+    next_btn.onclick = function() {
+      // redirect to the next stage
+      window.location.href = "stage2.html";
+    }
+
     var config = {
       type: Phaser.AUTO,
       width: 800,
@@ -111,7 +147,7 @@
       this.add.image(400, 300, 'sky').setDisplaySize(800, 600);
 
       //NEW CHANGES
-      timeText = this.add.text(670, 16, 'Time: ', {
+      timeText = this.add.text(630, 16, 'Time: ', {
         fontSize: '26px',
         fill: '#000'
       });
@@ -356,8 +392,8 @@
         this.physics.pause();
         player.anims.play('stop');
         door.anims.play('openChest');
-
         gameOver = true;
+        win_modal.style.display = "block";
       }
     }
 
@@ -380,6 +416,7 @@
         player.setTint(0xff0000);
         player.anims.play('turn');
         gameOver = true;
+        lose_modal.style.display = "block";
       } else { // Takes away one random letter from the letter board
         var len = letterBoard.length;
         var index = Math.floor(Math.random() * len);
