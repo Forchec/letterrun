@@ -52,7 +52,27 @@ var WORD = "penguin"; // change word for each stage
 var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
 alpha.replace(/[penguin]/g, '')  // change the word for each stage
 var WORD_LEN = WORD.length;
-var letterCount = WORD_LEN + 2; // the int is the count of random letters
+var letterCount = WORD_LEN + 5; // the int is the count of random letters
+var lt = "";
+function shuffle(array) {
+for (let i = array.length - 1; i > 0; i--) {
+  let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+  [array[i], array[j]] = [array[j], array[i]]; // swap elements
+}
+return array;
+}
+for (var i = 0; i < letterCount; i++){
+  if (i < WORD_LEN){
+    lt+= WORD[i];
+  }
+  else {
+    lt+=chooseRandomLetter(alpha.replace(/[penguin]/g, ''));
+  }
+}
+console.log(lt);
+var randomLetters = shuffle(lt.split(''));
+console.log(randomLetters);
+
 var letterBoard = []; // array of letters that the player collected
 var letter = ''; // only used once??
 var tmp;
@@ -172,21 +192,47 @@ function create ()
     walls.create(797,500,'worldWall');
     walls.create(1,100,'worldWall');
     walls.create(797,100,'worldWall');
-
+  letters = this.physics.add.group();
+  var temp;
+  var space =[50,100,80];
+  var index = 0;
     platforms.children.iterate(function (child) {
-
-
+      var width = child.displayWidth;
+      var position;
         if (first != 0){
-
-            walls.create(child.x-200,child.y-20,'wall');
+            walls.create(child.x-(width/2),child.y-20,'wall');
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'enemy');
+            position =  (child.x -(width/2)) + 30;
         }
         else { // when first platfrom
-          //letters.create(child.x)
+          position = (child.x -(width/2)) + 400;
         }
+        while((position < (child.x + (width/2)-30)) && index < letterCount){
+          temp = letters.create(position, child.y- 100, randomLetters[index]);
+          temp.myName = randomLetters[index];
+          index++;
+          var r = Math.floor(Math.random() * 3);
+          position += space[r];
+          console.log(position);
+          console.log(child.x + (width/2));
+
+
+        }
+        xList.push(position);
+        yList.push(child.y- 100);
           first ++;
     });
+    letters.children.iterate(function (child) {
+
+      //letter.myName = tmp;
+        child.setDisplaySize(40,40)
+
+        //child.setCollideWorldBounds(true);
+
+    });
+    this.physics.add.collider(letters, platforms);
+    this.physics.add.overlap(player, letters, collectLetter, null, this);
 
     walls.children.iterate(function (child) {
       //  child.alpha = 0;
@@ -219,26 +265,6 @@ function create ()
       y = Math.floor(Math.random() * 400);
     }
 
-    // Place collectable letters
-    for (i = 0; i < letterCount; i++){
-      if (i < WORD_LEN){
-        tmp = WORD.charAt(i); // must display the letters in the word
-        visitChecker[i] = "placed";
-      }
-      else {
-        tmp = chooseRandomLetter(alpha);
-      }
-      letter = this.physics.add.sprite(xList[i], yList[i], tmp);
-      if (tmp == 'w'){ // make w size equal to others
-        letter.setDisplaySize(50, 50);
-      }
-      else{
-        letter.setDisplaySize(40, 40);
-      }
-      this.physics.add.collider(letter, platforms);
-      this.physics.add.overlap(player, letter, collectLetter, null, this);
-      letter.myName = tmp;
-    }
 
 
     //////////////////////
@@ -387,6 +413,7 @@ function hitEnemy (player, enemy){
           // Update the letter board
 
           if (enemy.body.touching.left){
+
             enemy.body.velocity.x = -(enemy.body.velocity.x);
             //takeAwayLetter();
           }
@@ -422,6 +449,8 @@ function hitEnemy (player, enemy){
 
 
   }
+
+
 
 
 }
