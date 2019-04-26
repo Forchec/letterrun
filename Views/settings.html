@@ -12,11 +12,16 @@
     document.getElementById('textInput').value = val;
     system.audio.setSystemVolume(val).then(function() {
     });
-
+  }
+  function getVolume() {
+    vol = system.audio.getSystemVolume().then(function(volume) {
+    });
+    document.getElementById('textInput').value = vol;
+    document.getElementById('myRange').value = vol;
   }
 </script>
 
-<body>
+<body onload="getVolume();">
   <a href="menu.html" class="back-link">
     <button class="back">&laquo;</button>
   </a>
