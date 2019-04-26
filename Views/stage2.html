@@ -39,11 +39,11 @@
 
 
     replay_btn1.onclick = function() {
-      window.location.href = "stage1.html";
+      window.location.href = "stage2.html";
     }
 
     replay_btn2.onclick = function() {
-      window.location.href = "stage1.html";
+      window.location.href = "stage2.html";
     }
 
     menu_btn1.onclick = function() {
@@ -56,7 +56,7 @@
 
     next_btn.onclick = function() {
       // redirect to the next stage
-      window.location.href = "stage2.html";
+      window.location.href = "stage3.html";
     }
 
     var config = {
@@ -75,10 +75,9 @@
       scene: {
         preload: preload,
         create: create,
-        update: update
+        update: update,
       }
     };
-
     var player;
     var stars;
     var bombs;
@@ -147,13 +146,14 @@
       //console.log(alpha.replace(/[penguin]/g, ''));
 
       this.sound.play('song');
-      this.add.image(400, 300, 'sky').setDisplaySize(800, 600);
+      this.add.image(400, 300, 'sky').setDisplaySize(1920, 1080);
 
       //NEW CHANGES
       timeText = this.add.text(630, 16, 'Time: ', {
         fontSize: '26px',
         fill: '#000'
       });
+      timeText.setScrollFactor(0);
       startTime = new Date().getTime();
       console.log(startTime)
 
@@ -189,7 +189,10 @@
         letter = WORD.charAt(i) + WORD.charAt(i) + WORD.charAt(i);
         tmp = this.add.sprite(x_for_board, 25, letter);
         tmp.setDisplaySize(40, 40);
+        tmp.setScrollFactor(0);
       }
+
+
 
       // Display the door in a specific location - Change each stage
       door = this.physics.add.sprite(720, 140, 'chest1');
@@ -308,6 +311,10 @@
       this.physics.add.overlap(enemies, walls, hitWall, null, this);
       this.physics.add.collider(player, enemies, hitEnemy, null, this);
       this.physics.add.overlap(player, door, hitDoor, null, this);
+      // set bounds so the camera won't go outside the game world
+      this.cameras.main.setBounds(0, 0, 4000, 600);
+      // make the camera follow the player
+      this.cameras.main.startFollow(player);
     }
 
     function update() {
@@ -358,6 +365,7 @@
             x_for_board = x_for_board + (50 * i);
             tmp = this.add.sprite(x_for_board, 25, cur);
             tmp.setDisplaySize(40, 40);
+            tmp.setScrollFactor(0);
             visitChecker[i] = "visited";
             // var index = xList.indexOf(letter.x);
             letterBoard.push(letter.myName);
@@ -462,6 +470,7 @@
               var tmp = this.add.sprite(x_, 25, cur);
               tmp.setDisplaySize(40, 40);
               letterBoard.splice(index, 1);
+              tmp.setScrollFactor(0);
               visitChecker[i] = "";
               break;
             }
