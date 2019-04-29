@@ -434,7 +434,6 @@
       var speed = enemy.body.velocity.x
       speed = -1 * speed;
       enemy.body.setVelocityX(speed);
-      //enemy is moving leftwards
       enemy.anims.play("enemyMove", true)
 
     }
@@ -446,7 +445,6 @@
       if (letterBoard === undefined || letterBoard.length == 0) {
         this.physics.pause();
         player.setTint(0xff0000);
-        player.anims.play('turn');
         gameOver = true;
         lose_modal.style.display = "block";
       } else { // Takes away one random letter from the letter board
@@ -455,24 +453,20 @@
         var char = letterBoard[index];
         var x_ = 25;
 
-        //player.immune = true;
-        //enemy.follow = false;
-        // Enemy will hit and change its moving direction
 
         for (i = 0; i < WORD_LEN; i++) {
           if (char === WORD.charAt(i)) {
             if (visitChecker[i] === "visited") {
               // Update the letter board
-
               if (enemy.body.touching.left) {
-                // player.body.velocity.y = -400;
-                //  player.body.velocity.x = -(player.body.velocity.x)*300;
-                enemy.body.velocity.x = -(enemy.body.velocity.x) * 100;
-                //takeAwayLetter();
+                //player.setTint(0xff0000);
+                player.x = player.x - 20;
+                player.body.velocity.y = -150; // make it bounce??
               } else if (enemy.body.touching.right) {
-                enemy.body.velocity.x = -(enemy.body.velocity.x);
+                player.x = player.x + 20;
+                player.body.velocity.y = -150; // make it bounce??
               } else if (enemy.body.touching.up) {
-                player.body.velocity.y = -200; // make it bounce??
+                player.body.velocity.y = -150; // make it bounce??
               }
 
               // Place the letter back to the platforms
@@ -491,7 +485,6 @@
               var tmp = this.add.sprite(x_, 25, cur);
               tmp.setDisplaySize(40, 40);
               letterBoard.splice(index, 1);
-              tmp.setScrollFactor(0);
               visitChecker[i] = "";
               break;
             }

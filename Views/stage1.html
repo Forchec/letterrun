@@ -168,8 +168,6 @@
       player.setDisplaySize(36, 44);
       enemies = this.physics.add.group();
 
-      //  Player physics properties. Give the little guy a slight bounce.
-      player.setBounce(0.2);
       player.setCollideWorldBounds(true);
       //Change character color
       //player.setTint(0x42f465);
@@ -191,7 +189,8 @@
       }
 
       // Display the door in a specific location - Change each stage
-      door = this.physics.add.sprite(750, 140, 'chest1');
+      door = this.physics.add.sprite(750, 160, 'chest1');
+      door.body.allowGravity = false;
       door.setDisplaySize(65, 65);
       door.body.width = 65;
       door.body.height = 65;
@@ -332,6 +331,9 @@
       if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-330);
       }
+      if (cursors.down.isDown) {
+        player.setVelocityY(330);
+      }
 
     }
     /////////////////////
@@ -398,14 +400,14 @@
       }
     }
 
-function hitWall(enemy, wall) {
-  console.log("hitWall");
-  var speed = enemy.body.velocity.x
-  speed = -1 * speed;
-  enemy.body.setVelocityX(speed);
-  enemy.anims.play("enemyMove", true)
+    function hitWall(enemy, wall) {
+      console.log("hitWall");
+      var speed = enemy.body.velocity.x
+      speed = -1 * speed;
+      enemy.body.setVelocityX(speed);
+      enemy.anims.play("enemyMove", true)
 
-}
+    }
 
     // Checks the letter board to either kill or take away a letter
     function hitEnemy(player, enemy) {
@@ -429,14 +431,17 @@ function hitWall(enemy, wall) {
               // Update the letter board
               if (enemy.body.touching.left) {
                 //player.setTint(0xff0000);
-                enemy.x = enemy.x+100
+                player.x = player.x - 20;
+                player.body.velocity.y = -150; // make it bounce??
               } else if (enemy.body.touching.right) {
-                enemy.x = enemy.x-100;
+                player.x = player.x + 20;
+                player.body.velocity.y = -150; // make it bounce??
               } else if (enemy.body.touching.up) {
+
                 player.body.velocity.y = -150; // make it bounce??
               }
 
-            // Place the letter back to the platforms
+              // Place the letter back to the platforms
               var letter = this.physics.add.sprite(xList[i], yList[i], char);
               if (char == 'w') {
                 letter.setDisplaySize(50, 50);
