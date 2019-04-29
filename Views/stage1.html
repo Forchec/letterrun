@@ -144,8 +144,6 @@
 
     function create() {
 
-      //console.log(alpha.replace(/[penguin]/g, ''));
-
       this.sound.play('song');
       this.add.image(400, 300, 'sky').setDisplaySize(800, 600);
 
@@ -155,7 +153,6 @@
         fill: '#000'
       });
       startTime = new Date().getTime();
-      console.log(startTime)
 
       //  The platforms group contains the ground and the 2 ledges we can jump on
       platforms = this.physics.add.staticGroup();
@@ -164,7 +161,7 @@
       platforms.create(400, 560, 'ground').setDisplaySize(800, 60).refreshBody();
       platforms.create(600, 400, 'ground').setDisplaySize(300, 60).refreshBody();
       platforms.create(100, 250, 'ground').setDisplaySize(200, 60).refreshBody();
-      platforms.create(750, 220, 'ground').setDisplaySize(400, 60).refreshBody();
+      platforms.create(650, 220, 'ground').setDisplaySize(300, 60).refreshBody();
 
       // The player and its settings
       player = this.physics.add.sprite(80, 450, 'hero0');
@@ -174,6 +171,8 @@
       //  Player physics properties. Give the little guy a slight bounce.
       player.setBounce(0.2);
       player.setCollideWorldBounds(true);
+      //Change character color
+      //player.setTint(0x42f465);
 
       var heroFrames = [];
       for (var i = 0; i < 18; i++) {
@@ -192,11 +191,11 @@
       }
 
       // Display the door in a specific location - Change each stage
-      door = this.physics.add.sprite(720, 140, 'chest1');
+      door = this.physics.add.sprite(750, 140, 'chest1');
       door.setDisplaySize(65, 65);
       door.body.width = 65;
       door.body.height = 65;
-      door.immovable = true; //////////
+      door.setImmovable(); //////////
 
       this.physics.add.collider(door, platforms);
 
@@ -301,13 +300,12 @@
 
       //////////////////////
 
-
       //this.physics.add.collider(door, enemies);
       this.physics.add.collider(player, platforms);
       this.physics.add.collider(enemies, platforms);
       this.physics.add.overlap(enemies, walls, hitWall, null, this);
       this.physics.add.collider(player, enemies, hitEnemy, null, this);
-      this.physics.add.overlap(player, door, hitDoor, null, this);
+      this.physics.add.collider(player, door, hitDoor, null, this);
     }
 
     function update() {
@@ -381,11 +379,11 @@
     }
 
 
-
-
     //Checks if all letters have been collected to make the game over or not
     function hitDoor(player, door) {
       var cond = true;
+
+      console.log("eneterd hitdoor")
       for (var i = 0; i < WORD_LEN; i++) {
         if (visitChecker[i] != "visited") {
           cond = false;
@@ -400,15 +398,14 @@
       }
     }
 
-    function hitWall(enemy, wall) {
-      console.log("hitWall");
-      var speed = enemy.body.velocity.x
-      speed = -1 * speed;
-      enemy.body.setVelocityX(speed);
-      //enemy is moving leftwards
-      enemy.anims.play("enemyMove", true)
+function hitWall(enemy, wall) {
+  console.log("hitWall");
+  var speed = enemy.body.velocity.x
+  speed = -1 * speed;
+  enemy.body.setVelocityX(speed);
+  enemy.anims.play("enemyMove", true)
 
-    }
+}
 
     // Checks the letter board to either kill or take away a letter
     function hitEnemy(player, enemy) {
@@ -417,7 +414,6 @@
       if (letterBoard === undefined || letterBoard.length == 0) {
         this.physics.pause();
         player.setTint(0xff0000);
-        player.anims.play('turn');
         gameOver = true;
         lose_modal.style.display = "block";
       } else { // Takes away one random letter from the letter board
@@ -426,27 +422,21 @@
         var char = letterBoard[index];
         var x_ = 25;
 
-        //player.immune = true;
-        //enemy.follow = false;
-        // Enemy will hit and change its moving direction
 
         for (i = 0; i < WORD_LEN; i++) {
           if (char === WORD.charAt(i)) {
             if (visitChecker[i] === "visited") {
               // Update the letter board
-
               if (enemy.body.touching.left) {
-                // player.body.velocity.y = -400;
-                //  player.body.velocity.x = -(player.body.velocity.x)*300;
-                enemy.body.velocity.x = -(enemy.body.velocity.x) * 100;
-                //takeAwayLetter();
+                //player.setTint(0xff0000);
+                enemy.x = enemy.x+100
               } else if (enemy.body.touching.right) {
-                enemy.body.velocity.x = -(enemy.body.velocity.x);
+                enemy.x = enemy.x-100;
               } else if (enemy.body.touching.up) {
-                player.body.velocity.y = -200; // make it bounce??
+                player.body.velocity.y = -150; // make it bounce??
               }
 
-              // Place the letter back to the platforms
+            // Place the letter back to the platforms
               var letter = this.physics.add.sprite(xList[i], yList[i], char);
               if (char == 'w') {
                 letter.setDisplaySize(50, 50);
