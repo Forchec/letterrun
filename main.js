@@ -17,7 +17,6 @@ function createWindow() {
 
   // and load the index.html of the app.
   mainWindow.loadFile('Views/menu.html')
-  mainWindow.setMenu(null);
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
