@@ -12,11 +12,17 @@ function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
-    height: 600
+    height: 600,
+    // Comment out resizable and fullscren for testing
+    resizable: false,
+    fullscreen: false,
   })
 
   // and load the index.html of the app.
   mainWindow.loadFile('Views/menu.html')
+
+  // Comment out setMenu for testing
+  mainWindow.setMenu(null);
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
