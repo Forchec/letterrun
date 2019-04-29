@@ -157,6 +157,9 @@
       walls = this.physics.add.staticGroup();
       // Ground/starting platform
       platforms.create(400, 600, 'ground').setDisplaySize(800, 60).refreshBody();
+      platforms.create(400, 450, 'ground').setDisplaySize(100, 60).refreshBody();
+      platforms.create(200, 400, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(600, 400, 'ground').setDisplaySize(200, 60).refreshBody();
       // platforms
       platforms.create(1250, 450, 'ground').setDisplaySize(200, 60).refreshBody();
       platforms.create(1350, 600, 'ground').setDisplaySize(400, 60).refreshBody();
@@ -337,6 +340,7 @@
       }
       if (player.y > 800) {
         gameOver = true;
+        this.cameras.main.stopFollow();
         lose_modal.style.display = "block";
       }
       if (cursors.left.isDown) {
@@ -446,6 +450,7 @@
         this.physics.pause();
         player.setTint(0xff0000);
         gameOver = true;
+        this.cameras.main.stopFollow();
         lose_modal.style.display = "block";
       } else { // Takes away one random letter from the letter board
         var len = letterBoard.length;
@@ -484,6 +489,7 @@
               x_ = 25 + (50 * i);
               var tmp = this.add.sprite(x_, 25, cur);
               tmp.setDisplaySize(40, 40);
+              tmp.setScrollFactor(0);
               letterBoard.splice(index, 1);
               visitChecker[i] = "";
               break;
