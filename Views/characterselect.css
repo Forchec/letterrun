@@ -64,14 +64,26 @@ body {
 
 .text-one {
   grid-area: bottom-left;
+  font-family: Impact;
+  font-weight: bolder;
+  text-align: center;
+  font-size: 24px;
 }
 
 .text-two {
   grid-area: bottom-main;
+  font-family: Impact;
+  font-weight: bolder;
+  text-align: center;
+  font-size: 24px;
 }
 
 .text-three {
   grid-area: bottom-right;
+  font-family: Impact;
+  font-weight: bolder;
+  text-align: center;
+  font-size: 24px;
 }
 
 .back-link {
@@ -101,8 +113,8 @@ body {
   display: grid;
   grid-template-areas: 'top-left top-main top-right'
     'bottom-left bottom-main bottom-right';
-  grid-gap: 50px;
-  padding: 50px;
+  grid-gap: 30px;
+  padding: 25px;
   position: absolute;
   top: 50%;
   left: 50%;

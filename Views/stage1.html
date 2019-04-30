@@ -8,7 +8,7 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="endscreen.css">
   <title>Making your first Phaser 3 Game - Part 10</title>
-    <!-- <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script> -->
+  <!-- <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- <script>
       $(function(){ $("head").load("/../Fixed/header.html") });
@@ -136,9 +136,28 @@
       this.load.image('ground', '../newAssets/background/Grass.png');
       this.load.audio('song', '../newAssets/bensound-endlessmotion.mp3');
 
-      for (var i = 0; i < 18; i++) {
-        this.load.image('hero' + i, '../newAssets/character/Run/' + (i + 1) + 'r.png');
+      var color = localStorage.getItem("color");
+      switch (color) {
+        case "green":
+          for (var i = 0; i < 18; i++) {
+            this.load.image('hero' + i, '../newAssets/character/BlueRun/' + (i + 1) + 'r.png');
+          }
+          break;
+        case "purple":
+          for (var i = 0; i < 18; i++) {
+            this.load.image('hero' + i, '../newAssets/character/WhiteRun/' + (i + 1) + 'r.png');
+          }
+          break;
+        default:
+          for (var i = 0; i < 18; i++) {
+            this.load.image('hero' + i, '../newAssets/character/Run/' + (i + 1) + 'r.png');
+          }
+          break;
       }
+      console.log(color);
+
+
+
       this.load.image('enemy', '../newAssets/character/enemy.png');
       this.load.image('wall', '../assets/invisibleWall.png');
     }
@@ -166,20 +185,10 @@
       platforms.create(100, 250, 'ground').setDisplaySize(200, 60).refreshBody();
       platforms.create(650, 220, 'ground').setDisplaySize(300, 60).refreshBody();
 
-      var color = localStorage.getItem("color");
-      console.log(color);
+
       // The player and its settings
       player = this.physics.add.sprite(80, 450, 'hero0');
-      switch (color){
-        case "green":
-          player.setTint(0x39db56);
-          break;
-        case "purple":
-          player.setTint(0x7079ff);
-          break;
-        default:
-          break;
-      }
+
 
       enemies = this.physics.add.group();
 
@@ -431,7 +440,7 @@
       // Kills the player when no letter is collected
       if (letterBoard === undefined || letterBoard.length == 0) {
         this.physics.pause();
-        player.setTint(0xff0000);
+        //player.setTint(0xff0000);
         gameOver = true;
         lose_modal.style.display = "block";
       } else { // Takes away one random letter from the letter board
