@@ -4,6 +4,10 @@ body {
   color: #505050;
 }
 
+.bodytext {
+  font-family: Arial;
+}
+
 .back-link {
   position: absolute;
   top: 15px;
