@@ -353,6 +353,7 @@
       }
       if (player.y > 800) {
         gameOver = true;
+        this.cameras.main.stopFollow();
         lose_modal.style.display = "block";
       }
       if (cursors.left.isDown) {
@@ -464,6 +465,7 @@
         player.setTint(0xff0000);
         gameOver = true;
         lose_modal.style.display = "block";
+        this.cameras.main.stopFollow();
       } else { // Takes away one random letter from the letter board
         var len = letterBoard.length;
         var index = Math.floor(Math.random() * len);
@@ -501,6 +503,7 @@
               x_ = 25 + (50 * i);
               var tmp = this.add.sprite(x_, 25, cur);
               tmp.setDisplaySize(40, 40);
+              tmp.setScrollFactor(0);
               letterBoard.splice(index, 1);
               visitChecker[i] = "";
               break;

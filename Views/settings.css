@@ -54,12 +54,14 @@ body {
 .grid-container {
   display: grid;
   grid-template-areas:
-    'header header header header'
-    'left left left right'
-    'left left left right'
-    'left left left right';
+    'header header header'
+    'left left left'
+    'left left left'
+    'left left left';
   grid-gap: 10px;
   padding: 10px;
+  padding-left: 150px;
+  padding-right: 150px;
 }
 
 .grid-container>div {
