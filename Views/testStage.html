@@ -52,7 +52,7 @@ var WORD = "penguin"; // change word for each stage
 var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
 alpha.replace(/[penguin]/g, '')  // change the word for each stage
 var WORD_LEN = WORD.length;
-var letterCount = WORD_LEN + 5; // the int is the count of random letters
+var letterCount = WORD_LEN + 4; // the int is the count of random letters
 var lt = "";
 function shuffle(array) {
 for (let i = array.length - 1; i > 0; i--) {
@@ -87,8 +87,14 @@ var yList = []; // array of y-axis
 //   visitChecker.push("");
 // }
 var visitChecker = "".repeat(WORD_LEN).split("");
-
+var r;
 ////////////////////////
+var temp;
+var space =[80, 60, 90];
+var index = 0;
+var position;
+var xIndices = "".repeat(WORD_LEN).split("");
+var yIndices = "".repeat(WORD_LEN).split("");
 
 var game = new Phaser.Game(config);
 
@@ -120,9 +126,6 @@ function preload ()
 
 function create ()
 {
-
-//console.log(alpha.replace(/[penguin]/g, ''));
-
     this.sound.play('song');
     this.add.image(400, 300, 'sky').setDisplaySize(800,600);
 
@@ -132,7 +135,7 @@ function create ()
 
     platforms.create(400, 560, 'ground').setDisplaySize(800,60).refreshBody();
     platforms.create(600, 400, 'ground').setDisplaySize(300,60).refreshBody();
-    platforms.create(50, 250, 'ground').setDisplaySize(300,60).refreshBody();
+    platforms.create(150, 250, 'ground').setDisplaySize(300,60).refreshBody();
     platforms.create(750, 220, 'ground').setDisplaySize(400,60).refreshBody();
 
     // The player and its settings
@@ -193,49 +196,53 @@ function create ()
     walls.create(1,100,'worldWall');
     walls.create(797,100,'worldWall');
   letters = this.physics.add.group();
-  var temp;
-  var space =[50,100,80];
-  var index = 0;
+
     platforms.children.iterate(function (child) {
       var width = child.displayWidth;
-      var position;
         if (first != 0){
             walls.create(child.x-(width/2),child.y-20,'wall');
             walls.create(child.x+200,child.y-20,'wall');
             enemies.create(child.x, child.y-40,'enemy');
-            position =  (child.x -(width/2)) + 30;
+            position = (child.x -(width/2)) + 50;
+            if (first === 1){
+              for (i = 0; i < 3; i++){
+                console.log(position);
+                placeLetter(letters, child);
+              }
+            }
+            else if (first === 2){
+              for (i = 0; i < 2; i++){
+                position += 100;
+                placeLetter(letters, child);
+              }
+            }
+            else {
+              for (i = 0; i < 1; i++){
+                console.log(position);
+                placeLetter(letters, child);
+              }
+            }
         }
         else { // when first platfrom
           position = (child.x -(width/2)) + 400;
+          for (i = 0; i < 5; i++){
+            console.log(position);
+            placeLetter(letters, child);
+          }
         }
-        while((position < (child.x + (width/2)-30)) && index < letterCount){
-          temp = letters.create(position, child.y- 100, randomLetters[index]);
-          temp.myName = randomLetters[index];
-          index++;
-          var r = Math.floor(Math.random() * 3);
-          position += space[r];
-          console.log(position);
-          console.log(child.x + (width/2));
-
-
-        }
-        xList.push(position);
-        yList.push(child.y- 100);
-          first ++;
+        first ++;
     });
+
     letters.children.iterate(function (child) {
-
-      //letter.myName = tmp;
-        child.setDisplaySize(40,40)
-
-        //child.setCollideWorldBounds(true);
-
+      if (child.myName === 'w'){
+        child.setDisplaySize(50,50);
+      }
+      else {
+        child.setDisplaySize(40,40);
+      }
     });
-    this.physics.add.collider(letters, platforms);
-    this.physics.add.overlap(player, letters, collectLetter, null, this);
 
     walls.children.iterate(function (child) {
-      //  child.alpha = 0;
         child.body.immovable = true;
     });
 
@@ -251,28 +258,10 @@ function create ()
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
 
-    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-
-    ////////////////////////////
-    // Get a list of random x values so that there is no overlap
-    for (i = 0; i < letterCount; i++){
-      while (checkOverlap() === 1){
-          x = Math.floor(Math.random() * 800); // set the range from 30 to 770
-        }
-      xList.push(x);
-      yList.push(y); //(770 - 30 + 1) + 30
-      x = Math.floor(Math.random() * 600);
-      y = Math.floor(Math.random() * 400);
-    }
-
-
-
-    //////////////////////
-
-
-
+    this.physics.add.collider(letters, platforms);
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(enemies, platforms);
+    this.physics.add.overlap(player, letters, collectLetter, null, this);
     this.physics.add.overlap(enemies, walls, hitWall, null, this);
     this.physics.add.collider(player, enemies, hitEnemy, null, this);
     this.physics.add.overlap(player, door, hitDoor, null, this);
@@ -334,7 +323,6 @@ function collectLetter(player, letter)
         tmp = this.add.sprite(x_for_board, 25, cur);
         tmp.setDisplaySize(40, 40);
         visitChecker[i] = "visited";
-        // var index = xList.indexOf(letter.x);
         letterBoard.push(letter.myName);
         break;
       }
@@ -343,23 +331,6 @@ function collectLetter(player, letter)
       }
     }
   }
-}
-
-// Checks if there is a overlapping x value in xList
-function checkOverlap(){
-  var len = xList.length;
-  for (i = 0; i < len; i++){
-    if (x < xList[i] + 30 && x > xList[i] - 30){
-      return 1;
-    }
-  }
-  return 0;
-}
-
-
-function hitEnemy(player, enemy){
-   alert("eneterd");
-
 }
 
 //Checks if all letters have been collected to make the game over or not
@@ -403,29 +374,23 @@ function hitEnemy (player, enemy){
     var char = letterBoard[index];
     var x_ = 25;
 
-    //player.immune = true;
-    //enemy.follow = false;
     // Enemy will hit and change its moving direction
-
     for (i = 0; i < WORD_LEN; i++){
       if (char === WORD.charAt(i)){
         if (visitChecker[i] === "visited"){
           // Update the letter board
-
           if (enemy.body.touching.left){
-
             enemy.body.velocity.x = -(enemy.body.velocity.x);
-            //takeAwayLetter();
           }
           else if (enemy.body.touching.right){
             enemy.body.velocity.x = -(enemy.body.velocity.x);
           }
           else if (enemy.body.touching.up){
-            player.body.velocity.y = -200; // make it bounce??
+            player.body.velocity.y = -200; // make it bounce
           }
 
           // Place the letter back to the platforms
-          var letter = this.physics.add.sprite(xList[i], yList[i], char);
+          var letter = this.physics.add.sprite(xIndices[i], yIndices[i], char);
           if (char == 'w'){
             letter.setDisplaySize(50, 50);
           }
@@ -446,13 +411,30 @@ function hitEnemy (player, enemy){
         }
       }
     }
-
-
   }
+}
 
+function placeLetter(letters, child) {
+    var temp = letters.create(position, child.y- 100, randomLetters[index]);
+    temp.myName = randomLetters[index];
+    index++;
+    for (i = 0; i < WORD_LEN; i++){
+      if (temp.myName === WORD[i]){
+        if (xIndices[i] > 0){
+          continue;
+        }
+        else {
+          xIndices[i] = position;
+          yIndices[i] = child.y- 100;
+          break;
+        }
 
-
-
+      }
+    }
+    r = Math.floor(Math.random() * 3);
+    position += space[r];
+    xList.push(position);
+    yList.push(child.y- 100);
 }
 
 
