@@ -178,12 +178,28 @@
 
 
       // The player and its settings
+      var color = localStorage.getItem("color");
+      console.log(color);
+      // The player and its settings
       player = this.physics.add.sprite(80, 450, 'hero0');
-      player.setDisplaySize(36, 44);
+      switch (color){
+        case "green":
+          player.setTint(0x39db56);
+          break;
+        case "purple":
+          player.setTint(0x7079ff);
+          break;
+        default:
+          break;
+      }
+
       enemies = this.physics.add.group();
 
-      //player.setBounce(0.2);
       player.setCollideWorldBounds(false);
+      player.setDisplaySize(50, 50);
+
+      //player.setBounce(0.2);
+    //  player.setCollideWorldBounds(false);
 
       var heroFrames = [];
       for (var i = 0; i < 18; i++) {

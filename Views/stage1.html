@@ -8,7 +8,8 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="endscreen.css">
   <title>Making your first Phaser 3 Game - Part 10</title>
-  <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
+    <!-- <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- <script>
       $(function(){ $("head").load("/../Fixed/header.html") });
     </script> -->
@@ -144,6 +145,8 @@
 
     function create() {
 
+
+
       this.sound.play('song');
       this.add.image(400, 300, 'sky').setDisplaySize(800, 600);
 
@@ -163,12 +166,25 @@
       platforms.create(100, 250, 'ground').setDisplaySize(200, 60).refreshBody();
       platforms.create(650, 220, 'ground').setDisplaySize(300, 60).refreshBody();
 
+      var color = localStorage.getItem("color");
+      console.log(color);
       // The player and its settings
       player = this.physics.add.sprite(80, 450, 'hero0');
-      player.setDisplaySize(36, 44);
+      switch (color){
+        case "green":
+          player.setTint(0x39db56);
+          break;
+        case "purple":
+          player.setTint(0x7079ff);
+          break;
+        default:
+          break;
+      }
+
       enemies = this.physics.add.group();
 
       player.setCollideWorldBounds(true);
+      player.setDisplaySize(50, 50);
       //Change character color
       //player.setTint(0x42f465);
 
