@@ -88,6 +88,8 @@
     var cursors;
     var score = 0;
     var gameOver = false;
+    var soundButton;
+    var muteButton;
 
     /////////////////////////
     var door;
@@ -160,17 +162,19 @@
 
       this.load.image('enemy', '../newAssets/character/enemy.png');
       this.load.image('wall', '../assets/invisibleWall.png');
+      this.load.image('mute', '../newAssets/buttons/mutebutton.png');
+      this.load.image('sound', '../newAssets/buttons/soundbutton.png');
     }
 
     function create() {
 
 
-
-      this.sound.play('song');
+      var music = this.sound.add('song');
+      music.play();
       this.add.image(400, 300, 'sky').setDisplaySize(800, 600);
 
       //NEW CHANGES
-      timeText = this.add.text(630, 16, 'Time: ', {
+      timeText = this.add.text(530, 16, 'Time: ', {
         fontSize: '26px',
         fill: '#000'
       });
@@ -222,6 +226,28 @@
       door.setImmovable(); //////////
 
       this.physics.add.collider(door, platforms);
+      var pointer = this.input.activePointer;
+
+      soundButton = this.physics.add.sprite(700, 30, 'sound').setDisplaySize(50, 50);
+      soundButton.body.allowGravity = false;
+      soundButton.setScrollFactor(0);
+      soundButton.setInteractive();
+      soundButton.setName("sound");
+      soundButton.on('pointerdown', function() {
+        music.setMute(false);
+      });
+      muteButton = this.physics.add.sprite(760, 30, 'mute').setDisplaySize(50, 50);
+      muteButton.body.allowGravity = false;
+      muteButton.setScrollFactor(0);
+      muteButton.setInteractive();
+      muteButton.setName("mute");
+      muteButton.on('pointerdown', function() {
+        music.setMute(true);
+      });
+
+
+
+
 
       ///////////////////////
 
@@ -369,6 +395,7 @@
       ret += str.charAt(index);
       return ret;
     }
+
 
     // Updates letter board as the player collects the letter
     function collectLetter(player, letter) {
