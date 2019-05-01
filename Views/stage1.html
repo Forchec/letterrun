@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="endscreen.css">
-  <title>Making your first Phaser 3 Game - Part 10</title>
+  <title>Stage 1</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <script src="../libraries/phaser.min.js"></script>
@@ -86,23 +86,13 @@
     var soundButton;
     var muteButton;
     var door;
-
-    /////////////////////////
-
-    var WORD = "penguin"; // change word for each stage
     var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
-    alpha.replace(/[penguin]/g, '') // change the word for each stage
-    var WORD_LEN = WORD.length;
-    var letterCount = WORD_LEN + 4; // the int is the count of random letters
 
+    // CHANGE FOR EACH STAGE
+    var WORD = "penguin";
+    var WORD_LEN = WORD.length;
+    var letterCount = WORD_LEN + 4;
     var letterArray = "";
-    function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-      [array[i], array[j]] = [array[j], array[i]]; // swap elements
-    }
-    return array;
-    }
     for (var i = 0; i < letterCount; i++){
       if (i < WORD_LEN){
         letterArray+= WORD[i];
@@ -111,22 +101,26 @@
         letterArray+=chooseRandomLetter(alpha.replace(/[penguin]/g, ''));
       }
     }
-    var randomLetters = shuffle(letterArray.split(''));
 
+    function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+      [array[i], array[j]] = [array[j], array[i]]; // swap elements
+    }
+    return array;
+    }
+
+    var randomLetters = shuffle(letterArray.split(''));
     var letterBoard = []; // array of letters that the player collected
     var letter = ''; // only used once??
     var tmp;
     var i = 0;
-    var x_for_board; // x-axis for board display
-    var x = Math.floor(Math.random() * 800); // x pos for collectable letter
-    var y = Math.floor(Math.random() * 400); // y pos for collectable letter
-
-    var visitChecker = "".repeat(WORD_LEN).split("");
-
+    var x; // x-axis for board display
     var temp;
     var space =[80, 60, 90];
     var index = 0;
     var position;
+    var visitChecker = "".repeat(WORD_LEN).split("");
     var xIndices = "".repeat(WORD_LEN).split("");
     var yIndices = "".repeat(WORD_LEN).split("");
 
@@ -220,13 +214,12 @@
           key: 'hero' + i
         });
       }
-      ///////////////////////////
 
       // Display initial board (grayed-out version)
       for (i = 0; i < WORD_LEN; i++) {
-        x_for_board = 25 + (50 * i);
+        x = 25 + (50 * i);
         letter = WORD.charAt(i) + WORD.charAt(i) + WORD.charAt(i);
-        tmp = this.add.sprite(x_for_board, 25, letter);
+        tmp = this.add.sprite(x, 25, letter);
         tmp.setDisplaySize(40, 40);
       }
 
@@ -236,9 +229,10 @@
       door.setDisplaySize(65, 65);
       door.body.width = 65;
       door.body.height = 65;
-      door.setImmovable(); //////////
+      door.setImmovable();
 
       this.physics.add.collider(door, platforms);
+
       var pointer = this.input.activePointer;
 
       soundButton = this.physics.add.sprite(700, 30, 'sound').setDisplaySize(50, 50);
@@ -264,6 +258,7 @@
           key: 'chest' + i
         });
       }
+
       //  Our player animations, turning, walking left and walking right.
       this.anims.create({
         key: 'run',
@@ -295,25 +290,25 @@
         frameRate: 7
       })
 
-
-
       letters = this.physics.add.group();
 
-      var first = 0;
+      var platform = 0;
       platforms.children.iterate(function(child) {
         var width = child.displayWidth
 
         walls.create(child.x - (width / 2), child.y - 20, 'wall');
         walls.create(child.x + (width / 2), child.y - 20, 'wall');
         enemies.create(child.x, child.y - 51, 'enemy');
-        if (first != 0) {
+
+        // CHANGE FOR EACH STAGE - letters per stage
+        if (platform != 0) {
           position = (child.x -(width/2)) + 50;
-          if (first === 1){
+          if (platform === 1){
             for (i = 0; i < 3; i++){
               placeLetter(letters, child);
             }
           }
-          else if (first === 2){
+          else if (platform === 2){
             for (i = 0; i < 2; i++){
               placeLetter(letters, child);
             }
@@ -328,7 +323,7 @@
           placeLetter(letters, child);
         }
       }
-      first ++;
+      platform ++;
       });
 
       letters.children.iterate(function (child) {
@@ -400,9 +395,9 @@
     // Chooses a random letter from the given string
     function chooseRandomLetter(str) {
       var index = Math.floor(Math.random() * str.length);
-      var ret = '';
-      ret += str.charAt(index);
-      return ret;
+      var rand = '';
+      rand += str.charAt(index);
+      return rand;
     }
 
 
@@ -413,10 +408,10 @@
       for (i = 0; i < WORD_LEN; i++) {
         if (letter.myName === WORD.charAt(i)) {
           if (visitChecker[i] != "visited") { // Updates letter board
-            x_for_board = 25;
+            x = 25;
             cur = WORD.charAt(i) + WORD.charAt(i);
-            x_for_board = x_for_board + (50 * i);
-            tmp = this.add.sprite(x_for_board, 25, cur);
+            x = x + (50 * i);
+            tmp = this.add.sprite(x, 25, cur);
             tmp.setDisplaySize(40, 40);
             visitChecker[i] = "visited";
             letterBoard.push(letter.myName);
@@ -485,7 +480,7 @@
                 player.body.velocity.y = -150;
               }
 
-              // Place the letter back to the platforms
+              // Place the letter back to the platform
               var letter = this.physics.add.sprite(xIndices[i], yIndices[i], char);
               if (char == 'w') {
                 letter.setDisplaySize(50, 50);
@@ -509,9 +504,12 @@
       }
     }
 
+    // Places a letter in a random position in the platform
     function placeLetter(letters, child) {
+        // Places a letter in a position defined
         var temp = letters.create(position, child.y- 100, randomLetters[index]);
         temp.myName = randomLetters[index];
+        // Updates the index
         index++;
         for (i = 0; i < WORD_LEN; i++){
           if (temp.myName === WORD[i]){
@@ -525,8 +523,9 @@
             }
           }
         }
-        r = Math.floor(Math.random() * 3);
-        position += space[r];
+        // Updates the position by adding a random value to current position
+        var randIndex = Math.floor(Math.random() * 3);
+        position += space[randIndex];
     }
 
   </script>
