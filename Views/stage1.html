@@ -87,6 +87,8 @@
     var muteButton;
     var door;
     var timeAccrued;
+    var addTimeText;
+    var tween;
 
     /////////////////////////
 
@@ -194,6 +196,10 @@
         fill: '#000'
       });
       startTime = new Date().getTime();
+
+
+
+
 
       //  The platforms group contains the ground and the 2 ledges we can jump on
       platforms = this.physics.add.staticGroup();
@@ -431,6 +437,26 @@
             continue;
           }
         }
+        else{
+          // tween.play();
+          console.log("wrong letter")
+          addTimeText = new Text(game, 100, 40, '+5', {
+            fontSize: '23px',
+            fill: '#000',
+            fontWeight: 'bold'
+          });
+          timeText.setText('Time: ' + (timeAccrued+5))
+
+          this.tweens.add({
+              targets: addTimeText,
+              x: 550,
+              y: 15,
+              ease: 'Elastic',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+              duration: 3000,
+              repeat: 0           // -1: infinity
+          });
+          //fadeOutDestroy(text, 2000);
+        }
       }
     }
 
@@ -534,6 +560,7 @@
       r = Math.floor(Math.random() * 3);
       position += space[r];
     }
+
   </script>
 
 </body>
