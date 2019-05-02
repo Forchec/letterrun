@@ -87,6 +87,7 @@
     var soundButton;
     var muteButton;
     var door;
+    var timeAccrued;
 
     /////////////////////////
 
@@ -189,7 +190,7 @@
       this.add.image(400, 300, 'sky').setDisplaySize(800, 600);
 
       //NEW CHANGES
-      timeText = this.add.text(530, 16, 'Time: ', {
+      timeText = this.add.text(500, 16, 'Time: ', {
         fontSize: '26px',
         fill: '#000'
       });
@@ -242,21 +243,27 @@
       this.physics.add.collider(door, platforms);
       var pointer = this.input.activePointer;
 
-      soundButton = this.physics.add.sprite(700, 30, 'sound').setDisplaySize(50, 50);
+      soundButton = this.physics.add.sprite(760, 30, 'sound').setDisplaySize(50, 50);
       soundButton.body.allowGravity = false;
       soundButton.setScrollFactor(0);
       soundButton.setInteractive();
       soundButton.setName("sound");
       soundButton.on('pointerdown', function() {
-        music.setMute(false);
+        music.setMute(true);
+        soundButton.visible = false;
+        muteButton.visible = true;
       });
+
       muteButton = this.physics.add.sprite(760, 30, 'mute').setDisplaySize(50, 50);
+      muteButton.visible = false;
       muteButton.body.allowGravity = false;
       muteButton.setScrollFactor(0);
       muteButton.setInteractive();
       muteButton.setName("mute");
       muteButton.on('pointerdown', function() {
-        music.setMute(true);
+        music.setMute(false);
+        muteButton.visible = false;
+        soundButton.visible = true;
       });
 
       var doorFrames = [];
@@ -365,11 +372,14 @@
     }
 
     function update() {
-      timeAccrued = new Date().getTime() - startTime;
-      timeAccrued = Math.round(timeAccrued / 1000);
-      timeText.setText('Time: ' + timeAccrued)
+
       if (gameOver) {
         return;
+      }
+      else{
+        timeAccrued = new Date().getTime() - startTime;
+        timeAccrued = Math.round(timeAccrued / 1000);
+        timeText.setText('Time: ' + timeAccrued)
       }
 
       if (cursors.left.isDown) {
@@ -438,7 +448,9 @@
         player.anims.play('stop');
         door.anims.play('openChest');
         gameOver = true;
+        localStorage.setItem("score", timeAccrued);
         win_modal.style.display = "block";
+
       }
     }
 

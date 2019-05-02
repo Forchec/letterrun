@@ -240,21 +240,27 @@
 
       var pointer = this.input.activePointer;
 
-      soundButton = this.physics.add.sprite(700, 30, 'sound').setDisplaySize(50, 50);
+      soundButton = this.physics.add.sprite(760, 30, 'sound').setDisplaySize(50, 50);
       soundButton.body.allowGravity = false;
       soundButton.setScrollFactor(0);
       soundButton.setInteractive();
       soundButton.setName("sound");
       soundButton.on('pointerdown', function() {
-        music.setMute(false);
+        music.setMute(true);
+        soundButton.visible = false;
+        muteButton.visible = true;
       });
+
       muteButton = this.physics.add.sprite(760, 30, 'mute').setDisplaySize(50, 50);
+      muteButton.visible = false;
       muteButton.body.allowGravity = false;
       muteButton.setScrollFactor(0);
       muteButton.setInteractive();
       muteButton.setName("mute");
       muteButton.on('pointerdown', function() {
-        music.setMute(true);
+        music.setMute(false);
+        muteButton.visible = false;
+        soundButton.visible = true;
       });
 
       ///////////////////////
