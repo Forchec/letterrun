@@ -8,7 +8,6 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="endscreen.css">
   <title>Making your first Phaser 3 Game - Part 10</title>
-  <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
   <script src="../libraries/phaser.min.js"></script>
   <!-- The Modals MUST INCLUDE THIS IN YOUR STAGE  -->
   <script src="winend.js"></script>
@@ -161,7 +160,7 @@
       this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);
 
       //NEW CHANGES
-      timeText = this.add.text(530, 16, 'Time: ', {
+      timeText = this.add.text(600, 16, 'Time: ', {
         fontSize: '26px',
         fill: '#000'
       });
