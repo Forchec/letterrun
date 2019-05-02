@@ -16,6 +16,7 @@
   <style type="text/css">
     body {
       margin: 0;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -89,19 +90,19 @@
     var WORD_LEN = WORD.length;
     var letterCount = WORD_LEN + 13; // the int is the count of random letters
     var letterArray = "";
+
     function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-      [array[i], array[j]] = [array[j], array[i]]; // swap elements
-    }
-    return array;
-    }
-    for (var i = 0; i < letterCount; i++){
-      if (i < WORD_LEN){
-        letterArray+= WORD[i];
+      for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+        [array[i], array[j]] = [array[j], array[i]]; // swap elements
       }
-      else {
-        letterArray+=chooseRandomLetter(alpha.replace(/[penguin]/g, ''));
+      return array;
+    }
+    for (var i = 0; i < letterCount; i++) {
+      if (i < WORD_LEN) {
+        letterArray += WORD[i];
+      } else {
+        letterArray += chooseRandomLetter(alpha.replace(/[penguin]/g, ''));
       }
     }
     var randomLetters = shuffle(letterArray.split(''));
@@ -117,7 +118,7 @@
     var visitChecker = "".repeat(WORD_LEN).split("");
 
     var temp;
-    var space =[80, 60, 90];
+    var space = [80, 60, 90];
     var index = 0;
     var position;
     var xIndices = "".repeat(WORD_LEN).split("");
@@ -321,64 +322,56 @@
 
         // CHANGE FOR EACH STAGE
         if (platform != 0) {
-          position = (child.x -(width/2)) + 50;
-          if (platform === 1){
-            position = (child.x -(width/2)) + 100;
-            for (i = 0; i < 1; i++){
+          position = (child.x - (width / 2)) + 50;
+          if (platform === 1) {
+            position = (child.x - (width / 2)) + 100;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 2) {
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 3) {
+            position = (child.x - (width / 2)) + 75;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 4) {
+            position = (child.x - (width / 2)) + 75;
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 6) {
+            position = (child.x - (width / 2)) + 125;
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 7) {
+            position = (child.x - (width / 2)) + 100;
+            for (i = 0; i < 3; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 8) {
+            position = (child.x - (width / 2)) + 500;
+            for (i = 0; i < 4; i++) {
               placeLetter(letters, child);
             }
           }
-          else if (platform === 2){
-            for (i = 0; i < 2; i++){
-              placeLetter(letters, child);
-            }
+        } else { // when first platfrom
+          position = (child.x - (width / 2)) + 550;
+          for (i = 0; i < 3; i++) {
+            placeLetter(letters, child);
           }
-          else if (platform === 3){
-            position = (child.x -(width/2)) + 75;
-            for (i = 0; i < 1; i++){
-              placeLetter(letters, child);
-            }
-          }
-          else if (platform === 4){
-            position = (child.x -(width/2)) + 75;
-            for (i = 0; i < 2; i++){
-              placeLetter(letters, child);
-            }
-          }
-          else if (platform === 6){
-            position = (child.x -(width/2)) + 125;
-            for (i = 0; i < 2; i++){
-              placeLetter(letters, child);
-            }
-          }
-          else if (platform === 7){
-            position = (child.x -(width/2)) + 100;
-            for (i = 0; i < 3; i++){
-              placeLetter(letters, child);
-            }
-          }
-          else if (platform === 8){
-            position = (child.x -(width/2)) + 500;
-            for (i = 0; i < 4; i++){
-              placeLetter(letters, child);
-            }
-          }
-      }
-      else { // when first platfrom
-        position = (child.x -(width/2)) + 550;
-        for (i = 0; i < 3; i++){
-          placeLetter(letters, child);
         }
-      }
-      platform ++;
+        platform++;
       });
 
-      letters.children.iterate(function (child) {
-        if (child.myName === 'w'){
-          child.setDisplaySize(50,50);
-        }
-        else {
-          child.setDisplaySize(40,40);
+      letters.children.iterate(function(child) {
+        if (child.myName === 'w') {
+          child.setDisplaySize(50, 50);
+        } else {
+          child.setDisplaySize(40, 40);
         }
       });
 
@@ -572,23 +565,22 @@
     }
 
     function placeLetter(letters, child) {
-        var temp = letters.create(position, child.y- 100, randomLetters[index]);
-        temp.myName = randomLetters[index];
-        index++;
-        for (i = 0; i < WORD_LEN; i++){
-          if (temp.myName === WORD[i]){
-            if (xIndices[i] > 0){
-              continue;
-            }
-            else {
-              xIndices[i] = position;
-              yIndices[i] = child.y- 100;
-              break;
-            }
+      var temp = letters.create(position, child.y - 100, randomLetters[index]);
+      temp.myName = randomLetters[index];
+      index++;
+      for (i = 0; i < WORD_LEN; i++) {
+        if (temp.myName === WORD[i]) {
+          if (xIndices[i] > 0) {
+            continue;
+          } else {
+            xIndices[i] = position;
+            yIndices[i] = child.y - 100;
+            break;
           }
         }
-        r = Math.floor(Math.random() * 3);
-        position += space[r];
+      }
+      r = Math.floor(Math.random() * 3);
+      position += space[r];
     }
   </script>
 
