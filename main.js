@@ -16,6 +16,7 @@ function createWindow() {
     // Comment out resizable and fullscren for testing
     resizable: false,
     fullscreen: false,
+    maximizable: false,
   })
 
   // and load the index.html of the app.
