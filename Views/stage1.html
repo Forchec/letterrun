@@ -35,6 +35,9 @@
     var menu_btn2 = document.getElementById("menu_button_2");
     var next_btn = document.getElementById("next_button");
 
+    // Get text
+    var win_text = document.getElementById('winText');
+    var lose_text = document.getElementById('loseText');
 
     replay_btn1.onclick = function() {
       window.location.href = "stage1.html";
@@ -191,7 +194,7 @@
       this.add.image(400, 300, 'sky').setDisplaySize(800, 600);
 
       //NEW CHANGES
-      timeText = this.add.text(600, 16, 'Time: ', {
+      timeText = this.add.text(580, 16, 'Time: ', {
         fontSize: '26px',
         fill: '#000'
       });
@@ -380,11 +383,11 @@
 
       if (gameOver) {
         return;
-      }
-      else{
+      } else {
         timeAccrued = new Date().getTime() - startTime;
         timeAccrued = Math.round(timeAccrued / 1000);
-        timeText.setText('Time: ' + timeAccrued)
+        timeText.setText('Time: ' + timeAccrued);
+        timeText.depth = 1;
       }
 
       if (cursors.left.isDown) {
@@ -474,6 +477,7 @@
         door.anims.play('openChest');
         gameOver = true;
         localStorage.setItem("score", timeAccrued);
+        win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
         win_modal.style.display = "block";
 
       }
