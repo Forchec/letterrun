@@ -377,8 +377,25 @@
       this.physics.add.overlap(enemies, walls, hitWall, null, this);
       this.physics.add.collider(player, enemies, hitEnemy, null, this);
       this.physics.add.collider(player, door, hitDoor, null, this);
-    }
 
+      addTimeText = this.add.text(850, 400, '+3', {
+        fontSize: '50px',
+        fill: '#000',
+        fontWeight: 'bold'
+      });
+
+      tween = this.tweens.add({
+          targets: addTimeText,
+          x: 600,
+          y: -60,
+          ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+          duration: 3000,
+          repeat: 0           // -1: infinity
+      });
+      console.log(tween)
+      //tween.pause()
+
+    }
     function update() {
 
       if (gameOver) {
@@ -427,6 +444,7 @@
       var cur = '';
       for (i = 0; i < WORD_LEN; i++) {
         if (letter.myName === WORD.charAt(i)) {
+          console.log(letter.myName)
           if (visitChecker[i] != "visited") { // Updates letter board
             x_for_board = 25;
             cur = WORD.charAt(i) + WORD.charAt(i);
@@ -441,23 +459,11 @@
           }
         }
         else{
-          // tween.play();
+          //tween.play()
+          console.log(tween)
+          tween.play();
           console.log("wrong letter")
-          addTimeText = new Text(game, 100, 40, '+5', {
-            fontSize: '23px',
-            fill: '#000',
-            fontWeight: 'bold'
-          });
-          timeText.setText('Time: ' + (timeAccrued+5))
-
-          this.tweens.add({
-              targets: addTimeText,
-              x: 550,
-              y: 15,
-              ease: 'Elastic',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
-              duration: 3000,
-              repeat: 0           // -1: infinity
-          });
+          startTime -= 300;
           //fadeOutDestroy(text, 2000);
         }
       }
