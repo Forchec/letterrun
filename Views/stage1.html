@@ -167,16 +167,25 @@
           for (var i = 0; i < 18; i++) {
             this.load.image('hero' + i, '../newAssets/character/BlueRun/' + (i + 1) + 'r.png');
           }
+          this.load.image('idle', '../newAssets/character/BlueIdle/1R.png');
+          this.load.image('jump', '../newAssets/character/BlueJump/up.png');
+          this.load.image('fall', '../newAssets/character/BlueJump/down.png');
           break;
         case "grey":
           for (var i = 0; i < 18; i++) {
             this.load.image('hero' + i, '../newAssets/character/WhiteRun/' + (i + 1) + 'r.png');
           }
+          this.load.image('idle', '../newAssets/character/WhiteIdle/1R.png');
+          this.load.image('jump', '../newAssets/character/WhiteJump/up.png');
+          this.load.image('fall', '../newAssets/character/WhiteJump/down.png');
           break;
         default:
           for (var i = 0; i < 18; i++) {
             this.load.image('hero' + i, '../newAssets/character/Run/' + (i + 1) + 'r.png');
           }
+          this.load.image('idle', '../newAssets/character/Idle/1R.png');
+          this.load.image('jump', '../newAssets/character/Jump/up.png');
+          this.load.image('fall', '../newAssets/character/Jump/down.png');
           break;
       }
       console.log(color);
@@ -215,7 +224,7 @@
 
 
       // The player and its settings
-      player = this.physics.add.sprite(80, 450, 'hero0');
+      player = this.physics.add.sprite(80, 450, 'idle');
 
       enemies = this.physics.add.group();
 
@@ -291,7 +300,23 @@
       this.anims.create({
         key: 'stop',
         frames: [{
-          key: 'hero0'
+          key: 'idle'
+        }],
+        frameRate: 10
+      });
+
+      this.anims.create({
+        key: 'jump',
+        frames: [{
+          key: 'jump'
+        }],
+        frameRate: 10
+      });
+
+      this.anims.create({
+        key: 'fall',
+        frames: [{
+          key: 'fall'
         }],
         frameRate: 10
       });
@@ -385,17 +410,18 @@
       });
 
       tween = this.tweens.add({
-          targets: addTimeText,
-          x: 600,
-          y: -60,
-          ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
-          duration: 3000,
-          repeat: 0           // -1: infinity
+        targets: addTimeText,
+        x: 600,
+        y: -60,
+        ease: 'Linear', // 'Cubic', 'Elastic', 'Bounce', 'Back'
+        duration: 3000,
+        repeat: 0 // -1: infinity
       });
       console.log(tween)
       //tween.pause()
 
     }
+
     function update() {
 
       if (gameOver) {
@@ -410,11 +436,16 @@
       if (cursors.left.isDown) {
         player.setVelocityX(-160);
         player.flipX = true;
-        player.anims.play('run', true);
+        if (player.body.touching.down) {
+          player.anims.play('run', true);
+        }
+
       } else if (cursors.right.isDown) {
         player.setVelocityX(160);
         player.flipX = false;
-        player.anims.play('run', true);
+        if (player.body.touching.down) {
+          player.anims.play('run', true);
+        }
       } else {
         player.setVelocityX(0);
 
@@ -425,6 +456,13 @@
       }
       if (cursors.down.isDown) {
         player.setVelocityY(330);
+      }
+      console.log(player.body.velocity.y);
+      if (player.body.velocity.y < 0) {
+        player.anims.play('jump', true);
+      }
+      if (player.body.velocity.y > 50) {
+        player.anims.play('fall', true);
       }
 
     }
@@ -457,8 +495,7 @@
           } else {
             continue;
           }
-        }
-        else{
+        } else {
           //tween.play()
           console.log(tween)
           tween.play();
@@ -570,7 +607,6 @@
       r = Math.floor(Math.random() * 3);
       position += space[r];
     }
-
   </script>
 
 </body>
