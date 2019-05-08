@@ -8,7 +8,6 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="endscreen.css">
   <title>Making your first Phaser 3 Game - Part 10</title>
-  <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
   <script src="../libraries/phaser.min.js"></script>
   <!-- The Modals MUST INCLUDE THIS IN YOUR STAGE  -->
   <script src="winend.js"></script>
@@ -16,6 +15,7 @@
   <style type="text/css">
     body {
       margin: 0;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -32,6 +32,10 @@
     var replay_btn2 = document.getElementById("replay_button_2");
     var menu_btn1 = document.getElementById("menu_button_1");
     var menu_btn2 = document.getElementById("menu_button_2");
+
+    // Get text
+    var win_text = document.getElementById('winText');
+    var lose_text = document.getElementById('loseText');
 
 
     replay_btn1.onclick = function() {
@@ -77,6 +81,7 @@
     var cursors;
     var score = 0;
     var gameOver = false;
+    var timeAccrued;
 
     /////////////////////////
     var door;
@@ -127,20 +132,29 @@
 
       var color = localStorage.getItem("color");
       switch (color) {
-        case "green":
+        case "blue":
           for (var i = 0; i < 18; i++) {
             this.load.image('hero' + i, '../newAssets/character/BlueRun/' + (i + 1) + 'r.png');
           }
+          this.load.image('idle', '../newAssets/character/BlueIdle/1R.png');
+          this.load.image('jump', '../newAssets/character/BlueJump/up.png');
+          this.load.image('fall', '../newAssets/character/BlueJump/down.png');
           break;
-        case "purple":
+        case "grey":
           for (var i = 0; i < 18; i++) {
             this.load.image('hero' + i, '../newAssets/character/WhiteRun/' + (i + 1) + 'r.png');
           }
+          this.load.image('idle', '../newAssets/character/WhiteIdle/1R.png');
+          this.load.image('jump', '../newAssets/character/WhiteJump/up.png');
+          this.load.image('fall', '../newAssets/character/WhiteJump/down.png');
           break;
         default:
           for (var i = 0; i < 18; i++) {
             this.load.image('hero' + i, '../newAssets/character/Run/' + (i + 1) + 'r.png');
           }
+          this.load.image('idle', '../newAssets/character/Idle/1R.png');
+          this.load.image('jump', '../newAssets/character/Jump/up.png');
+          this.load.image('fall', '../newAssets/character/Jump/down.png');
           break;
       }
       console.log(color);
@@ -160,7 +174,7 @@
       this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);
 
       //NEW CHANGES
-      timeText = this.add.text(530, 16, 'Time: ', {
+      timeText = this.add.text(580, 16, 'Time: ', {
         fontSize: '26px',
         fill: '#000'
       });
@@ -174,8 +188,8 @@
       // Ground/starting platform
       platforms.create(400, 600, 'ground').setDisplaySize(800, 60).refreshBody();
       platforms.create(400, 450, 'ground').setDisplaySize(100, 60).refreshBody();
-      platforms.create(200, 400, 'ground').setDisplaySize(200, 60).refreshBody();
-      platforms.create(600, 400, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(175, 400, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(625, 400, 'ground').setDisplaySize(200, 60).refreshBody();
       // platforms
       platforms.create(1250, 450, 'ground').setDisplaySize(200, 60).refreshBody();
       platforms.create(1350, 600, 'ground').setDisplaySize(400, 60).refreshBody();
@@ -198,7 +212,7 @@
 
 
       // The player and its settings
-      player = this.physics.add.sprite(80, 450, 'hero0');
+      player = this.physics.add.sprite(80, 450, 'idle');
 
 
       enemies = this.physics.add.group();
@@ -239,21 +253,27 @@
 
       var pointer = this.input.activePointer;
 
-      soundButton = this.physics.add.sprite(700, 30, 'sound').setDisplaySize(50, 50);
+      soundButton = this.physics.add.sprite(760, 30, 'sound').setDisplaySize(50, 50);
       soundButton.body.allowGravity = false;
       soundButton.setScrollFactor(0);
       soundButton.setInteractive();
       soundButton.setName("sound");
       soundButton.on('pointerdown', function() {
-        music.setMute(false);
+        music.setMute(true);
+        soundButton.visible = false;
+        muteButton.visible = true;
       });
+
       muteButton = this.physics.add.sprite(760, 30, 'mute').setDisplaySize(50, 50);
+      muteButton.visible = false;
       muteButton.body.allowGravity = false;
       muteButton.setScrollFactor(0);
       muteButton.setInteractive();
       muteButton.setName("mute");
       muteButton.on('pointerdown', function() {
-        music.setMute(true);
+        music.setMute(false);
+        muteButton.visible = false;
+        soundButton.visible = true;
       });
 
       ///////////////////////
@@ -275,7 +295,23 @@
       this.anims.create({
         key: 'stop',
         frames: [{
-          key: 'hero0'
+          key: 'idle'
+        }],
+        frameRate: 10
+      });
+
+      this.anims.create({
+        key: 'jump',
+        frames: [{
+          key: 'jump'
+        }],
+        frameRate: 10
+      });
+
+      this.anims.create({
+        key: 'fall',
+        frames: [{
+          key: 'fall'
         }],
         frameRate: 10
       });
@@ -371,12 +407,13 @@
     }
 
     function update() {
-      timeAccrued = new Date().getTime() - startTime;
-      timeAccrued = Math.round(timeAccrued / 1000);
-      timeText.setText('Time: ' + timeAccrued)
-      timeText.depth = 1;
       if (gameOver) {
         return;
+      } else {
+        timeAccrued = new Date().getTime() - startTime;
+        timeAccrued = Math.round(timeAccrued / 1000);
+        timeText.setText('Time: ' + timeAccrued)
+        timeText.depth = 1;
       }
       if (player.y > 800) {
         gameOver = true;
@@ -391,11 +428,15 @@
         }
 
         player.flipX = true;
-        player.anims.play('run', true);
+        if (player.body.touching.down) {
+          player.anims.play('run', true);
+        }
       } else if (cursors.right.isDown) {
         player.setVelocityX(160);
         player.flipX = false;
-        player.anims.play('run', true);
+        if (player.body.touching.down) {
+          player.anims.play('run', true);
+        }
       } else {
         player.setVelocityX(0);
 
@@ -406,6 +447,12 @@
       }
       if (cursors.down.isDown) {
         player.setVelocityY(330);
+      }
+      if (player.body.velocity.y < 0) {
+        player.anims.play('jump', true);
+      }
+      if (player.body.velocity.y > 50) {
+        player.anims.play('fall', true);
       }
     }
     /////////////////////
@@ -469,6 +516,7 @@
         player.anims.play('stop');
         door.anims.play('openChest');
         gameOver = true;
+        win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
         win_modal.style.display = "block";
       }
     }
