@@ -211,7 +211,7 @@
       platforms.create(2400, 250, 'ground').setDisplaySize(120, 5).refreshBody();
       platforms.create(2400, 75, 'ground').setDisplaySize(120, 5).refreshBody();
       platforms.create(2800, 100, 'ground').setDisplaySize(400, 60).refreshBody();
-      platforms.create(2550, 400, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(2600, 400, 'ground').setDisplaySize(200, 60).refreshBody();
       platforms.create(1800, 100, 'ground').setDisplaySize(800, 60).refreshBody();
       // Ending platform
       platforms.create(925, 100, 'ground').setDisplaySize(400, 60).refreshBody();
@@ -566,7 +566,7 @@
         gameOver = true;
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
         var highScore = localStorage.getItem("highScore")
-        if (highScore != undefined || (highScore > timeAccrued)){
+        if (highScore == undefined || (highScore > timeAccrued)){
           localStorage.setItem("highScore",timeAccrued)
         }
         highScore = localStorage.getItem("highScore")

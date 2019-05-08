@@ -359,15 +359,18 @@
         x: 600,
         y: -60,
         ease: 'Linear', // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: 3000,
+        duration: 2000,
         repeat: 0, // -1: infinity
         onComplete: function () { console.log('onComplete');
-                                  //addTimeText.setPosition(850,400)
-                                  addTimeText.x = 850;
-                                  addTimeText.y = 400;}
+                                  addTimeText.setPosition(200,200)},
+        onStart: function(){
+            addTimeText.setPosition(200,200)
+        }
+                                  //addTimeText.x = 200;
+                                  //addTimeText.y = 200;}
 
       });
-      console.log(tween)
+      //console.log(tween)
       //tween.pause()
     }
     function update() {
@@ -417,7 +420,8 @@
     }
     // Updates letter board as the player collects the letter
     function collectLetter(player, letter) {
-      letter.disableBody(true, true);
+      //letter.disableBody(true, true);
+
       var cur = '';
       for (i = 0; i < WORD_LEN; i++) {
         if (letter.myName === WORD.charAt(i)) {
@@ -431,16 +435,19 @@
             visitChecker[i] = "visited";
             letterBoard.push(letter.myName);
             break;
-          } else {
+          }
+          else{
             continue;
           }
         } else {
           console.log("wrong letter")
           console.log(tween);
-          tween.start();
+          //console.log(addTimeText.x)
+          tween.restart();
           startTime -= 300;
         }
       }
+      letter.destroy()
     }
     //Checks if all letters have been collected to make the game over or not
     function hitDoor(player, door) {
@@ -459,7 +466,7 @@
 
         var highScore = localStorage.getItem("highScore")
         console.log(highScore)
-        if (highScore != undefined || (highScore > timeAccrued)){
+        if (highScore == undefined || (highScore > timeAccrued)){
           localStorage.setItem("highScore",timeAccrued)
         }
         highScore = localStorage.getItem("highScore")
