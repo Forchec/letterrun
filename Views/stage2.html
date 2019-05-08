@@ -83,6 +83,7 @@
     var WORD_LEN = WORD.length;
     var letterCount = WORD_LEN + 11; // the int is the count of random letters
     var letterArray = "";
+
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
@@ -113,13 +114,14 @@
     var xIndices = "".repeat(WORD_LEN).split("");
     var yIndices = "".repeat(WORD_LEN).split("");
     var game = new Phaser.Game(config);
+
     function preload() {
       //////////////////////////
       var current = '';
       for (var i = 0; i < letterCount; i++) {
         current = letterArray[i]; // Collectable letters
         this.load.image(current, '../assets/' + current + '.png');
-        if (i < WORD_LEN){
+        if (i < WORD_LEN) {
           current = letterArray[i] + letterArray[i]; // Color-box letters
           this.load.image(current, '../assets/' + current + '.png');
           current = letterArray[i] + letterArray[i] + letterArray[i]; // Gray-box letters
@@ -167,6 +169,7 @@
       this.load.image('mute', '../newAssets/buttons/mutebutton.png');
       this.load.image('sound', '../newAssets/buttons/soundbutton.png');
     }
+
     function create() {
       //console.log(alpha.replace(/[penguin]/g, ''));
       var music = this.sound.add('song');
@@ -385,6 +388,7 @@
       // make the camera follow the player
       this.cameras.main.startFollow(player);
     }
+
     function update() {
       if (gameOver) {
         return;
@@ -476,6 +480,7 @@
         player.anims.play('stop');
         door.anims.play('openChest');
         gameOver = true;
+        localStorage.setItem("stage3", "unlocked");
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
         var highScore = localStorage.getItem("highScore")
         if (highScore == undefined || (highScore > timeAccrued)){
@@ -486,6 +491,7 @@
         win_modal.style.display = "block";
       }
     }
+
     function hitWall(enemy, wall) {
       console.log("hitWall");
       var speed = enemy.body.velocity.x
@@ -545,6 +551,7 @@
         }
       }
     }
+
     function placeLetter(letters, child) {
       var temp = letters.create(position, child.y - 100, randomLetters[index]);
       temp.myName = randomLetters[index];

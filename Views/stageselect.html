@@ -16,23 +16,36 @@
   <div class="grid-container">
     <div class="stage-one">
       <form action="stage1.html" method="get">
-        <button type="submit" class="stage-unlocked-button stage-button">Stage 1</button>
-
+        <button id="stage1" type="submit" class="stage-unlocked-button stage-button">Stage 1</button>
       </form>
     </div>
     <div class="stage-two">
       <form action="stage2.html" method="get">
-        <button type="submit" class="stage-unlocked-button stage-button">Stage 2</button>
-
+        <button disabled id="stage2" type="submit" class="stage-unlocked-button stage-button">Stage 2</button>
       </form>
     </div>
     <div class="stage-three">
       <form action="stage3.html" method="get">
-        <button type="submit" class="stage-unlocked-button stage-button">Stage 3</button>
-
+        <button disabled id="stage3" type="submit" class="stage-unlocked-button stage-button">Stage 3</button>
       </form>
     </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var status2 = localStorage.getItem("stage2");
+      var status3 = localStorage.getItem("stage3");
+
+      var stage2 = document.getElementById('stage2');
+      var stage3 = document.getElementById('stage3');
+
+      if (status2 === "unlocked") {
+        stage2.disabled = false;
+      }
+      if (status3 === "unlocked") {
+        stage3.disabled = false;
+      }
+    });
+  </script>
 </body>
 
 </html>
