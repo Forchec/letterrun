@@ -387,6 +387,33 @@
               placeLetter(letters, child);
             }
           }
+          else if (platform === 6) {
+            position = (child.x - (width / 2)) + 70;
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          }
+          else if (platform === 7) {
+            position = (child.x - (width / 2)) + 70;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          }
+          else if (platform === 11) {
+            position = (child.x - (width / 2)) + 80;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          }
+          else if (platform === 12) {
+            position = (child.x - (width / 2)) + 80;
+            for (i = 0; i < 5; i++) {
+              if (i === 3){
+                position = position + 420;
+              }
+              placeLetter(letters, child);
+            }
+          }
             //...place letters for each platform...//
         } else { // when first platfrom
           position = (child.x - (width / 2)) + 550;
