@@ -363,26 +363,18 @@
         ease: 'Linear', // 'Cubic', 'Elastic', 'Bounce', 'Back'
         duration: 2000,
         repeat: 0, // -1: infinity
-<<<<<<< HEAD
+
         onComplete: function () { console.log('onComplete');
-                                  addTimeText.setPosition(200,200)},
+                                  addTimeText.setPosition(850,400)},
         onStart: function(){
-            addTimeText.setPosition(200,200)
+            addTimeText.setPosition(850,400)
         }
                                   //addTimeText.x = 200;
                                   //addTimeText.y = 200;}
-=======
-        onComplete: function() {
-          console.log('onComplete');
-          //addTimeText.setPosition(850,400)
-          addTimeText.x = 850;
-          addTimeText.y = 400;
-        }
->>>>>>> a5ac4f94dff075c65babeb780ef9fab72d3da03b
 
       });
       //console.log(tween)
-      //tween.pause()
+      tween.pause()
     }
 
     function update() {
@@ -480,13 +472,8 @@
 
         var highScore = localStorage.getItem("highScore")
         console.log(highScore)
-<<<<<<< HEAD
         if (highScore == undefined || (highScore > timeAccrued)){
           localStorage.setItem("highScore",timeAccrued)
-=======
-        if (highScore != undefined || (highScore > timeAccrued)) {
-          localStorage.setItem("highScore", timeAccrued)
->>>>>>> a5ac4f94dff075c65babeb780ef9fab72d3da03b
         }
         highScore = localStorage.getItem("highScore")
         win_text.innerHTML += "<br>Fastest Time: " + highScore;
