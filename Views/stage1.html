@@ -90,6 +90,7 @@
     var WORD_LEN = WORD.length;
     var letterCount = WORD_LEN + 4; // the int is the count of random letters
     var letterArray = "";
+
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
@@ -129,7 +130,7 @@
       for (var i = 0; i < letterCount; i++) {
         current = letterArray[i]; // Collectable letters
         this.load.image(current, '../assets/' + current + '.png');
-        if (i < WORD_LEN){
+        if (i < WORD_LEN) {
           current = letterArray[i] + letterArray[i]; // Color-box letters
           this.load.image(current, '../assets/' + current + '.png');
           current = letterArray[i] + letterArray[i] + letterArray[i]; // Gray-box letters
@@ -176,6 +177,7 @@
       this.load.image('mute', '../newAssets/buttons/mutebutton.png');
       this.load.image('sound', '../newAssets/buttons/soundbutton.png');
     }
+
     function create() {
       var music = this.sound.add('song');
       music.play();
@@ -364,6 +366,7 @@
       console.log(tween)
       //tween.pause()
     }
+
     function update() {
       if (gameOver) {
         return;
@@ -453,10 +456,12 @@
         door.anims.play('openChest');
         gameOver = true;
         localStorage.setItem("score", timeAccrued);
+        localStorage.setItem("stage2", "unlocked");
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
         win_modal.style.display = "block";
       }
     }
+
     function hitWall(enemy, wall) {
       console.log("hitWall");
       var speed = enemy.body.velocity.x
@@ -514,6 +519,7 @@
         }
       }
     }
+
     function placeLetter(letters, child) {
       var temp = letters.create(position, child.y - 100, randomLetters[index]);
       temp.myName = randomLetters[index];
