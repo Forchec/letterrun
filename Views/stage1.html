@@ -90,6 +90,7 @@
     var WORD_LEN = WORD.length;
     var letterCount = WORD_LEN + 4; // the int is the count of random letters
     var letterArray = "";
+
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
@@ -129,7 +130,7 @@
       for (var i = 0; i < letterCount; i++) {
         current = letterArray[i]; // Collectable letters
         this.load.image(current, '../assets/' + current + '.png');
-        if (i < WORD_LEN){
+        if (i < WORD_LEN) {
           current = letterArray[i] + letterArray[i]; // Color-box letters
           this.load.image(current, '../assets/' + current + '.png');
           current = letterArray[i] + letterArray[i] + letterArray[i]; // Gray-box letters
@@ -176,6 +177,7 @@
       this.load.image('mute', '../newAssets/buttons/mutebutton.png');
       this.load.image('sound', '../newAssets/buttons/soundbutton.png');
     }
+
     function create() {
       var music = this.sound.add('song');
       music.play();
@@ -348,6 +350,7 @@
       this.physics.add.overlap(enemies, walls, hitWall, null, this);
       this.physics.add.collider(player, enemies, hitEnemy, null, this);
       this.physics.add.collider(player, door, hitDoor, null, this);
+
       addTimeText = this.add.text(850, 400, '+3', {
         fontSize: '50px',
         fill: '#000',
@@ -358,12 +361,22 @@
         x: 600,
         y: -60,
         ease: 'Linear', // 'Cubic', 'Elastic', 'Bounce', 'Back'
-        duration: 3000,
-        repeat: 0 // -1: infinity
+        duration: 2000,
+        repeat: 0, // -1: infinity
+
+        onComplete: function () { console.log('onComplete');
+                                  addTimeText.setPosition(850,400)},
+        onStart: function(){
+            addTimeText.setPosition(850,400)
+        }
+                                  //addTimeText.x = 200;
+                                  //addTimeText.y = 200;}
+
       });
-      console.log(tween)
-      //tween.pause()
+      //console.log(tween)
+      tween.pause()
     }
+
     function update() {
       if (gameOver) {
         return;
@@ -395,7 +408,6 @@
       if (cursors.down.isDown) {
         player.setVelocityY(330);
       }
-      console.log(player.body.velocity.y);
       if (player.body.velocity.y < 0) {
         player.anims.play('jump', true);
       }
@@ -412,7 +424,8 @@
     }
     // Updates letter board as the player collects the letter
     function collectLetter(player, letter) {
-      letter.disableBody(true, true);
+      //letter.disableBody(true, true);
+
       var cur = '';
       for (i = 0; i < WORD_LEN; i++) {
         if (letter.myName === WORD.charAt(i)) {
@@ -426,18 +439,19 @@
             visitChecker[i] = "visited";
             letterBoard.push(letter.myName);
             break;
-          } else {
+          }
+          else{
             continue;
           }
         } else {
-          //tween.play()
-          console.log(tween)
-          tween.play();
           console.log("wrong letter")
+          console.log(tween);
+          //console.log(addTimeText.x)
+          tween.restart();
           startTime -= 300;
-          //fadeOutDestroy(text, 2000);
         }
       }
+      letter.destroy()
     }
     //Checks if all letters have been collected to make the game over or not
     function hitDoor(player, door) {
@@ -453,12 +467,22 @@
         door.anims.play('openChest');
         gameOver = true;
         localStorage.setItem("score", timeAccrued);
+        localStorage.setItem("stage2", "unlocked");
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
+
+        var highScore = localStorage.getItem("highScore")
+        console.log(highScore)
+        if (highScore == undefined || (highScore > timeAccrued)){
+          localStorage.setItem("highScore",timeAccrued)
+        }
+        highScore = localStorage.getItem("highScore")
+        win_text.innerHTML += "<br>Fastest Time: " + highScore;
         win_modal.style.display = "block";
       }
     }
+
     function hitWall(enemy, wall) {
-      console.log("hitWall");
+      // console.log("hitWall");
       var speed = enemy.body.velocity.x
       speed = -1 * speed;
       enemy.body.setVelocityX(speed);
@@ -514,6 +538,7 @@
         }
       }
     }
+
     function placeLetter(letters, child) {
       var temp = letters.create(position, child.y - 100, randomLetters[index]);
       temp.myName = randomLetters[index];
