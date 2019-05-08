@@ -86,7 +86,7 @@
     var WORD = "universe"; // change word for each stage
     var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
     var WORD_LEN = WORD.length;
-    var letterCount = WORD_LEN + 10; // the int is the count of random letters
+    var letterCount = WORD_LEN + 16; // the int is the count of random letters
     var letterArray = "";
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -399,6 +399,12 @@
               placeLetter(letters, child);
             }
           }
+          else if (platform === 10) {
+            position = (child.x - (width / 2)) + 170;
+            for (i = 0; i < 3; i++) {
+              placeLetter(letters, child);
+            }
+          }
           else if (platform === 11) {
             position = (child.x - (width / 2)) + 80;
             for (i = 0; i < 1; i++) {
@@ -409,12 +415,18 @@
             position = (child.x - (width / 2)) + 80;
             for (i = 0; i < 5; i++) {
               if (i === 3){
-                position = position + 420;
+                position = position + 350;
               }
               placeLetter(letters, child);
             }
           }
-            //...place letters for each platform...//
+          else if (platform === 13) {
+            position = (child.x - (width / 2)) + 300;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          }
+
         } else { // when first platfrom
           position = (child.x - (width / 2)) + 550;
           for (i = 0; i < 3; i++) {
