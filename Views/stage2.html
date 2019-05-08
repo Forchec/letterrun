@@ -80,7 +80,6 @@
     var timeAccrued;
     var WORD = "rainbow"; // change word for each stage
     var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
-    alpha.replace(/[rainbow]/g, '') // change the word for each stage
     var WORD_LEN = WORD.length;
     var letterCount = WORD_LEN + 11; // the int is the count of random letters
     var letterArray = "";
@@ -117,13 +116,15 @@
     function preload() {
       //////////////////////////
       var current = '';
-      for (var i = 0; i < 26; i++) {
-        current = alpha.charAt(i); // Collectable letters
+      for (var i = 0; i < letterCount; i++) {
+        current = letterArray[i]; // Collectable letters
         this.load.image(current, '../assets/' + current + '.png');
-        current = alpha.charAt(i) + alpha.charAt(i); // Color-box letters
-        this.load.image(current, '../assets/' + current + '.png');
-        current = alpha.charAt(i) + alpha.charAt(i) + alpha.charAt(i); // Gray-box letters
-        this.load.image(current, '../assets/' + current + '.png');
+        if (i < WORD_LEN){
+          current = letterArray[i] + letterArray[i]; // Color-box letters
+          this.load.image(current, '../assets/' + current + '.png');
+          current = letterArray[i] + letterArray[i] + letterArray[i]; // Gray-box letters
+          this.load.image(current, '../assets/' + current + '.png');
+        }
       }
       this.load.image('door', '../assets/door.png');
       for (var i = 1; i < 10; i++) {
@@ -486,6 +487,7 @@
       enemy.body.setVelocityX(speed);
       enemy.anims.play("enemyMove", true)
     }
+
     // Checks the letter board to either kill or take away a letter
     function hitEnemy(player, enemy) {
       player.anims.play('stop')

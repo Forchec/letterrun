@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="endscreen.css">
-  <title>Making your first Phaser 3 Game - Part 10</title>
+  <title>Stage 1</title>
 
   <script src="../libraries/phaser.min.js"></script>
   <!-- The Modals MUST INCLUDE THIS IN YOUR STAGE  -->
@@ -119,16 +119,22 @@
     var position;
     var xIndices = "".repeat(WORD_LEN).split("");
     var yIndices = "".repeat(WORD_LEN).split("");
+
+
     var game = new Phaser.Game(config);
+
+
     function preload() {
       var current = '';
-      for (var i = 0; i < 26; i++) {
-        current = alpha.charAt(i); // Collectable letters
+      for (var i = 0; i < letterCount; i++) {
+        current = letterArray[i]; // Collectable letters
         this.load.image(current, '../assets/' + current + '.png');
-        current = alpha.charAt(i) + alpha.charAt(i); // Color-box letters
-        this.load.image(current, '../assets/' + current + '.png');
-        current = alpha.charAt(i) + alpha.charAt(i) + alpha.charAt(i); // Gray-box letters
-        this.load.image(current, '../assets/' + current + '.png');
+        if (i < WORD_LEN){
+          current = letterArray[i] + letterArray[i]; // Color-box letters
+          this.load.image(current, '../assets/' + current + '.png');
+          current = letterArray[i] + letterArray[i] + letterArray[i]; // Gray-box letters
+          this.load.image(current, '../assets/' + current + '.png');
+        }
       }
       this.load.image('door', '../assets/door.png'); //????? chest?
       for (var i = 1; i < 10; i++) {
