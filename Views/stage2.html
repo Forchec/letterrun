@@ -82,7 +82,7 @@
     var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
     alpha.replace(/[rainbow]/g, '') // change the word for each stage
     var WORD_LEN = WORD.length;
-    var letterCount = WORD_LEN + 13; // the int is the count of random letters
+    var letterCount = WORD_LEN + 11; // the int is the count of random letters
     var letterArray = "";
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -95,7 +95,7 @@
       if (i < WORD_LEN) {
         letterArray += WORD[i];
       } else {
-        letterArray += chooseRandomLetter(alpha.replace(/[penguin]/g, ''));
+        letterArray += chooseRandomLetter(alpha.replace(/[rainbow]/g, ''));
       }
     }
     var randomLetters = shuffle(letterArray.split(''));
