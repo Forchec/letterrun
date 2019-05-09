@@ -1,4 +1,4 @@
-## WORKFLOW
+﻿## WORKFLOW
 
 Start with the master branch.
 
@@ -17,3 +17,12 @@ Merge your pull request – Check for any conflicts and add the code to the mast
 ## COMMIT MESSAGE FORMAT
 
 Commit Message should be informative for what is changed/removed/added. Example: “Added character select screen functionality” or “Changed settings page instructions” 
+
+
+
+## HOW TO PACKAGE THE GAME
+
+1. npm install -g electron-packager
+
+
+More details: https://github.com/electron-userland/electron-packager
