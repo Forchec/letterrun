@@ -88,6 +88,7 @@
     var WORD_LEN = WORD.length;
     var letterCount = WORD_LEN + 16; // the int is the count of random letters
     var letterArray = "";
+
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
@@ -116,7 +117,7 @@
     var index = 0;
     var position;
     var xIndices = "".repeat(WORD_LEN).split("");
-    var yIndices = "".repeat(WORD_LEN).split("");    ////////////////////////
+    var yIndices = "".repeat(WORD_LEN).split(""); ////////////////////////
 
     var game = new Phaser.Game(config);
 
@@ -126,7 +127,7 @@
       for (var i = 0; i < letterCount; i++) {
         current = letterArray[i]; // Collectable letters
         this.load.image(current, '../assets/' + current + '.png');
-        if (i < WORD_LEN){
+        if (i < WORD_LEN) {
           current = letterArray[i] + letterArray[i]; // Color-box letters
           this.load.image(current, '../assets/' + current + '.png');
           current = letterArray[i] + letterArray[i] + letterArray[i]; // Gray-box letters
@@ -356,71 +357,61 @@
 
         // CHANGE FOR EACH STAGE
         if (platform != 0) {
-           position = (child.x - (width / 2)) + 50;
+          position = (child.x - (width / 2)) + 50;
           if (platform === 1) {
             position = (child.x - (width / 2)) + 50;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 2) {
+          } else if (platform === 2) {
             position = (child.x - (width / 2)) + 70;
             for (i = 0; i < 2; i++) {
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 3) {
+          } else if (platform === 3) {
             position = (child.x - (width / 2)) + 150;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 4) {
+          } else if (platform === 4) {
             position = (child.x - (width / 2)) + 100;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 5) {
+          } else if (platform === 5) {
             position = (child.x - (width / 2)) + 100;
             for (i = 0; i < 3; i++) {
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 6) {
+          } else if (platform === 6) {
             position = (child.x - (width / 2)) + 70;
             for (i = 0; i < 2; i++) {
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 7) {
+          } else if (platform === 7) {
             position = (child.x - (width / 2)) + 70;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 10) {
+          } else if (platform === 10) {
             position = (child.x - (width / 2)) + 170;
             for (i = 0; i < 3; i++) {
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 11) {
+          } else if (platform === 11) {
             position = (child.x - (width / 2)) + 80;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 12) {
+          } else if (platform === 12) {
             position = (child.x - (width / 2)) + 80;
             for (i = 0; i < 5; i++) {
-              if (i === 3){
+              if (i === 3) {
                 position = position + 350;
               }
               placeLetter(letters, child);
             }
-          }
-          else if (platform === 13) {
+          } else if (platform === 13) {
             position = (child.x - (width / 2)) + 300;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
@@ -577,12 +568,12 @@
         door.anims.play('openChest');
         gameOver = true;
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
-        var highScore = localStorage.getItem("highScore")
-        if (highScore == undefined || (highScore >timeAccrued)){
-          localStorage.setItem("highScore",timeAccrued)
+        var highScore = localStorage.getItem("highScore3")
+        if (highScore == undefined || (highScore > timeAccrued)) {
+          localStorage.setItem("highScore3", timeAccrued)
         }
-        highScore = localStorage.getItem("highScore")
-          win_text.innerHTML +="<br>Fastest Time: "+ highScore;
+        highScore = localStorage.getItem("highScore3")
+        win_text.innerHTML += "<br>Fastest Time: " + highScore;
         win_modal.style.display = "block";
       }
     }
@@ -651,6 +642,7 @@
         }
       }
     }
+
     function placeLetter(letters, child) {
       var temp = letters.create(position, child.y - 100, randomLetters[index]);
       temp.myName = randomLetters[index];

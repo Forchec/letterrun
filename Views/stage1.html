@@ -364,13 +364,15 @@
         duration: 2000,
         repeat: 0, // -1: infinity
 
-        onComplete: function () { console.log('onComplete');
-                                  addTimeText.setPosition(850,400)},
-        onStart: function(){
-            addTimeText.setPosition(850,400)
+        onComplete: function() {
+          console.log('onComplete');
+          addTimeText.setPosition(850, 400)
+        },
+        onStart: function() {
+          addTimeText.setPosition(850, 400)
         }
-                                  //addTimeText.x = 200;
-                                  //addTimeText.y = 200;}
+        //addTimeText.x = 200;
+        //addTimeText.y = 200;}
 
       });
       //console.log(tween)
@@ -439,8 +441,7 @@
             visitChecker[i] = "visited";
             letterBoard.push(letter.myName);
             break;
-          }
-          else{
+          } else {
             continue;
           }
         } else {
@@ -470,12 +471,12 @@
         localStorage.setItem("stage2", "unlocked");
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
 
-        var highScore = localStorage.getItem("highScore")
+        var highScore = localStorage.getItem("highScore1")
         console.log(highScore)
-        if (highScore == undefined || (highScore > timeAccrued)){
-          localStorage.setItem("highScore",timeAccrued)
+        if (highScore == undefined || (highScore > timeAccrued)) {
+          localStorage.setItem("highScore1", timeAccrued)
         }
-        highScore = localStorage.getItem("highScore")
+        highScore = localStorage.getItem("highScore1")
         win_text.innerHTML += "<br>Fastest Time: " + highScore;
         win_modal.style.display = "block";
       }

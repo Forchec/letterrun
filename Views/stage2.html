@@ -482,12 +482,12 @@
         gameOver = true;
         localStorage.setItem("stage3", "unlocked");
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
-        var highScore = localStorage.getItem("highScore")
-        if (highScore == undefined || (highScore > timeAccrued)){
-          localStorage.setItem("highScore",timeAccrued)
+        var highScore = localStorage.getItem("highScore2")
+        if (highScore == undefined || (highScore > timeAccrued)) {
+          localStorage.setItem("highScore2", timeAccrued)
         }
-        highScore = localStorage.getItem("highScore")
-          win_text.innerHTML +="<br>Fastest Time: "+ highScore;
+        highScore = localStorage.getItem("highScore2")
+        win_text.innerHTML += "<br>Fastest Time: " + highScore;
         win_modal.style.display = "block";
       }
     }
