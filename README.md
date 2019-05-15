@@ -38,5 +38,4 @@ $electron-packager <sourcedir> LetterRun --overwrite --platform=darwin --arch=x6
 $--icon=<your directory for icon>/<your icon file>
 
 * For more details and flags to use...
-$electron-packager -h
-https://github.com/electron-userland/electron-packager
+$electron-packager -h OR visit https://github.com/electron-userland/electron-packager
