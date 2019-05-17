@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<title>
+  Letter Run
+</title>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="endscreen.css">
+  <title>Making your first Phaser 3 Game - Part 10</title>
+  <script src="../libraries/phaser.min.js"></script>
+  <!-- The Modals MUST INCLUDE THIS IN YOUR STAGE  -->
+  <script src="win.js"></script>
+  <script src="lose.js"></script>
+  <style type="text/css">
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+  <script type="text/javascript">
+    // Get the modals
+    var win_modal = document.getElementById('WinGame');
+    var lose_modal = document.getElementById('LoseGame');
+    // Get other buttons
+    var replay_btn1 = document.getElementById("replay_button_1");
+    var replay_btn2 = document.getElementById("replay_button_2");
+    var menu_btn1 = document.getElementById("menu_button_1");
+    var menu_btn2 = document.getElementById("menu_button_2");
+    var next_btn = document.getElementById("next_button");
+    // Get text
+    var win_text = document.getElementById('winText');
+    var lose_text = document.getElementById('loseText');
+    replay_btn1.onclick = function() {
+      window.location.href = "stage2.html";
+    }
+    replay_btn2.onclick = function() {
+      window.location.href = "stage2.html";
+    }
+    menu_btn1.onclick = function() {
+      window.location.href = "menu.html";
+    }
+    menu_btn2.onclick = function() {
+      window.location.href = "menu.html";
+    }
+    next_btn.onclick = function() {
+      // redirect to the next stage
+      window.location.href = "stage3.html";
+    }
+    var config = {
+      type: Phaser.AUTO,
+      width: 800,
+      height: 600,
+      physics: {
+        default: 'arcade',
+        arcade: {
+          gravity: {
+            y: 300
+          },
+          debug: false
+        }
+      },
+      scene: {
+        preload: preload,
+        create: create,
+        update: update,
+      }
+    };
+    var player, music;
+    var letters;
+    var enemies;
+    var platforms;
+    var cursors;
+    var gameOver = false;
+    var door;
+    var timeAccrued;
+    var WORD = "twilight"; // change word for each stage
+    var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
+    var WORD_LEN = WORD.length;
+    var letterCount = WORD_LEN + 11; // the int is the count of random letters
+    var letterArray = "";
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+        [array[i], array[j]] = [array[j], array[i]]; // swap elements
+      }
+      return array;
+    }
+    for (var i = 0; i < letterCount; i++) {
+      if (i < WORD_LEN) {
+        letterArray += WORD[i];
+      } else {
+        letterArray += chooseRandomLetter(alpha.replace(/[rainbow]/g, ''));
+      }
+    }
+    var randomLetters = shuffle(letterArray.split(''));
+    var letterBoard = []; // array of letters that the player collected
+    var letter = ''; // only used once??
+    var tmp;
+    var i = 0;
+    var x_for_board; // x-axis for board display
+    var x = Math.floor(Math.random() * 800); // x pos for collectable letter
+    var y = Math.floor(Math.random() * 400); // y pos for collectable letter
+    var visitChecker = "".repeat(WORD_LEN).split("");
+    var temp;
+    var space = [80, 60, 90];
+    var index = 0;
+    var position;
+    var xIndices = "".repeat(WORD_LEN).split("");
+    var yIndices = "".repeat(WORD_LEN).split("");
+    var game = new Phaser.Game(config);
+
+    function preload() {
+      //////////////////////////
+      var current = '';
+      for (var i = 0; i < letterCount; i++) {
+        current = letterArray[i]; // Collectable letters
+        this.load.image(current, '../assets/' + current + '.png');
+        if (i < WORD_LEN) {
+          current = letterArray[i] + letterArray[i]; // Color-box letters
+          this.load.image(current, '../assets/' + current + '.png');
+          current = letterArray[i] + letterArray[i] + letterArray[i]; // Gray-box letters
+          this.load.image(current, '../assets/' + current + '.png');
+        }
+      }
+      this.load.image('door', '../assets/door.png');
+      for (var i = 1; i < 10; i++) {
+        this.load.image('chest' + i, '../newAssets/chest/Chest' + (i) + '.png');
+      }
+      //////////////////////////
+      this.load.image('sky', '../newAssets/background/Background.png');
+      this.load.image('ground', '../newAssets/background/Grass1.png');
+      this.load.audio('song', '../newAssets/bensound-endlessmotion.mp3');
+      this.load.audio('endSong','')
+      var color = localStorage.getItem("color");
+      switch (color) {
+        case "blue":
+          for (var i = 0; i < 18; i++) {
+            this.load.image('hero' + i, '../newAssets/character/BlueRun/' + (i + 1) + 'r.png');
+          }
+          this.load.image('idle', '../newAssets/character/BlueIdle/1R.png');
+          this.load.image('jump', '../newAssets/character/BlueJump/up.png');
+          this.load.image('fall', '../newAssets/character/BlueJump/down.png');
+          break;
+        case "grey":
+          for (var i = 0; i < 18; i++) {
+            this.load.image('hero' + i, '../newAssets/character/WhiteRun/' + (i + 1) + 'r.png');
+          }
+          this.load.image('idle', '../newAssets/character/WhiteIdle/1R.png');
+          this.load.image('jump', '../newAssets/character/WhiteJump/up.png');
+          this.load.image('fall', '../newAssets/character/WhiteJump/down.png');
+          break;
+        default:
+          for (var i = 0; i < 18; i++) {
+            this.load.image('hero' + i, '../newAssets/character/Run/' + (i + 1) + 'r.png');
+          }
+          this.load.image('idle', '../newAssets/character/Idle/1R.png');
+          this.load.image('jump', '../newAssets/character/Jump/up.png');
+          this.load.image('fall', '../newAssets/character/Jump/down.png');
+          break;
+      }
+      console.log(color);
+      this.load.image('enemy', '../newAssets/character/enemy.png');
+      this.load.image('wall', '../assets/invisibleWall.png');
+      this.load.image('mute', '../newAssets/buttons/mutebutton.png');
+      this.load.image('sound', '../newAssets/buttons/soundbutton.png');
+    }
+
+    function create() {
+      //console.log(alpha.replace(/[penguin]/g, ''));
+      music = this.sound.add('song');
+      music.play();
+      this.add.image(960, 300, 'sky').setDisplaySize(1920, 1080);
+      this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);
+      //NEW CHANGES
+      timeText = this.add.text(580, 16, 'Time: ', {
+        fontSize: '26px',
+        fill: '#000'
+      });
+      timeText.setScrollFactor(0);
+      startTime = new Date().getTime();
+      console.log(startTime)
+      //  The platforms group contains the ground and the 2 ledges we can jump on
+      platforms = this.physics.add.staticGroup();
+      walls = this.physics.add.staticGroup();
+      // Ground/starting platform
+      platforms.create(300, 700, 'ground').setDisplaySize(500, 60).refreshBody();
+      // Stairs
+      platforms.create(800, 700, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(200, 520, 'ground').setDisplaySize(230, 60).refreshBody();
+      platforms.create(1000, 550, 'ground').setDisplaySize(250, 60).refreshBody();
+      platforms.create(1500, 400, 'ground').setDisplaySize(200, 60).refreshBody();
+      // platforms.create(2400, 240, 'ground').setDisplaySize(100, 60).refreshBody();
+      // Sky Platform
+    //  platforms.create(2000, 200, 'ground').setDisplaySize(400, 60).refreshBody();
+      platforms.create(1700, 300, 'ground').setDisplaySize(400, 60).refreshBody();
+      platforms.create(500, 400, 'ground').setDisplaySize(800, 60).refreshBody();
+      //platforms.create(2400, 560, 'ground').setDisplaySize(800, 60).refreshBody();
+      //platforms.create(600, 400, 'ground').setDisplaySize(300, 60).refreshBody();
+      //platforms.create(100, 250, 'ground').setDisplaySize(200, 60).refreshBody();
+      //platforms.create(750, 220, 'ground').setDisplaySize(400, 60).refreshBody();
+      //platforms.create(800, 50, 'ground').setDisplaySize(400, 60).refreshBody();
+      // The player and its settings
+      player = this.physics.add.sprite(600, 200, 'idle');
+      enemies = this.physics.add.group();
+      player.setCollideWorldBounds(false);
+      player.setDisplaySize(50, 50);
+      var heroFrames = [];
+      for (var i = 0; i < 18; i++) {
+        heroFrames.push({
+          key: 'hero' + i
+        });
+      }
+      ///////////////////////////
+      // Display initial board (grayed-out version)
+      for (i = 0; i < WORD_LEN; i++) {
+        x_for_board = 25 + (50 * i);
+        letter = WORD.charAt(i) + WORD.charAt(i) + WORD.charAt(i);
+        tmp = this.add.sprite(x_for_board, 25, letter);
+        tmp.setDisplaySize(40, 40);
+        tmp.setScrollFactor(0);
+      }
+      // Display the door in a specific location - Change each stage
+      door = this.physics.add.sprite(300, 600 , 'chest1');
+      door.setDisplaySize(65, 65);
+      door.body.width = 65;
+      door.body.height = 65;
+      door.immovable = true; //////////
+      this.physics.add.collider(door, platforms);
+      var pointer = this.input.activePointer;
+      soundButton = this.physics.add.sprite(760, 30, 'sound').setDisplaySize(50, 50);
+      soundButton.body.allowGravity = false;
+      soundButton.setScrollFactor(0);
+      soundButton.setInteractive();
+      soundButton.setName("sound");
+      soundButton.on('pointerdown', function() {
+        music.setMute(true);
+        soundButton.visible = false;
+        muteButton.visible = true;
+      });
+      muteButton = this.physics.add.sprite(760, 30, 'mute').setDisplaySize(50, 50);
+      muteButton.visible = false;
+      muteButton.body.allowGravity = false;
+      muteButton.setScrollFactor(0);
+      muteButton.setInteractive();
+      muteButton.setName("mute");
+      muteButton.on('pointerdown', function() {
+        music.setMute(false);
+        muteButton.visible = false;
+        soundButton.visible = true;
+      });
+      ///////////////////////
+      var doorFrames = [];
+      for (var i = 1; i < 10; i++) {
+        doorFrames.push({
+          key: 'chest' + i
+        });
+      }
+      //  Our player animations, turning, walking left and walking right.
+      this.anims.create({
+        key: 'run',
+        frames: heroFrames,
+        frameRate: 30,
+        repeat: -1
+      });
+      this.anims.create({
+        key: 'stop',
+        frames: [{
+          key: 'idle'
+        }],
+        frameRate: 10
+      });
+      this.anims.create({
+        key: 'jump',
+        frames: [{
+          key: 'jump'
+        }],
+        frameRate: 10
+      });
+      this.anims.create({
+        key: 'fall',
+        frames: [{
+          key: 'fall'
+        }],
+        frameRate: 10
+      });
+      this.anims.create({
+        key: 'enemyMove',
+        frames: [{
+          key: 'enemy'
+        }],
+        frameRate: 10,
+        repeat: -1
+      })
+      this.anims.create({
+        key: 'openChest',
+        frames: doorFrames,
+        frameRate: 7
+      })
+      letters = this.physics.add.group();
+      var platform = 0;
+      platforms.children.iterate(function(child) {
+        var width = child.displayWidth
+        walls.create(child.x - (width / 2), child.y - 20, 'wall');
+        walls.create(child.x + (width / 2), child.y - 20, 'wall');
+        enemies.create(child.x, child.y - 51, 'enemy');
+        // CHANGE FOR EACH STAGE
+        if (platform != 0) {
+          position = (child.x - (width / 2)) + 50;
+          if (platform === 1) {
+            position = (child.x - (width / 2)) + 100;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 2) {
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 3) {
+            position = (child.x - (width / 2)) + 75;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 4) {
+            position = (child.x - (width / 2)) + 75;
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 6) {
+            position = (child.x - (width / 2)) + 125;
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 7) {
+            position = (child.x - (width / 2)) + 100;
+            for (i = 0; i < 3; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 8) {
+            position = (child.x - (width / 2)) + 500;
+            for (i = 0; i < 4; i++) {
+              placeLetter(letters, child);
+            }
+          }
+        } else { // when first platfrom
+          position = (child.x - (width / 2)) + 550;
+          for (i = 0; i < 3; i++) {
+            placeLetter(letters, child);
+          }
+        }
+        platform++;
+      });
+      letters.children.iterate(function(child) {
+        if (child.myName === 'w') {
+          child.setDisplaySize(50, 50);
+        } else {
+          child.setDisplaySize(40, 40);
+        }
+      });
+      walls.children.iterate(function(child) {
+        child.alpha = 0;
+        child.body.immovable = true;
+      });
+      enemies.children.iterate(function(child) {
+        child.setVelocityX(Math.floor(Math.random() * (-20 + 1)) + -50);
+        child.body.allowGravity = false;
+        child.setDisplaySize(50, 50)
+        child.body.width = 50;
+        child.body.immovable = true;
+        child.setCollideWorldBounds(false);
+      });
+      //  Input Events
+      cursors = this.input.keyboard.createCursorKeys();
+      //this.physics.add.collider(door, enemies);
+      this.physics.add.collider(player, platforms);
+      this.physics.add.collider(letters, platforms);
+      this.physics.add.collider(enemies, platforms);
+      this.physics.add.overlap(player, letters, collectLetter, null, this);
+      this.physics.add.overlap(enemies, walls, hitWall, null, this);
+      this.physics.add.collider(player, enemies, hitEnemy, null, this);
+      this.physics.add.overlap(player, door, hitDoor, null, this);
+      // set bounds so the camera won't go outside the game world
+      this.cameras.main.setBounds(0, 50, 1800, 900);
+      // make the camera follow the player
+      this.cameras.main.startFollow(player);
+    }
+
+    function update() {
+      if (gameOver) {
+        return;
+
+      } else {
+        timeAccrued = new Date().getTime() - startTime;
+        timeAccrued = Math.round(timeAccrued / 1000);
+        timeText.setText('Time: ' + timeAccrued)
+        timeText.depth = 1;
+      }
+      if (player.y > 800) {
+        gameOver = true;
+        this.cameras.main.stopFollow();
+        lose_modal.style.display = "block";
+      }
+      if (cursors.left.isDown) {
+        if (player.x < 20) {
+          player.setVelocityX(0);
+        } else {
+          player.setVelocityX(-160);
+        }
+        player.flipX = true;
+        if (player.body.touching.down) {
+          player.anims.play('run', true);
+        }
+      } else if (cursors.right.isDown) {
+        player.setVelocityX(160);
+        player.flipX = false;
+        if (player.body.touching.down) {
+          player.anims.play('run', true);
+        }
+      } else {
+        player.setVelocityX(0);
+        player.anims.play('stop');
+      }
+      if (cursors.up.isDown && player.body.touching.down) {
+        player.setVelocityY(-330);
+      }
+      if (cursors.down.isDown) {
+        player.setVelocityY(330);
+      }
+      if (player.body.velocity.y < 0) {
+        player.anims.play('jump', true);
+      }
+      if (player.body.velocity.y > 50) {
+        player.anims.play('fall', true);
+      }
+    }
+    // Chooses a random letter from the given string
+    function chooseRandomLetter(str) {
+      var index = Math.floor(Math.random() * str.length);
+      var ret = '';
+      ret += str.charAt(index);
+      return ret;
+    }
+    // Updates letter board as the player collects the letter
+    function collectLetter(player, letter) {
+      letter.disableBody(true, true);
+      var cur = '';
+      for (i = 0; i < WORD_LEN; i++) {
+        if (letter.myName === WORD.charAt(i)) {
+          if (visitChecker[i] != "visited") {
+            // Updates letter board
+            x_for_board = 25;
+            cur = WORD.charAt(i) + WORD.charAt(i);
+            x_for_board = x_for_board + (50 * i);
+            tmp = this.add.sprite(x_for_board, 25, cur);
+            tmp.setDisplaySize(40, 40);
+            tmp.setScrollFactor(0);
+            visitChecker[i] = "visited";
+            // var index = xList.indexOf(letter.x);
+            letterBoard.push(letter.myName);
+            break;
+          } else {
+            continue;
+          }
+        }
+      }
+    }
+    //Checks if all letters have been collected to make the game over or not
+    function hitDoor(player, door) {
+      var cond = true;
+      for (var i = 0; i < WORD_LEN; i++) {
+        if (visitChecker[i] != "visited") {
+          cond = false;
+        }
+      }
+      if (cond === true) {
+        this.physics.pause();
+        player.anims.play('stop');
+        door.anims.play('openChest');
+        gameOver = true;
+        localStorage.setItem("stage3", "unlocked");
+        win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
+        var highScore = localStorage.getItem("highScore")
+        if (highScore == undefined || (highScore > timeAccrued)){
+          localStorage.setItem("highScore",timeAccrued)
+        }
+        highScore = localStorage.getItem("highScore")
+          win_text.innerHTML +="<br>Fastest Time: "+ highScore;
+        win_modal.style.display = "block";
+      }
+    }
+
+    function hitWall(enemy, wall) {
+      console.log("hitWall");
+      var speed = enemy.body.velocity.x
+      speed = -1 * speed;
+      enemy.body.setVelocityX(speed);
+      enemy.anims.play("enemyMove", true)
+    }
+
+    // Checks the letter board to either kill or take away a letter
+    function hitEnemy(player, enemy) {
+      player.anims.play('stop')
+      // Kills the player when no letter is collected
+      if (letterBoard === undefined || letterBoard.length == 0) {
+        this.physics.pause();
+        music.stop()
+        gameOver = true;
+        lose_modal.style.display = "block";
+        this.cameras.main.stopFollow();
+      } else { // Takes away one random letter from the letter board
+        var len = letterBoard.length;
+        var index = Math.floor(Math.random() * len);
+        var char = letterBoard[index];
+        var x_ = 25;
+        for (i = 0; i < WORD_LEN; i++) {
+          if (char === WORD.charAt(i)) {
+            if (visitChecker[i] === "visited") {
+              // Update the letter board
+              if (enemy.body.touching.left) {
+                //player.setTint(0xff0000);
+                player.x = player.x - 20;
+                player.body.velocity.y = -150; // make it bounce??
+              } else if (enemy.body.touching.right) {
+                player.x = player.x + 20;
+                player.body.velocity.y = -150; // make it bounce??
+              } else if (enemy.body.touching.up) {
+                player.body.velocity.y = -150; // make it bounce??
+              }
+              // Place the letter back to the platforms
+              var letter = this.physics.add.sprite(xIndices[i], yIndices[i], char);
+              if (char == 'w') {
+                letter.setDisplaySize(50, 50);
+              } else {
+                letter.setDisplaySize(40, 40);
+              }
+              this.physics.add.collider(letter, platforms);
+              this.physics.add.overlap(player, letter, collectLetter, null, this);
+              letter.myName = char;
+              var cur = char + char + char;
+              x_ = 25 + (50 * i);
+              var tmp = this.add.sprite(x_, 25, cur);
+              tmp.setDisplaySize(40, 40);
+              tmp.setScrollFactor(0);
+              letterBoard.splice(index, 1);
+              visitChecker[i] = "";
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    function placeLetter(letters, child) {
+      var temp = letters.create(position, child.y - 100, randomLetters[index]);
+      temp.myName = randomLetters[index];
+      index++;
+      for (i = 0; i < WORD_LEN; i++) {
+        if (temp.myName === WORD[i]) {
+          if (xIndices[i] > 0) {
+            continue;
+          } else {
+            xIndices[i] = position;
+            yIndices[i] = child.y - 100;
+            break;
+          }
+        }
+      }
+      r = Math.floor(Math.random() * 3);
+      position += space[r];
+    }
+  </script>
+
+</body>
+
+</html>
