@@ -110,9 +110,35 @@ body {
   grid-area: right;
 }
 
+.stage-four {
+  grid-area: mleft;
+}
+
+.stage-five {
+  grid-area: mmain;
+}
+
+.stage-six {
+  grid-area: mright;
+}
+
+.stage-seven {
+  grid-area: bleft;
+}
+
+.stage-eight {
+  grid-area: bmain;
+}
+
+.stage-nine {
+  grid-area: bright;
+}
+
 .grid-container {
   display: grid;
-  grid-template-areas: 'left main right';
+  grid-template-areas: 'left main right'
+    'mleft mmain mright'
+    'bleft bmain bright';
   grid-gap: 50px;
   padding: 50px;
   position: absolute;
