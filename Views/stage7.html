@@ -36,10 +36,10 @@
     var win_text = document.getElementById('winText');
     var lose_text = document.getElementById('loseText');
     replay_btn1.onclick = function() {
-      window.location.href = "stage2.html";
+      window.location.href = "stage7.html";
     }
     replay_btn2.onclick = function() {
-      window.location.href = "stage2.html";
+      window.location.href = "stage7.html";
     }
     menu_btn1.onclick = function() {
       window.location.href = "menu.html";
@@ -49,7 +49,7 @@
     }
     next_btn.onclick = function() {
       // redirect to the next stage
-      window.location.href = "stage3.html";
+      window.location.href = "stage8.html";
     }
     var config = {
       type: Phaser.AUTO,
@@ -471,13 +471,13 @@
         music.stop();
         door.anims.play('openChest');
         gameOver = true;
-        localStorage.setItem("stage3", "unlocked");
+        localStorage.setItem("stage8", "unlocked");
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
-        var highScore = localStorage.getItem("highScore2")
+        var highScore = localStorage.getItem("highScore7")
         if (highScore == undefined || (highScore > timeAccrued)){
-          localStorage.setItem("highScore2",timeAccrued)
+          localStorage.setItem("highScore7",timeAccrued)
         }
-        highScore = localStorage.getItem("highScore2")
+        highScore = localStorage.getItem("highScore7")
           win_text.innerHTML +="<br>Fastest Time: "+ highScore;
         win_modal.style.display = "block";
       }
