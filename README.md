@@ -23,19 +23,19 @@ Commit Message should be informative for what is changed/removed/added. Example:
 ## HOW TO PACKAGE APP FOR DISTRIBUTION
 
 * Make sure to install the electron-packager using npm install command.
-$npm install electron-packager --save-dev
+npm install electron-packager --save-dev
 
 * After the installation, the syntax for running electron-packager is listed below.
-$electron-packager <sourcedir> <appname> --platform=<platform> --arch=<arch> [optional flags...]
+electron-packager <sourcedir> <appname> --platform=<platform> --arch=<arch> [optional flags...]
 
 * Example to package LetterRun for Windows OS
-$electron-packager <sourcedir> LetterRun --overwrite --platform=win32 --arch=ia32 --prune=true --out=<destdir>
+electron-packager <sourcedir> LetterRun --overwrite --platform=win32 --arch=ia32 --prune=true --out=<destdir>
 
 * Example to package LetterRun for MacOS
-$electron-packager <sourcedir> LetterRun --overwrite --platform=darwin --arch=x64 --prune=true --out=<destdir>
+electron-packager <sourcedir> LetterRun --overwrite --platform=darwin --arch=x64 --prune=true --out=<destdir>
 
 * To include custom icon, add following flag to your command
-$--icon=<your directory for icon>/<your icon file>
+--icon=<your directory for icon>/<your icon file>
 
 * For more details and flags to use...
-$electron-packager -h OR visit https://github.com/electron-userland/electron-packager
+electron-packager -h OR visit https://github.com/electron-userland/electron-packager
