@@ -36,10 +36,10 @@
     var win_text = document.getElementById('winText');
     var lose_text = document.getElementById('loseText');
     replay_btn1.onclick = function() {
-      window.location.href = "stage3.html";
+      window.location.href = "stage4.html";
     }
     replay_btn2.onclick = function() {
-      window.location.href = "stage3.html";
+      window.location.href = "stage4.html";
     }
     menu_btn1.onclick = function() {
       window.location.href = "menu.html";
@@ -49,7 +49,7 @@
     }
     next_btn.onclick = function() {
       // redirect to the next stage
-      window.location.href = "stage4.html";
+      window.location.href = "stage5.html";
     }
     var config = {
       type: Phaser.AUTO,
@@ -70,7 +70,7 @@
         update: update,
       }
     };
-    var player, music;
+    var player;
     var letters;
     var enemies;
     var platforms;
@@ -78,10 +78,10 @@
     var gameOver = false;
     var door;
     var timeAccrued;
-    var WORD = "twilight"; // change word for each stage
+    var WORD = "rainbow"; // change word for each stage
     var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
     var WORD_LEN = WORD.length;
-    var letterCount = WORD_LEN + 9; // the int is the count of random letters
+    var letterCount = WORD_LEN + 11; // the int is the count of random letters
     var letterArray = "";
 
     function shuffle(array) {
@@ -95,7 +95,7 @@
       if (i < WORD_LEN) {
         letterArray += WORD[i];
       } else {
-        letterArray += chooseRandomLetter(alpha.replace(/[twilight]/g, ''));
+        letterArray += chooseRandomLetter(alpha.replace(/[rainbow]/g, ''));
       }
     }
     var randomLetters = shuffle(letterArray.split(''));
@@ -108,7 +108,7 @@
     var y = Math.floor(Math.random() * 400); // y pos for collectable letter
     var visitChecker = "".repeat(WORD_LEN).split("");
     var temp;
-    var space = [80, 70, 100];
+    var space = [80, 60, 90];
     var index = 0;
     var position;
     var xIndices = "".repeat(WORD_LEN).split("");
@@ -134,9 +134,8 @@
       }
       //////////////////////////
       this.load.image('sky', '../newAssets/background/Background.png');
-      this.load.image('ground', '../newAssets/background/Grass1.png');
+      this.load.image('ground', '../newAssets/background/Grass.png');
       this.load.audio('song', '../newAssets/bensound-endlessmotion.mp3');
-      this.load.audio('endSong','')
       var color = localStorage.getItem("color");
       switch (color) {
         case "blue":
@@ -173,10 +172,10 @@
 
     function create() {
       //console.log(alpha.replace(/[penguin]/g, ''));
-      music = this.sound.add('song');
+      var music = this.sound.add('song');
       music.play();
       this.add.image(960, 300, 'sky').setDisplaySize(1920, 1080);
-    //  this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);
+      this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);
       //NEW CHANGES
       timeText = this.add.text(580, 16, 'Time: ', {
         fontSize: '26px',
@@ -188,21 +187,25 @@
       //  The platforms group contains the ground and the 2 ledges we can jump on
       platforms = this.physics.add.staticGroup();
       walls = this.physics.add.staticGroup();
-      // starting platform
-      platforms.create(250, 350, 'ground').setDisplaySize(500, 60).refreshBody();
-
-      //Bottom final plaform
-      platforms.create(250, 759, 'ground').setDisplaySize(400, 60).refreshBody();
-
+      // Ground/starting platform
+      platforms.create(400, 700, 'ground').setDisplaySize(800, 60).refreshBody();
       // Stairs
-      platforms.create(1050, 780, 'ground').setDisplaySize(520, 60).refreshBody();
-      platforms.create(500, 620, 'ground').setDisplaySize(300, 60).refreshBody();
-      platforms.create(1000, 320, 'ground').setDisplaySize(230, 60).refreshBody();
-      platforms.create(1100, 470, 'ground').setDisplaySize(330, 60).refreshBody();
-      platforms.create(700, 500, 'ground').setDisplaySize(200, 60).refreshBody();
-
+      platforms.create(1100, 700, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(1500, 600, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(1950, 500, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(2300, 400, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(2400, 240, 'ground').setDisplaySize(100, 60).refreshBody();
+      // Sky Platform
+      platforms.create(2000, 100, 'ground').setDisplaySize(400, 60).refreshBody();
+      platforms.create(1700, 300, 'ground').setDisplaySize(400, 60).refreshBody();
+      platforms.create(1000, 300, 'ground').setDisplaySize(800, 60).refreshBody();
+      //platforms.create(2400, 560, 'ground').setDisplaySize(800, 60).refreshBody();
+      //platforms.create(600, 400, 'ground').setDisplaySize(300, 60).refreshBody();
+      //platforms.create(100, 250, 'ground').setDisplaySize(200, 60).refreshBody();
+      //platforms.create(750, 220, 'ground').setDisplaySize(400, 60).refreshBody();
+      //platforms.create(800, 50, 'ground').setDisplaySize(400, 60).refreshBody();
       // The player and its settings
-      player = this.physics.add.sprite(400, 200, 'idle');
+      player = this.physics.add.sprite(80, 450, 'idle');
       enemies = this.physics.add.group();
       player.setCollideWorldBounds(false);
       player.setDisplaySize(50, 50);
@@ -222,7 +225,7 @@
         tmp.setScrollFactor(0);
       }
       // Display the door in a specific location - Change each stage
-      door = this.physics.add.sprite(300, 600 , 'chest1');
+      door = this.physics.add.sprite(720, 140, 'chest1');
       door.setDisplaySize(65, 65);
       door.body.width = 65;
       door.body.height = 65;
@@ -299,47 +302,55 @@
         frameRate: 7
       })
       letters = this.physics.add.group();
-      var platform = 1;
+      var platform = 0;
       platforms.children.iterate(function(child) {
         var width = child.displayWidth
         walls.create(child.x - (width / 2), child.y - 20, 'wall');
         walls.create(child.x + (width / 2), child.y - 20, 'wall');
         enemies.create(child.x, child.y - 51, 'enemy');
+        // CHANGE FOR EACH STAGE
+        if (platform != 0) {
+          position = (child.x - (width / 2)) + 50;
           if (platform === 1) {
-            position = (child.x - (width / 2))+ 130;
+            position = (child.x - (width / 2)) + 100;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
             }
           } else if (platform === 2) {
-              position = (child.x - (width / 2))+ 30;
             for (i = 0; i < 2; i++) {
               placeLetter(letters, child);
             }
           } else if (platform === 3) {
-            position = (child.x - (width / 2)) + 155;
-            for (i = 0; i < 4; i++) {
+            position = (child.x - (width / 2)) + 75;
+            for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
             }
           } else if (platform === 4) {
-            position = (child.x - (width / 2)) + 55;
-            for (i = 0; i < 2; i++) {
-              placeLetter(letters, child);
-            }
-          } else if (platform === 5) {
-            position = (child.x - (width / 2)) + 60;
+            position = (child.x - (width / 2)) + 75;
             for (i = 0; i < 2; i++) {
               placeLetter(letters, child);
             }
           } else if (platform === 6) {
-            position = (child.x - (width / 2)) + 10;
+            position = (child.x - (width / 2)) + 125;
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 7) {
+            position = (child.x - (width / 2)) + 100;
             for (i = 0; i < 3; i++) {
               placeLetter(letters, child);
             }
-         } else if (platform === 7) {
-            position = (child.x - (width / 2)) + 40;
-            for (i = 0; i < 3; i++) {
+          } else if (platform === 8) {
+            position = (child.x - (width / 2)) + 500;
+            for (i = 0; i < 4; i++) {
               placeLetter(letters, child);
             }
+          }
+        } else { // when first platfrom
+          position = (child.x - (width / 2)) + 550;
+          for (i = 0; i < 3; i++) {
+            placeLetter(letters, child);
+          }
         }
         platform++;
       });
@@ -373,7 +384,7 @@
       this.physics.add.collider(player, enemies, hitEnemy, null, this);
       this.physics.add.overlap(player, door, hitDoor, null, this);
       // set bounds so the camera won't go outside the game world
-      this.cameras.main.setBounds(0, 150, 1300, 700);
+      this.cameras.main.setBounds(0, -150, 2600, 900);
       // make the camera follow the player
       this.cameras.main.startFollow(player);
     }
@@ -381,7 +392,6 @@
     function update() {
       if (gameOver) {
         return;
-
       } else {
         timeAccrued = new Date().getTime() - startTime;
         timeAccrued = Math.round(timeAccrued / 1000);
@@ -468,17 +478,16 @@
       if (cond === true) {
         this.physics.pause();
         player.anims.play('stop');
-        music.stop();
         door.anims.play('openChest');
         gameOver = true;
-        localStorage.setItem("stage4", "unlocked");
+        localStorage.setItem("stage5", "unlocked");
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
-        var highScore = localStorage.getItem("highScore3")
-        if (highScore == undefined || (highScore > timeAccrued)){
-          localStorage.setItem("highScore3",timeAccrued)
+        var highScore = localStorage.getItem("highScore4")
+        if (highScore == undefined || (highScore > timeAccrued)) {
+          localStorage.setItem("highScore4", timeAccrued)
         }
-        highScore = localStorage.getItem("highScore3")
-          win_text.innerHTML +="<br>Fastest Time: "+ highScore;
+        highScore = localStorage.getItem("highScore4")
+        win_text.innerHTML += "<br>Fastest Time: " + highScore;
         win_modal.style.display = "block";
       }
     }
@@ -497,7 +506,6 @@
       // Kills the player when no letter is collected
       if (letterBoard === undefined || letterBoard.length == 0) {
         this.physics.pause();
-        music.stop()
         gameOver = true;
         lose_modal.style.display = "block";
         this.cameras.main.stopFollow();
