@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <title>
@@ -130,7 +131,7 @@
       // The player and its settings
       player = this.physics.add.sprite(400, 200, 'idle');
       enemies = this.physics.add.group();
-      player.setCollideWorldBounds(false);
+      player.setCollideWorldBounds(true);
       player.setDisplaySize(50, 50);
       var heroFrames = [];
       for (var i = 0; i < 18; i++) {

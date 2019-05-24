@@ -118,10 +118,13 @@ function collectLetter(player, letter) {
   for (i = 0; i < WORD_LEN; i++) {
     if (letter.myName === WORD.charAt(i)) {
       console.log(letter.myName)
+      console.log(visitChecker)
       if (visitChecker[i] != "visited") { // Updates letter board
         x_for_board = 25;
         cur = WORD.charAt(i) + WORD.charAt(i);
+        console.log(cur);
         x_for_board = x_for_board + (50 * i);
+        console.log("entered")
         tmp = this.add.sprite(x_for_board, 25, cur);
         tmp.setDisplaySize(40, 40);
         visitChecker[i] = "visited";
