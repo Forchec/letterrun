@@ -84,6 +84,7 @@
     var letterBoard = []; // array of letters that the player collected
     var letter = ''; // only used once??
     var tmp;
+    var music;
     var i = 0;
     var x_for_board; // x-axis for board display
     var x = Math.floor(Math.random() * 800); // x pos for collectable letter
@@ -100,7 +101,7 @@
 
     function create() {
       //console.log(alpha.replace(/[penguin]/g, ''));
-      var music = this.sound.add('song');
+      music = this.sound.add('song');
       music.play();
       this.add.image(960, 300, 'sky').setDisplaySize(1920, 1080);
       this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);
@@ -135,7 +136,7 @@
       // The player and its settings
       player = this.physics.add.sprite(80, 450, 'idle');
       enemies = this.physics.add.group();
-      player.setCollideWorldBounds(true);
+      player.setCollideWorldBounds(false);
       player.setDisplaySize(50, 50);
       var heroFrames = [];
       for (var i = 0; i < 18; i++) {

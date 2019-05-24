@@ -57,7 +57,7 @@
         update: update,
       }
     };
-    var player;
+    var player, music;
     var letters;
     var enemies;
     var platforms;
@@ -98,7 +98,7 @@
 
     function create() {
       //console.log(alpha.replace(/[penguin]/g, ''));
-      var music = this.sound.add('song');
+      music = this.sound.add('song');
       music.play();
       this.add.image(960, 300, 'sky').setDisplaySize(1920, 1080);
       this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);

@@ -102,6 +102,7 @@
       music = this.sound.add('song');
       music.play();
       this.add.image(960, 300, 'sky').setDisplaySize(1920, 1080);
+
     //  this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);
       //NEW CHANGES
       timeText = this.add.text(580, 16, 'Time: ', {
@@ -130,7 +131,7 @@
       // The player and its settings
       player = this.physics.add.sprite(400, 200, 'idle');
       enemies = this.physics.add.group();
-      player.setCollideWorldBounds(true);
+      player.setCollideWorldBounds(false);
       player.setDisplaySize(50, 50);
       var heroFrames = [];
       for (var i = 0; i < 18; i++) {
@@ -142,8 +143,10 @@
       // Display initial board (grayed-out version)
       for (i = 0; i < WORD_LEN; i++) {
         x_for_board = 25 + (50 * i);
+        console.log(x_for_board);
         letter = WORD.charAt(i) + WORD.charAt(i) + WORD.charAt(i);
         tmp = this.add.sprite(x_for_board, 25, letter);
+        
         tmp.setDisplaySize(40, 40);
         tmp.setScrollFactor(0);
       }

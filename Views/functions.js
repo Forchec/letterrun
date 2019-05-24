@@ -124,9 +124,10 @@ function collectLetter(player, letter) {
         cur = WORD.charAt(i) + WORD.charAt(i);
         console.log(cur);
         x_for_board = x_for_board + (50 * i);
-        console.log("entered")
+        console.log(x_for_board)
         tmp = this.add.sprite(x_for_board, 25, cur);
         tmp.setDisplaySize(40, 40);
+        tmp.setScrollFactor(0);
         visitChecker[i] = "visited";
         letterBoard.push(letter.myName);
         break;

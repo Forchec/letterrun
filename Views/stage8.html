@@ -63,7 +63,7 @@
         update: update,
       }
     };
-    var player;
+    var player, music;
     var letters;
     var enemies;
     var platforms;
@@ -104,68 +104,11 @@
 
     var game = new Phaser.Game(config);
 
-    function preload() {
-      //////////////////////////
-      var current = '';
-      for (var i = 0; i < letterCount; i++) {
-        current = letterArray[i]; // Collectable letters
-        this.load.image(current, '../assets/' + current + '.png');
-        if (i < WORD_LEN) {
-          current = letterArray[i] + letterArray[i]; // Color-box letters
-          this.load.image(current, '../assets/' + current + '.png');
-          current = letterArray[i] + letterArray[i] + letterArray[i]; // Gray-box letters
-          this.load.image(current, '../assets/' + current + '.png');
-        }
-      }
-      this.load.image('door', '../assets/door.png');
-
-      for (var i = 1; i < 10; i++) {
-        this.load.image('chest' + i, '../newAssets/chest/Chest' + (i) + '.png');
-      }
-      //////////////////////////
-      this.load.image('sky', '../newAssets/background/Background.png');
-      this.load.image('ground', '../newAssets/background/Grass.png');
-      this.load.audio('song', '../newAssets/bensound-endlessmotion.mp3');
-
-      var color = localStorage.getItem("color");
-      switch (color) {
-        case "blue":
-          for (var i = 0; i < 18; i++) {
-            this.load.image('hero' + i, '../newAssets/character/BlueRun/' + (i + 1) + 'r.png');
-          }
-          this.load.image('idle', '../newAssets/character/BlueIdle/1R.png');
-          this.load.image('jump', '../newAssets/character/BlueJump/up.png');
-          this.load.image('fall', '../newAssets/character/BlueJump/down.png');
-          break;
-        case "grey":
-          for (var i = 0; i < 18; i++) {
-            this.load.image('hero' + i, '../newAssets/character/WhiteRun/' + (i + 1) + 'r.png');
-          }
-          this.load.image('idle', '../newAssets/character/WhiteIdle/1R.png');
-          this.load.image('jump', '../newAssets/character/WhiteJump/up.png');
-          this.load.image('fall', '../newAssets/character/WhiteJump/down.png');
-          break;
-        default:
-          for (var i = 0; i < 18; i++) {
-            this.load.image('hero' + i, '../newAssets/character/Run/' + (i + 1) + 'r.png');
-          }
-          this.load.image('idle', '../newAssets/character/Idle/1R.png');
-          this.load.image('jump', '../newAssets/character/Jump/up.png');
-          this.load.image('fall', '../newAssets/character/Jump/down.png');
-          break;
-      }
-      console.log(color);
-      this.load.image('enemy', '../newAssets/character/enemy.png');
-      this.load.image('wall', '../assets/invisibleWall.png');
-      this.load.image('mute', '../newAssets/buttons/mutebutton.png');
-      this.load.image('sound', '../newAssets/buttons/soundbutton.png');
-    }
-
     function create() {
 
       //console.log(alpha.replace(/[penguin]/g, ''));
 
-      var music = this.sound.add('song');
+      music = this.sound.add('song');
       music.play();
       this.add.image(960, 300, 'sky').setDisplaySize(1920, 1080);
       this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);
