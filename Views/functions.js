@@ -132,9 +132,9 @@ function collectLetter(player, letter) {
       }
     } else {
       console.log("wrong letter")
-      console.log(tween);
+
       //console.log(addTimeText.x)
-      tween.restart();
+      // tween.restart();
       startTime -= 300;
     }
   }
