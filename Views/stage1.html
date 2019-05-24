@@ -21,22 +21,10 @@
     }
   </style>
 </head>
-
 <body>
 
   <script type="text/javascript">
-    // Get the modals
-    var win_modal = document.getElementById('WinGame');
-    var lose_modal = document.getElementById('LoseGame');
-    // Get other buttons
-    var replay_btn1 = document.getElementById("replay_button_1");
-    var replay_btn2 = document.getElementById("replay_button_2");
-    var menu_btn1 = document.getElementById("menu_button_1");
-    var menu_btn2 = document.getElementById("menu_button_2");
-    var next_btn = document.getElementById("next_button");
-    // Get text
-    var win_text = document.getElementById('winText');
-    var lose_text = document.getElementById('loseText');
+
     replay_btn1.onclick = function() {
       window.location.href = "stage1.html";
     }
@@ -186,8 +174,6 @@
         muteButton.visible = false;
         soundButton.visible = true;
       });
-
-
 
       var doorFrames = [];
       for (var i = 1; i < 10; i++) {
@@ -353,7 +339,6 @@
         win_modal.style.display = "block";
       }
     }
-
   </script>
 
 </body>

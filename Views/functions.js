@@ -1,3 +1,16 @@
+// Get the modals
+var win_modal = document.getElementById('WinGame');
+var lose_modal = document.getElementById('LoseGame');
+// Get other buttons
+var replay_btn1 = document.getElementById("replay_button_1");
+var replay_btn2 = document.getElementById("replay_button_2");
+var menu_btn1 = document.getElementById("menu_button_1");
+var menu_btn2 = document.getElementById("menu_button_2");
+var next_btn = document.getElementById("next_button");
+// Get text
+var win_text = document.getElementById('winText');
+var lose_text = document.getElementById('loseText');
+
 function preload() {
   var current = '';
   for (var i = 0; i < letterCount; i++) {
@@ -152,6 +165,7 @@ function hitEnemy(player, enemy) {
   // Kills the player when no letter is collected
   if (letterBoard === undefined || letterBoard.length == 0) {
     this.physics.pause();
+    music.stop();
     gameOver = true;
     lose_modal.style.display = "block";
   } else { // Takes away one random letter from the letter board
