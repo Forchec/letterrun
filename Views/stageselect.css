@@ -27,7 +27,7 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
-  background-image: url("background.png");
+  background-image: url("../assets/background.png");
   color: #505050;
   font-family: Impact;
   text-align: center;

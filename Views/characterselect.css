@@ -16,7 +16,7 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
-  background-image: url("background.png");
+  background-image: url("../assets/background.png");
   color: #505050;
 }
 
@@ -30,7 +30,7 @@ body {
 }
 
 .character-one {
-  background: url(character1.png) no-repeat;
+  background: url(../assets/character1.png) no-repeat;
   grid-area: top-left;
   background-position: center;
 }
@@ -41,7 +41,7 @@ body {
 }
 
 .character-two {
-  background: url(character2.png) no-repeat;
+  background: url(../assets/character2.png) no-repeat;
   grid-area: top-main;
   background-position: center;
 }
@@ -52,7 +52,7 @@ body {
 }
 
 .character-three {
-  background: url(character3.png) no-repeat;
+  background: url(../assets/character3.png) no-repeat;
   grid-area: top-right;
   background-position: center;
 }

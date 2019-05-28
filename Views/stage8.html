@@ -372,12 +372,6 @@
 
       //  Input Events
       cursors = this.input.keyboard.createCursorKeys();
-
-
-
-      //////////////////////
-
-
       //this.physics.add.collider(door, enemies);
       this.physics.add.collider(player, platforms);
       this.physics.add.collider(letters, platforms);
@@ -391,8 +385,6 @@
       // make the camera follow the player
       this.cameras.main.startFollow(player);
     }
-
-
 
     //Checks if all letters have been collected to make the game over or not
     function hitDoor(player, door) {
@@ -408,8 +400,8 @@
         music.stop();
         door.anims.play('openChest');
         gameOver = true;
-        win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
         localStorage.setItem("stage9", "unlocked");
+        win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
         var highScore = localStorage.getItem("highScore8")
         if (highScore == undefined || (highScore > timeAccrued)) {
           localStorage.setItem("highScore8", timeAccrued)
@@ -418,15 +410,6 @@
         win_text.innerHTML += "<br>Fastest Time: " + highScore;
         win_modal.style.display = "block";
       }
-    }
-
-    function hitWall(enemy, wall) {
-      console.log("hitWall");
-      var speed = enemy.body.velocity.x
-      speed = -1 * speed;
-      enemy.body.setVelocityX(speed);
-      enemy.anims.play("enemyMove", true)
-
     }
   </script>
 

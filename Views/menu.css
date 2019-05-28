@@ -29,7 +29,7 @@ html {
 }
 
 body {
-  background-image: url("background.png");
+  background-image: url("../assets/background.png");
   /*background-color: #A8DADC;*/
   height: 100%;
   margin: 0;

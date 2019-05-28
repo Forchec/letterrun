@@ -30,6 +30,9 @@ function preload() {
   this.load.image('sky', '../newAssets/background/Background.png');
   this.load.image('ground', '../newAssets/background/Grass.png');
   this.load.audio('song', '../newAssets/bensound-endlessmotion.mp3');
+  for (var i = 1; i < 18; i++) {
+    this.load.image('water' + i, '../newAssets/Platform Game Assets/Water Animation/png/1x/image ' + (i) + '.png');
+  }
   var color = localStorage.getItem("color");
   switch (color) {
     case "blue":
