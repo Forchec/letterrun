@@ -354,6 +354,28 @@
         win_modal.style.display = "block";
       }
     }
+
+    function placeLetter(letters, child) {
+      if (index >= 17) {
+        index = 0;
+      }
+      var temp = letters.create(position, child.y - 100, randomLetters[index]);
+      temp.myName = randomLetters[index];
+      index++;
+      for (i = 0; i < WORD_LEN; i++) {
+        if (temp.myName === WORD[i]) {
+          if (xIndices[i] > 0) {
+            continue;
+          } else {
+            xIndices[i] = position;
+            yIndices[i] = child.y - 100;
+            break;
+          }
+        }
+      }
+      r = Math.floor(Math.random() * 3);
+      position += space[r];
+    }
   </script>
 
 </body>

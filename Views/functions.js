@@ -232,7 +232,7 @@ function hitEnemy(player, enemy) {
 }
 
 function placeLetter(letters, child) {
-  if (index > 17) {
+  if (index >= 25) {
     index = 0;
   }
   var temp = letters.create(position, child.y - 100, randomLetters[index]);
