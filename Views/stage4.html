@@ -133,31 +133,31 @@
       timeText.setScrollFactor(0);
       startTime = new Date().getTime();
       console.log(startTime)
-      //  The platforms group contains the ground and the 2 ledges we can jump on
+      //  The platforms group contains the winterground and the 2 ledges we can jump on
       platforms = this.physics.add.staticGroup();
       water = this.physics.add.staticGroup();
       walls = this.physics.add.staticGroup();
-      platforms.create(30, 690, 'ground').setDisplaySize(60, 80).refreshBody();
-      platforms.create(1970, 690, 'ground').setDisplaySize(60, 80).refreshBody();
+      platforms.create(30, 690, 'winterground').setDisplaySize(60, 80).refreshBody();
+      platforms.create(1970, 690, 'winterground').setDisplaySize(60, 80).refreshBody();
 
       water.create(1000, 700, 'water1').setDisplaySize(1880, 60).refreshBody();
 
-      platforms.create(100, 400, 'ground').setDisplaySize(100, 60).refreshBody();
-      platforms.create(300, 500, 'ground').setDisplaySize(150, 60).refreshBody();
-      platforms.create(500, 300, 'ground').setDisplaySize(120, 60).refreshBody();
+      platforms.create(100, 400, 'winterground').setDisplaySize(100, 60).refreshBody();
+      platforms.create(300, 500, 'winterground').setDisplaySize(150, 60).refreshBody();
+      platforms.create(500, 300, 'winterground').setDisplaySize(120, 60).refreshBody();
 
-      platforms.create(230, 100, 'ground').setDisplaySize(170, 60).refreshBody();
+      platforms.create(230, 100, 'winterground').setDisplaySize(170, 60).refreshBody();
 
-      platforms.create(1000, 110, 'ground').setDisplaySize(400, 60).refreshBody();
-      platforms.create(550, 0, 'ground').setDisplaySize(100, 60).refreshBody();
-      platforms.create(800, 550, 'ground').setDisplaySize(200, 60).refreshBody();
-      platforms.create(990, 380, 'ground').setDisplaySize(60, 60).refreshBody();
-      platforms.create(1200, 380, 'ground').setDisplaySize(60, 60).refreshBody();
-      platforms.create(1390, 380, 'ground').setDisplaySize(60, 60).refreshBody();
-      platforms.create(1700, 500, 'ground').setDisplaySize(350, 60).refreshBody();
-      platforms.create(1600, 220, 'ground').setDisplaySize(100, 60).refreshBody();
-      platforms.create(1800, 100, 'ground').setDisplaySize(100, 60).refreshBody();
-      platforms.create(1500, 0, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(1000, 110, 'winterground').setDisplaySize(400, 60).refreshBody();
+      platforms.create(550, 0, 'winterground').setDisplaySize(100, 60).refreshBody();
+      platforms.create(800, 550, 'winterground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(990, 380, 'winterground').setDisplaySize(60, 60).refreshBody();
+      platforms.create(1200, 380, 'winterground').setDisplaySize(60, 60).refreshBody();
+      platforms.create(1390, 380, 'winterground').setDisplaySize(60, 60).refreshBody();
+      platforms.create(1700, 500, 'winterground').setDisplaySize(350, 60).refreshBody();
+      platforms.create(1600, 220, 'winterground').setDisplaySize(100, 60).refreshBody();
+      platforms.create(1800, 100, 'winterground').setDisplaySize(100, 60).refreshBody();
+      platforms.create(1500, 0, 'winterground').setDisplaySize(200, 60).refreshBody();
 
 
       // The player and its settings

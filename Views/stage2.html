@@ -135,19 +135,19 @@
         fill: '#000'
       });
       startTime = new Date().getTime();
-      //  The platforms group contains the ground and the 2 ledges we can jump on
+      //  The platforms group contains the autumnautumnground and the 2 ledges we can jump on
       platforms = this.physics.add.staticGroup();
       walls = this.physics.add.staticGroup();
 
-      // ground
-      platforms.create(400, 560, 'ground').setDisplaySize(800, 60).refreshBody();
+      // autumnautumnground
+      platforms.create(400, 560, 'autumnground').setDisplaySize(800, 60).refreshBody();
 
       // stairs
-      platforms.create(250, 400, 'ground').setDisplaySize(380, 60).refreshBody();
-      platforms.create(350, 280, 'ground').setDisplaySize(150, 60).refreshBody();
+      platforms.create(250, 400, 'autumnground').setDisplaySize(380, 60).refreshBody();
+      platforms.create(350, 280, 'autumnground').setDisplaySize(150, 60).refreshBody();
 
       // chest platform
-      platforms.create(650, 220, 'ground').setDisplaySize(300, 60).refreshBody();
+      platforms.create(650, 220, 'autumnground').setDisplaySize(300, 60).refreshBody();
 
 
       // The player and its settings

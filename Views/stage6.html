@@ -111,21 +111,21 @@
       timeText.setScrollFactor(0);
       startTime = new Date().getTime();
       console.log(startTime)
-      //  The platforms group contains the ground and the 2 ledges we can jump on
+      //  The platforms group contains the winterground and the 2 ledges we can jump on
       platforms = this.physics.add.staticGroup();
       walls = this.physics.add.staticGroup();
       // starting platform
-      platforms.create(250, 350, 'ground').setDisplaySize(500, 60).refreshBody();
+      platforms.create(250, 350, 'winterground').setDisplaySize(500, 60).refreshBody();
 
       //Bottom final plaform
-      platforms.create(250, 759, 'ground').setDisplaySize(400, 60).refreshBody();
+      platforms.create(250, 759, 'winterground').setDisplaySize(400, 60).refreshBody();
 
       // Stairs
-      platforms.create(1050, 780, 'ground').setDisplaySize(520, 60).refreshBody();
-      platforms.create(500, 620, 'ground').setDisplaySize(300, 60).refreshBody();
-      platforms.create(1000, 320, 'ground').setDisplaySize(230, 60).refreshBody();
-      platforms.create(1100, 470, 'ground').setDisplaySize(330, 60).refreshBody();
-      platforms.create(700, 500, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(1050, 780, 'winterground').setDisplaySize(520, 60).refreshBody();
+      platforms.create(500, 620, 'winterground').setDisplaySize(300, 60).refreshBody();
+      platforms.create(1000, 320, 'winterground').setDisplaySize(230, 60).refreshBody();
+      platforms.create(1100, 470, 'winterground').setDisplaySize(330, 60).refreshBody();
+      platforms.create(700, 500, 'winterground').setDisplaySize(200, 60).refreshBody();
 
       // The player and its settings
       player = this.physics.add.sprite(400, 200, 'idle');
