@@ -323,6 +323,7 @@
       }
       if (cond === true) {
         this.physics.pause();
+        music.stop();
         player.anims.play('stop');
         door.anims.play('openChest');
         gameOver = true;

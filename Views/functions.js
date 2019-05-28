@@ -185,6 +185,7 @@ function hitEnemy(player, enemy) {
     this.physics.pause();
     gameOver = true;
     lose_modal.style.display = "block";
+    music.stop();
     this.cameras.main.stopFollow();
   } else { // Takes away one random letter from the letter board
     var len = letterBoard.length;

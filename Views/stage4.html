@@ -24,18 +24,6 @@
 <body>
 
   <script type="text/javascript">
-    // Get the modals
-    var win_modal = document.getElementById('WinGame');
-    var lose_modal = document.getElementById('LoseGame');
-    // Get other buttons
-    var replay_btn1 = document.getElementById("replay_button_1");
-    var replay_btn2 = document.getElementById("replay_button_2");
-    var menu_btn1 = document.getElementById("menu_button_1");
-    var menu_btn2 = document.getElementById("menu_button_2");
-    var next_btn = document.getElementById("next_button");
-    // Get text
-    var win_text = document.getElementById('winText');
-    var lose_text = document.getElementById('loseText');
     replay_btn1.onclick = function() {
       window.location.href = "stage4.html";
     }
@@ -72,7 +60,7 @@
         update: update,
       }
     };
-    var player;
+    var player, music;
     var letters;
     var enemies;
     var platforms;
@@ -88,13 +76,6 @@
     var letterCount = WORD_LEN + 8; // the int is the count of random letters
     var letterArray = "";
 
-    function shuffle(array) { // function that shuffles the order of elements randomly
-      for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-        [array[i], array[j]] = [array[j], array[i]]; // swap elements
-      }
-      return array;
-    }
 
     for (var i = 0; i < letterCount; i++) { // store all letters that'll be used in the letterArray
       if (i < WORD_LEN) {
@@ -121,7 +102,7 @@
 
     function create() {
       //console.log(alpha.replace(/[penguin]/g, ''));
-      var music = this.sound.add('song');
+      music = this.sound.add('song');
       music.play();
       this.add.image(960, 300, 'sky').setDisplaySize(1920, 1080);
       this.add.image(2880, 300, 'sky').setDisplaySize(1920, 1080);
@@ -388,6 +369,7 @@
       if (cond === true) {
         this.physics.pause();
         player.anims.play('stop');
+        music.stop();
         door.anims.play('openChest');
         gameOver = true;
         localStorage.setItem("stage5", "unlocked");
