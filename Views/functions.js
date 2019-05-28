@@ -82,6 +82,7 @@ function update() {
   if (player.y > 850) {
     gameOver = true;
     this.cameras.main.stopFollow();
+    music.stop();
     lose_modal.style.display = "block";
   }
   if (cursors.left.isDown) {
