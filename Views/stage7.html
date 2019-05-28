@@ -12,6 +12,7 @@
   <!-- The Modals MUST INCLUDE THIS IN YOUR STAGE  -->
   <script src="win.js"></script>
   <script src="lose.js"></script>
+  <script src="functions.js"></script>
   <style type="text/css">
     body {
       margin: 0;
@@ -80,10 +81,10 @@
     var platform = 0;
     var door;
     var timeAccrued;
-    var WORD = "enchanted"; // change word for each stage
+    var WORD = "lavender"; // change word for each stage
     var alpha = "abcdefghijklmnopqrstuvwxyz"; // don't change
     var WORD_LEN = WORD.length;
-    var letterCount = WORD_LEN + 8; // the int is the count of random letters
+    var letterCount = WORD_LEN + 16; // the int is the count of random letters
     var letterArray = "";
 
     function shuffle(array) { // function that shuffles the order of elements randomly
@@ -98,7 +99,7 @@
       if (i < WORD_LEN) {
         letterArray += WORD[i];
       } else {
-        letterArray += chooseRandomLetter(alpha.replace(/[enchanted]/g, '')); // change [word]
+        letterArray += chooseRandomLetter(alpha.replace(/[lavender]/g, '')); // change [word]
       }
     }
 
@@ -136,11 +137,6 @@
 
       this.load.image('sky', '../newAssets/background/Background.png');
       this.load.image('ground', '../newAssets/background/Grass.png');
-
-      for (var i = 1; i <18;i++){
-        this.load.image('water'+i, '../newAssets/Platform Game Assets/Water Animation/png/1x/image '+ (i) +'.png');
-      }
-
       this.load.audio('song', '../newAssets/bensound-endlessmotion.mp3');
       var color = localStorage.getItem("color");
       switch (color) {
@@ -193,31 +189,30 @@
       //  The platforms group contains the ground and the 2 ledges we can jump on
       platforms = this.physics.add.staticGroup();
       walls = this.physics.add.staticGroup();
-      platforms.create(30, 690, 'ground').setDisplaySize(60, 80).refreshBody();
-      platforms.create(1970, 690, 'ground').setDisplaySize(60, 80).refreshBody();
+      // Ground/starting platform
+      platforms.create(200, 700, 'ground').setDisplaySize(400, 60).refreshBody();
+      // Middle Platforms
+      platforms.create(550, 700, 'ground').setDisplaySize(100, 60).refreshBody();
+      platforms.create(720, 700, 'ground').setDisplaySize(100, 60).refreshBody();
+      platforms.create(890, 700, 'ground').setDisplaySize(100, 60).refreshBody();
 
-      platforms.create(1000, 700, 'water1').setDisplaySize(1880, 60).refreshBody();
+      platforms.create(1300, 700, 'ground').setDisplaySize(500, 60).refreshBody();
 
-      platforms.create(100, 400, 'ground').setDisplaySize(100, 60).refreshBody();
-      platforms.create(300, 500, 'ground').setDisplaySize(150, 60).refreshBody();
-      platforms.create(500, 300, 'ground').setDisplaySize(120, 60).refreshBody();
+      platforms.create(1650, 550, 'ground').setDisplaySize(80, 60).refreshBody();
+      platforms.create(1150, 400, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(1450, 250, 'ground').setDisplaySize(200, 60).refreshBody();
 
-      platforms.create(230, 100, 'ground').setDisplaySize(170, 60).refreshBody();
+      platforms.create(1870, 400, 'ground').setDisplaySize(250, 60).refreshBody();
+      platforms.create(1825, 100, 'ground').setDisplaySize(160, 60).refreshBody();
 
-      platforms.create(1000, 110, 'ground').setDisplaySize(400, 60).refreshBody();
-      platforms.create(550, 0, 'ground').setDisplaySize(100, 60).refreshBody();
-      platforms.create(800, 550, 'ground').setDisplaySize(200, 60).refreshBody();
-      platforms.create(990, 380, 'ground').setDisplaySize(60, 60).refreshBody();
-      platforms.create(1200, 380, 'ground').setDisplaySize(60, 60).refreshBody();
-      platforms.create(1390, 380, 'ground').setDisplaySize(60, 60).refreshBody();
-      platforms.create(1700, 500, 'ground').setDisplaySize(350, 60).refreshBody();
-      platforms.create(1600, 220, 'ground').setDisplaySize(100, 60).refreshBody();
-      platforms.create(1800, 100, 'ground').setDisplaySize(100, 60).refreshBody();
-      platforms.create(1500, 0, 'ground').setDisplaySize(200, 60).refreshBody();
+      platforms.create(870, 80, 'ground').setDisplaySize(500, 60).refreshBody();
+      platforms.create(770, 300, 'ground').setDisplaySize(300, 60).refreshBody();
 
+      // Last Platform (where the chest is)
+      platforms.create(150, 300, 'ground').setDisplaySize(300, 60).refreshBody();
 
       // The player and its settings
-      player = this.physics.add.sprite(30, 450, 'idle');
+      player = this.physics.add.sprite(80, 450, 'idle');
       enemies = this.physics.add.group();
       player.setCollideWorldBounds(false);
       player.setDisplaySize(50, 50);
@@ -237,7 +232,7 @@
         tmp.setScrollFactor(0);
       }
       // Display the door in a specific location - Change each stage
-      door = this.physics.add.sprite(100, 150, 'chest1');
+      door = this.physics.add.sprite(70, 150, 'chest1');
       door.setDisplaySize(65, 65);
       door.body.width = 65;
       door.body.height = 65;
@@ -270,12 +265,6 @@
       for (var i = 1; i < 10; i++) {
         doorFrames.push({
           key: 'chest' + i
-        });
-      }
-      var waterFrames = [];
-      for (var i = 1; i < 10; i++) {
-        waterFrames.push({
-          key: 'water' + i
         });
       }
       //  Our player animations, turning, walking left and walking right.
@@ -319,13 +308,7 @@
         frames: doorFrames,
         frameRate: 7
       })
-      this.anims.create({
-        key: 'waterFlow',
-        frames: waterFrames,
-        frameRate: 5
-      })
 
-      //water.anims.play('waterFlow');
       letters = this.physics.add.group();
 
       platforms.children.iterate(function(child) {
@@ -333,13 +316,63 @@
 
         // CHANGE FOR EACH STAGE
         // Place the collectables in a specific range in each platform
-
-          if (platform === 4) {
-            position = (child.x - (width / 2)) + 80;
+        if (platform != 0 && platform != 2 && platform != 5 && platform != 6 && platform != 9) {
+          walls.create(child.x - (width / 2), child.y - 20, 'wall');
+          walls.create(child.x + (width / 2), child.y - 20, 'wall');
+          enemies.create(child.x, child.y - 51, 'enemy');
+          if (platform === 1) {
+            position = (child.x - (width / 2)) + 30;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
             }
-          }  else if (platform === 5) {
+          } else if (platform === 3) {
+            position = (child.x - (width / 2)) + 40;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 4) {
+            position = (child.x - (width / 2)) + 280;
+            for (i = 0; i < 3; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 7) {
+            position = (child.x - (width / 2)) + 70;
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 8) {
+            position = (child.x - (width / 2)) + 200;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 10) {
+            position = (child.x - (width / 2)) + 180;
+            for (i = 0; i < 4; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 11) {
+            position = (child.x - (width / 2)) + 80;
+            for (i = 0; i < 3; i++) {
+              placeLetter(letters, child);
+            }
+          } else {
+            position = (child.x - (width / 2)) + 180;
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          }
+        } else {
+          if (platform === 0) {
+            position = (child.x - (width / 2)) + 280;
+            for (i = 0; i < 2; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 2) {
+            position = (child.x - (width / 2)) + 50;
+            for (i = 0; i < 1; i++) {
+              placeLetter(letters, child);
+            }
+          } else if (platform === 5) {
             position = (child.x - (width / 2)) + 50;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
@@ -349,51 +382,13 @@
             for (i = 0; i < 2; i++) {
               placeLetter(letters, child);
             }
-          } else if (platform === 7) {
-            position = (child.x - (width / 2)) + 40;
-            for (i = 0; i < 3; i++) {
-              if (i === 2){
-                position = position + 120;
-              }
-              placeLetter(letters, child);
-            }
-        } else if (platform === 9) {
-          position = (child.x - (width / 2)) + 80;
-          for (i = 0; i < 2; i++) {
-            placeLetter(letters, child);
-          }
-      }
-          else if (platform === 10) {
-            position = (child.x - (width / 2)) + 30;
-            for (i = 0; i < 1; i++) {
-              placeLetter(letters, child);
-            }
-          } else if (platform === 12) {
-            position = (child.x - (width / 2)) + 30;
+          } else if (platform === 9) {
+            position = (child.x - (width / 2)) + 100;
             for (i = 0; i < 1; i++) {
               placeLetter(letters, child);
             }
           }
-          else if (platform === 13) {
-            position = (child.x - (width / 2)) + 150;
-            for (i = 0; i < 3; i++) {
-              placeLetter(letters, child);
-            }
-          }
-          else if (platform === 15) {
-            position = (child.x - (width / 2)) + 50;
-            for (i = 0; i < 1; i++) {
-              placeLetter(letters, child);
-            }
-          }
-          else if (platform === 16) {
-            position = (child.x - (width / 2)) + 70;
-            for (i = 0; i < 2; i++) {
-              placeLetter(letters, child);
-            }
-          }
-
-
+        }
         platform++;
       });
 
@@ -445,7 +440,7 @@
         timeText.setText('Time: ' + timeAccrued)
         timeText.depth = 1;
       }
-      if (player.y > 640) {
+      if (player.y > 800) {
         gameOver = true;
         this.cameras.main.stopFollow();
         lose_modal.style.display = "block";
@@ -527,13 +522,13 @@
         player.anims.play('stop');
         door.anims.play('openChest');
         gameOver = true;
-        localStorage.setItem("stage3", "unlocked");
+        localStorage.setItem("stage8", "unlocked");
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
-        var highScore = localStorage.getItem("highScore2")
+        var highScore = localStorage.getItem("highScore7")
         if (highScore == undefined || (highScore > timeAccrued)) {
-          localStorage.setItem("highScore2", timeAccrued)
+          localStorage.setItem("highScore7", timeAccrued)
         }
-        highScore = localStorage.getItem("highScore2")
+        highScore = localStorage.getItem("highScore7")
         win_text.innerHTML += "<br>Fastest Time: " + highScore;
         win_modal.style.display = "block";
       }

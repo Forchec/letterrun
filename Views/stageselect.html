@@ -64,15 +64,45 @@
     document.addEventListener("DOMContentLoaded", function() {
       var status2 = localStorage.getItem("stage2");
       var status3 = localStorage.getItem("stage3");
+      var status4 = localStorage.getItem("stage4");
+      var status5 = localStorage.getItem("stage5");
+      var status6 = localStorage.getItem("stage6");
+      var status7 = localStorage.getItem("stage7");
+      var status8 = localStorage.getItem("stage8");
+      var status9 = localStorage.getItem("stage9");
 
       var stage2 = document.getElementById('stage2');
       var stage3 = document.getElementById('stage3');
+      var stage4 = document.getElementById('stage4');
+      var stage5 = document.getElementById('stage5');
+      var stage6 = document.getElementById('stage6');
+      var stage7 = document.getElementById('stage7');
+      var stage8 = document.getElementById('stage8');
+      var stage9 = document.getElementById('stage9');
 
       if (status2 === "unlocked") {
         stage2.disabled = false;
       }
       if (status3 === "unlocked") {
         stage3.disabled = false;
+      }
+      if (status4 === "unlocked") {
+        stage4.disabled = false;
+      }
+      if (status5 === "unlocked") {
+        stage5.disabled = false;
+      }
+      if (status6 === "unlocked") {
+        stage6.disabled = false;
+      }
+      if (status7 === "unlocked") {
+        stage7.disabled = false;
+      }
+      if (status8 === "unlocked") {
+        stage8.disabled = false;
+      }
+      if (status9 === "unlocked") {
+        stage9.disabled = false;
       }
     });
   </script>

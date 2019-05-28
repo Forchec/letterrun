@@ -10,7 +10,7 @@
   <title>Making your first Phaser 3 Game - Part 10</title>
   <script src="../libraries/phaser.min.js"></script>
   <!-- The Modals MUST INCLUDE THIS IN YOUR STAGE  -->
-  <script src="winend.js"></script>
+  <script src="win.js"></script>
   <script src="lose.js"></script>
   <script src="functions.js"></script>
   <style type="text/css">
@@ -409,11 +409,12 @@
         door.anims.play('openChest');
         gameOver = true;
         win_text.innerHTML = "You won! <br> Time: " + timeAccrued + " seconds";
-        var highScore = localStorage.getItem("highScore3")
+        localStorage.setItem("stage9", "unlocked");
+        var highScore = localStorage.getItem("highScore8")
         if (highScore == undefined || (highScore > timeAccrued)) {
-          localStorage.setItem("highScore3", timeAccrued)
+          localStorage.setItem("highScore8", timeAccrued)
         }
-        highScore = localStorage.getItem("highScore3")
+        highScore = localStorage.getItem("highScore8")
         win_text.innerHTML += "<br>Fastest Time: " + highScore;
         win_modal.style.display = "block";
       }
@@ -427,7 +428,6 @@
       enemy.anims.play("enemyMove", true)
 
     }
-
   </script>
 
 </body>

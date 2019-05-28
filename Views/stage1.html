@@ -21,10 +21,10 @@
     }
   </style>
 </head>
+
 <body>
 
   <script type="text/javascript">
-
     replay_btn1.onclick = function() {
       window.location.href = "stage1.html";
     }
@@ -108,7 +108,7 @@
     var game = new Phaser.Game(config);
 
     function create() {
-     music = this.sound.add('song');
+      music = this.sound.add('song');
       music.play();
       this.add.image(400, 300, 'sky').setDisplaySize(800, 600);
       //NEW CHANGES

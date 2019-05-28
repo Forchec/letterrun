@@ -71,11 +71,20 @@ function update() {
   } else {
     timeAccrued = new Date().getTime() - startTime;
     timeAccrued = Math.round(timeAccrued / 1000);
-    timeText.setText('Time: ' + timeAccrued);
+    timeText.setText('Time: ' + timeAccrued)
     timeText.depth = 1;
   }
+  if (player.y > 850) {
+    gameOver = true;
+    this.cameras.main.stopFollow();
+    lose_modal.style.display = "block";
+  }
   if (cursors.left.isDown) {
-    player.setVelocityX(-160);
+    if (player.x < 20) {
+      player.setVelocityX(0);
+    } else {
+      player.setVelocityX(-160);
+    }
     player.flipX = true;
     if (player.body.touching.down) {
       player.anims.play('run', true);
@@ -169,9 +178,9 @@ function hitEnemy(player, enemy) {
   // Kills the player when no letter is collected
   if (letterBoard === undefined || letterBoard.length == 0) {
     this.physics.pause();
-    music.stop();
     gameOver = true;
     lose_modal.style.display = "block";
+    this.cameras.main.stopFollow();
   } else { // Takes away one random letter from the letter board
     var len = letterBoard.length;
     var index = Math.floor(Math.random() * len);
@@ -182,15 +191,14 @@ function hitEnemy(player, enemy) {
         if (visitChecker[i] === "visited") {
           // Update the letter board
           if (enemy.body.touching.left) {
+            //player.setTint(0xff0000);
             player.x = player.x - 20;
-            player.body.velocity.y = -150;
-            //enemy.body.velocity.x = - (enemy.body.velocity.x);
+            player.body.velocity.y = -150; // make it bounce??
           } else if (enemy.body.touching.right) {
             player.x = player.x + 20;
-            player.body.velocity.y = -150;
-            //enemy.body.velocity.x = - (enemy.body.velocity.x);
+            player.body.velocity.y = -150; // make it bounce??
           } else if (enemy.body.touching.up) {
-            player.body.velocity.y = -150;
+            player.body.velocity.y = -150; // make it bounce??
           }
           // Place the letter back to the platforms
           var letter = this.physics.add.sprite(xIndices[i], yIndices[i], char);
@@ -206,6 +214,7 @@ function hitEnemy(player, enemy) {
           x_ = 25 + (50 * i);
           var tmp = this.add.sprite(x_, 25, cur);
           tmp.setDisplaySize(40, 40);
+          tmp.setScrollFactor(0);
           letterBoard.splice(index, 1);
           visitChecker[i] = "";
           break;
@@ -216,6 +225,9 @@ function hitEnemy(player, enemy) {
 }
 
 function placeLetter(letters, child) {
+  if (index > 17) {
+    index = 0;
+  }
   var temp = letters.create(position, child.y - 100, randomLetters[index]);
   temp.myName = randomLetters[index];
   index++;
