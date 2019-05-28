@@ -1,4 +1,7 @@
-﻿## DOWNLOAD GAME HERE
+﻿## PLAY GAME
+ https://forche.itch.io/letter-run-online
+ 
+ ## DOWNLOAD GAME HERE
  For MAC: https://forche.itch.io/letter-run
  
  
