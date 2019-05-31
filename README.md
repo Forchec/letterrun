@@ -1,24 +1,27 @@
-﻿## PLAY GAME
+﻿## Play Game
  https://forche.itch.io/letter-run-online
  
- ## DOWNLOAD GAME HERE
+ ## Download Game
+
+In order to download the game as a desktop application, please follow the link below. 
+ 
 https://forche.itch.io/letter-run
  
- ## ASSETS
- https://bayat.itch.io/platform-game-assets
+
+
  
- ## WORKFLOW
+ ## Development work flow
 
-Start with the master branch.
+* Start with the master branch.
 
-Create a new branch – Do this for each new task/feature, Branch names should reflect the task/feature that is being developed.
+* Create a new branch – Do this for each new task/feature, Branch names should reflect the task/feature that is being developed.
 
-Update, add, commit, and push changes- Make sure to push changes when one step is done, this will help us to keep track of our
+* Update, add, commit, and push changes- Make sure to push changes when one step is done, this will help us to keep track of our
                                       changes and find a way to recover if something goes wrong. 
                                       
-Push feature branch to remote – Feature branch is updated in the central repository for other team members to view changes.
+* Push feature branch to remote – Feature branch is updated in the central repository for other team members to view changes.
 
-Resolve feedback – Have someone else review your code before merging.
+* Resolve feedback – Have someone else review your code before merging.
 
 Merge your pull request – Check for any conflicts and add the code to the master branch.
 
@@ -29,7 +32,7 @@ Commit Message should be informative for what is changed/removed/added. Example:
 
 
 
-## HOW TO PACKAGE APP FOR DISTRIBUTION
+## Packacking app for distribution
 
 * Make sure to install the electron-packager using npm install command.
 ~~~
@@ -62,3 +65,6 @@ electron-packager -h
 ~~~
 
 * Visit https://github.com/electron-userland/electron-packager for more details
+
+ ## Assets
+ https://bayat.itch.io/platform-game-assets
