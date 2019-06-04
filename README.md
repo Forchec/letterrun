@@ -1,4 +1,7 @@
 ﻿## Play Game
+ 
+ Click the link below, and choose "Letter Run Online"
+ 
  https://forche.itch.io/letter-run-online
  
  ## Download Game
@@ -6,6 +9,12 @@
 In order to download the game as a desktop application, please follow the link below. 
  
 https://forche.itch.io/letter-run
+
+* Click Letter Run for Desktop
+* Download the application for your OS (Mac or Windows)
+* Extract the zipped folder
+* Click the executable to play the game 
+
  
 
 
