@@ -31,6 +31,8 @@ https://forche.itch.io/letter-run
 * Extract the zipped folder
 * Click the executable to play the game   <img src="newAssets/icon.png"  width="40" height="40">
  
+* If you are using mac and getting a message of "unidentified developer" or having issue opening the application, 
+open the application with ctrl + open. It should give "unidentified developer" message, proceed with "ok". 
  
  ## Development work flow
 
