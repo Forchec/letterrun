@@ -2,7 +2,6 @@
  
  It is a 2d platformer game.
  
- ![](newAssets/game.png?raw=true "Letter Run")
  <img src="newAssets/game.png"  width="500" height="500">
  
   ![](newAssets/characters.png?raw=true "Letter Run")
