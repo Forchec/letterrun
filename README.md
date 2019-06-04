@@ -1,4 +1,11 @@
-﻿## Play Game
+﻿# Letter Run
+ 
+ It is a 2d platformer game.
+ 
+ ![Alt text](newAssets/game.jpg?raw=true "Letter Run")
+ 
+ 
+ ## Play Game
  
  Click the link below, and choose "Letter Run Online"
  
@@ -11,9 +18,11 @@ In order to download the game as a desktop application, please follow the link b
 https://forche.itch.io/letter-run
 
 * Click Letter Run for Desktop
+ ![Alt text](newAssets/download.jpg?raw=true "Letter Run")
 * Download the application for your OS (Mac or Windows)
 * Extract the zipped folder
 * Click the executable to play the game 
+![Alt text](newAssets/icon.jpg?raw=true "Letter Run")
 
  
 
