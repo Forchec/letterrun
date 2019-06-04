@@ -4,11 +4,11 @@
  
  <img src="newAssets/game.png"  width="500" height="400">
 
- <img src="newAssets/characters.png"  width="500" height="400>
+ <img src="newAssets/characters.png"  width="500" height="400">
 
- <img src="newAssets/stage.png"  width="500" height="400>
+ <img src="newAssets/stage.png"  width="500" height="400">
 
- <img src="newAssets/play.png"  width="500" height="400>
+ <img src="newAssets/play.png"  width="500" height="400">
  
  
  ## Play Game
@@ -26,15 +26,11 @@ https://forche.itch.io/letter-run
 * Click Letter Run for Desktop
 
  ![Alt text](newAssets/download.png?raw=true "Letter Run")
+ 
 * Download the application for your OS (Mac or Windows)
 * Extract the zipped folder
-* Click the executable to play the game 
-
-![Alt text](newAssets/icon.png?raw=true "Letter Run")
-
+* Click the executable to play the game   <img src="newAssets/icon.png"  width="100" height="100">
  
-
-
  
  ## Development work flow
 
