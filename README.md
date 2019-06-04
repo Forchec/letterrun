@@ -1,6 +1,6 @@
 ﻿# Letter Run
  
- It is a 2d platformer game.
+Letter Run is a 2d platformer game developed as a desktop application using phaser.js
  
  <img src="newAssets/game.png"  width="450" height="320">
 
@@ -29,7 +29,7 @@ https://forche.itch.io/letter-run
  
 * Download the application for your OS (Mac or Windows)
 * Extract the zipped folder
-* Click the executable to play the game   <img src="newAssets/icon.png"  width="60" height="60">
+* Click the executable to play the game   <img src="newAssets/icon.png"  width="40" height="40">
  
  
  ## Development work flow
