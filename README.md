@@ -56,7 +56,7 @@ Commit Message should be informative for what is changed/removed/added. Example:
 
 
 
-## Packacking app for distribution
+## Packaging app for distribution
 
 * Make sure to install the electron-packager using npm install command.
 ~~~
