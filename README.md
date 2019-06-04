@@ -25,7 +25,7 @@ https://forche.itch.io/letter-run
 
 * Click Letter Run for Desktop
 
- ![Alt text](newAssets/download.png?raw=true "Letter Run")
+ <img src="newAssets/download.png"  width="40" height="40" style="border: 1px solid black">
  
 * Download the application for your OS (Mac or Windows)
 * Extract the zipped folder
