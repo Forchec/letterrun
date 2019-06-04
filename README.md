@@ -2,13 +2,13 @@
  
  It is a 2d platformer game.
  
- <img src="newAssets/game.png"  width="500" height="400">
+ <img src="newAssets/game.png"  width="450" height="320">
 
- <img src="newAssets/characters.png"  width="500" height="400">
+ <img src="newAssets/characters.png"  width="450" height="320">
 
- <img src="newAssets/stage.png"  width="500" height="400">
+ <img src="newAssets/stage.png"  width="450" height="320">
 
- <img src="newAssets/play.png"  width="500" height="400">
+ <img src="newAssets/play.png"  width="450" height="320">
  
  
  ## Play Game
@@ -29,7 +29,7 @@ https://forche.itch.io/letter-run
  
 * Download the application for your OS (Mac or Windows)
 * Extract the zipped folder
-* Click the executable to play the game   <img src="newAssets/icon.png"  width="100" height="100">
+* Click the executable to play the game   <img src="newAssets/icon.png"  width="60" height="60">
  
  
  ## Development work flow
